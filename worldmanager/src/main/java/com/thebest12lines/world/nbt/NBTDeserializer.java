@@ -33,18 +33,37 @@ public class NBTDeserializer {
     public static CompoundTag fromNBT(String nbt) throws TagException {
         String hex = Converter.convertToHex(nbt);
         CompoundTag tag = new CompoundTag();
-        System.out.println(hex.substring(0, 2));
         int tagType = Integer.parseInt(hex.substring(0, 2),16);
         if (tagType == 10) {
             if (hex.length() > 6) {
                 System.out.println(hex.substring(2, 6));
                 int tagNameLength = Integer.parseInt(hex.substring(3, 6),16);
                 tag.name = toString(hex.substring(6,(7+(tagNameLength*2))-1));
+                switch (hex.substring((7+(tagNameLength*2))+1,7+(tagNameLength*2)+1)) {
+                    case "00":
+                        break;
+                    case "08":
+                        StringTag stringTag = new StringTag();
+                        String hex_ = hex.substring(7+(tagNameLength*2)+1);
+                        String[] res = hex_.split(hex);
+                        hex_ = res[1];
+                        if (hex_.length() > 6) {
+                            int tagNameLength_ = Integer.parseInt(hex_.substring(3, 6),16);
+                            tag.name = toString(hex_.substring(6,(7+(tagNameLength_*2))-1));
+                            int tagValueLength = Integer.parseInt(hex_.substring(7+(tagNameLength_*2),7+(tagNameLength_*2)+3),16);
+                            System.out.println(tagValueLength);
+                        } else {
+                            throw new TagException("Given input is not valid NBT (StringTag)");
+                        }
+                
+                    default:
+                        break;
+                }
                 if (hex.substring((7+(tagNameLength*2))+1,7+(tagNameLength*2)+1) == "00") {
                     System.out.println(hex.substring((7+(tagNameLength*2))-1,7+(tagNameLength*2)+1));
-                    System.out.println(1);
+
                 } else {
-                    System.err.println(21);
+
                 }
             }
             
