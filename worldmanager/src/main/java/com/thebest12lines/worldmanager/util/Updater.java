@@ -2,7 +2,11 @@ package com.thebest12lines.worldmanager.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -21,18 +25,19 @@ public class Updater {
             JSONObject meta = obj.getJSONObject("worldmanagerMeta");
             String versionCheck = meta.getString("versionCheck");
             int currentVersion = meta.getInt("build");
+            HttpClient client = HttpClient.newHttpClient();
 
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(versionCheck))
+                .GET()
+                .build();
 
-            HttpURLConnection httpConn;
-            URL url = new URL(versionCheck);
-            httpConn = (HttpURLConnection) url.openConnection(); 
-            httpConn.setRequestMethod("GET");
+            HttpResponse<String> response_ = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            InputStream responseStream = httpConn.getResponseCode() / 100 == 2
-                    ? httpConn.getInputStream()
-                    : httpConn.getErrorStream();
-            try (Scanner s = new Scanner(responseStream).useDelimiter("\\A")) {
-                String response = s.hasNext() ? s.next() : "";
+           
+
+            try {
+                String response = response_.body();
                 if (currentVersion < Integer.parseInt(response)) {
                     return Constants.UpdateCheckResult.UPDATE_NEEDED;
                 } else if (currentVersion > Integer.parseInt(response)) {
@@ -40,13 +45,13 @@ public class Updater {
                 } else if (currentVersion == Integer.parseInt(response)) {
                     return Constants.UpdateCheckResult.UP_TO_DATE;
                 }
-                s.close();
+              //  s.close();
             } catch (NumberFormatException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

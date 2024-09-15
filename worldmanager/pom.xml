@@ -42,11 +42,13 @@
         </plugins>
     </build>
 
-    <!-- <dependencies>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20231013</version>
-        </dependency>
-    </dependencies> -->
+    <dependencies>
+    <!-- Other dependencies... -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20240303</version>
+    </dependency>
+</dependencies>
+
 </project>
