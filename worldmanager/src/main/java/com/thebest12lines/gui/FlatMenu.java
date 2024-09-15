@@ -8,6 +8,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class FlatMenu {
+    /**
+     * Creates a "flat" style JMenu.
+     * @param text The text to add to the JMenu.
+     * @param menuBar The JMenuBar to add to.
+     * @return A "flat" style JMenu.
+     */
     public static JMenu createFlatMenu(String text, JMenuBar menuBar) {
         JMenu menu = new JMenu(text);
         menu.setBorder(null);

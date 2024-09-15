@@ -1,5 +1,7 @@
 package com.thebest12lines;
 
+import javax.swing.UnsupportedLookAndFeelException;
+
 import com.thebest12lines.gui.MainGui;
 
 public class Gui {
@@ -16,7 +18,13 @@ public class Gui {
             
             
             Output.print("["+RunnableImpl.class.getCanonicalName()+"]: Launching GUI");
-            MainGui.launch();
+            try {
+                MainGui.launch();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                    | UnsupportedLookAndFeelException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 }

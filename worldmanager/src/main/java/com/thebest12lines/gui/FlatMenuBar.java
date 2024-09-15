@@ -9,6 +9,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
 
 public class FlatMenuBar {
+    /**
+     * Creates a "flat" style JMenuBar.
+     * @return A "flat" style JMenuBar.
+     */
     public static JMenuBar createFlatMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.setBackground(new Color(255,255,255));
