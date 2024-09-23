@@ -1,7 +1,9 @@
-rem worldmanager Build Script
-rem Use this to build the project instead of running mvn package
+
 
 @echo off
+
+rem worldmanager Build Script
+rem Use this to build the project instead of running mvn package
 
 echo worldmanager Build Script
 echo Building project...

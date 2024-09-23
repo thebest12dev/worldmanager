@@ -34,13 +34,15 @@ public class MainGui {
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         JFrame mainFrame = new JFrame("worldmanager Alpha 0.0.1");
+        ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         JFrame updateFrame = new JFrame("Update");
-        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("minecraft.png"));
        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        
+        if (icon != null) {
+            mainFrame.setIconImage(icon.getImage());
+        }
         // updateFrame.setVisible(true);
         updateFrame.setResizable(false);
         updateFrame.setSize(500, 300);
@@ -223,6 +225,15 @@ public class MainGui {
         } catch (UpdateBuildException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+        private static ImageIcon createImageIcon(String path, String description) {
+            java.net.URL imgURL = MainGui.class.getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
         }
     }
 }
