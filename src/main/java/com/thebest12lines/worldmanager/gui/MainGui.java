@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import com.thebest12lines.worldmanager.gui.FlatLabel;
 import com.thebest12lines.worldmanager.util.Updater;
@@ -12,6 +13,7 @@ import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.util.UpdateBuildException;
 
 import java.awt.Panel;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
@@ -36,6 +38,7 @@ public class MainGui {
         mainFrame.setSize(800, 500);
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         JFrame updateFrame = new JFrame("Update");
+        mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("minecraft.png"));
        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         
         // updateFrame.setVisible(true);

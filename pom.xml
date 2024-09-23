@@ -16,6 +16,7 @@
 
 
     <build>
+    <finalName>${project.artifactId}</finalName>
     <!-- Other build configurations... -->
     <plugins>
         <!-- Other plugins... -->
@@ -49,6 +50,17 @@
         <artifactId>json</artifactId>
         <version>20240303</version>
     </dependency>
+    <dependency>
+	<groupId>com.github.Querz</groupId>
+	<artifactId>NBT</artifactId>
+	<version>6.1</version>
+</dependency>
+    
 </dependencies>
-
+    <repositories>
+	    <repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+	    </repository>
+    </repositories>
 </project>

@@ -1,5 +1,4 @@
-// Example C++ code snippet
-#include <cstdlib> // For system()
+#include <cstdlib> 
 #include <string>
 #include <iostream>
 
@@ -14,6 +13,5 @@ int main(int argc, const char* argv[])
     
 
     system(args.c_str());
-    /* code */
     return 0;
 }

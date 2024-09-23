@@ -18,3 +18,12 @@ If you found bugs or have noticed unusual things, please use the `--verbose` fla
 This project is licensed under the MIT License.
 ## Updates
 This project also supports updates, which means you only have to download worldmanager once. You can also specify the repository (defaults to https://github.com/thebest12dev/worldmanager/releases/latest/download/worldmanager.jar) to update from, however make sure you trust the source you are downloading from.
+## Building
+To build the project, you need the following tools:
+- An working JDK (with `jlink`)
+- `g++` for C++ compiling
+- Maven (to package)
+
+To build, simply run `build.bat` in the project root, and it should build the project.
+## Attribution
+[Querz/NBT](https://github.com/Querz/NBT) for the NBT library (thanks!)
