@@ -1,8 +1,8 @@
 {
     "worldmanagerMeta": {
-        "version": "0.0.1",
+        "version": "0.1.0",
         "branch": "alpha",
-        "build": 2,
+        "build": 3,
         "updateRepo": "https://github.com/thebest12dev/worldmanager/releases/latest/download/worldmanager.jar",
         "versionCheck": "https://raw.githubusercontent.com/thebest12dev/worldmanager/main/version"
     }
