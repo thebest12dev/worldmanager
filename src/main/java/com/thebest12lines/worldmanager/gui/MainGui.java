@@ -39,7 +39,16 @@ public class MainGui {
         }
         
     }
+    public static JMenuBar getMenuBar(Class c) throws SecurityException {
+        if (c.getCanonicalName().equals("com.thebest12lines.worldmanager.api.GuiAPI")) {
+            return menuBar;
+        } else {
+            throw new SecurityException("Cannot return menuBar");
+        }
+        
+    }
     protected static JFrame mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+    protected static JMenuBar menuBar;
     /**
      * Launches the main GUI.
      * @throws ClassNotFoundException
@@ -202,7 +211,7 @@ public class MainGui {
         
        // updateFrame.setVisible(true);
         
-        JMenuBar menuBar = FlatMenuBar.createFlatMenuBar();
+        menuBar = FlatMenuBar.createFlatMenuBar();
         ArrayList<JMenu> jMenus = new ArrayList<JMenu>();
         jMenus.add(FlatMenu.createFlatMenu("File", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("Edit", menuBar));

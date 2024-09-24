@@ -27,3 +27,5 @@ To build the project, you need the following tools:
 To build, simply run `build.bat` in the project root, and it should build the project.
 ## Attribution
 [Querz/NBT](https://github.com/Querz/NBT) for the NBT library (thanks!)
+<br>
+[Bootstrap Icons](https://icons.getbootstrap.com) for the icons
