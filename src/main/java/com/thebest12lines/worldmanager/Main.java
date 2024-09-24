@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.zip.ZipOutputStream;
 
+import org.json.JSONObject;
+
 import com.thebest12lines.worldmanager.ZipDirectory;
 
 import java.nio.file.*;
@@ -16,7 +18,40 @@ public class Main {
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
-        System.out.println("worldmanager 0.1.0 Alpha\nLogs will be outputted to file worldmanager.log, use --verbose to output logs to console.");
+        
+        Output.printErr("worldmanager 0.1.0 Alpha\nLogs will be outputted to file worldmanager.log, use --verbose to output logs to console.");
+        Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");
+        
+        Output.print("["+Main.class.getCanonicalName()+"]: Verifying libraries exist...");
+        String[] libraries = {"json-20240303","NBT-6.1"};
+        boolean isFatal = false;
+        for (int i = 0; i < libraries.length; i++) {
+            if (libraryExists(libraries[i])) {
+                Output.print("["+Main.class.getCanonicalName()+"]: Library \""+libraries[i]+"\" found ("+(i+1)+"/"+libraries.length+")");
+            } else {
+                Output.print("FATAL: Library \""+libraries[i]+"\" is not found. worldmanager will not run without this library.");
+                isFatal = true;
+            
+            }
+        }
+        if (isFatal) {
+            Output.print("FATAL: Library verification check failed. worldmanager will not launch now.");
+            return;
+        } else {
+            Output.print("["+Main.class.getCanonicalName()+"]: Library verification check success, worldmanager will launch now.");
+        }
+        if (libraryExists("json-20240303")) {
+            StringBuilder builder = new StringBuilder("["+Main.class.getCanonicalName()+"]: Loaded features: ");
+            if (FeatureManager.isFeatureLoaded("worldmanager.core")) {
+                builder.append("worldmanager.core");
+            } else {
+                builder.append("null");
+                Output.print(builder.toString());
+                return;
+            }
+            Output.print(builder.toString());
+            
+        }
        // System.out.println(OSInfo.osVersion);
         
        if (args.length > 0) {
@@ -55,6 +90,20 @@ public class Main {
     
 
         
+    }
+    public static boolean libraryExists(String libName) {
+        File file = new File("worldmanager/lib/"+libName+".jar");
+        if (file.exists()) {
+            return true;
+        } else if (!file.exists()) {
+            file = new File("worldmanager/lib/"+libName+".dll");
+            if (file.exists()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
     
 }

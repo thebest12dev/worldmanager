@@ -45,7 +45,7 @@ public class Output {
                 
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
-                Output.print("Error while outputting: 0");
+                Output.print("Error while outputting:");
                 e.printStackTrace();
             }
         }

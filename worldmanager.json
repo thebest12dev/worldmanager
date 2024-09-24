@@ -13,7 +13,7 @@
         "autoBackupTime": "30min",
         "webDebugPort": "random" 
     },
-    "enableFeatures": [
+    "enabledFeatures": [
         "worldmanager.core"
     ]
 }

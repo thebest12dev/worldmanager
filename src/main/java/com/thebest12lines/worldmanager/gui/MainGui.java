@@ -30,6 +30,16 @@ import javax.swing.tree.TreeModel;
 
 
 public class MainGui {
+    
+    public static JFrame getMainFrame(Class c) throws SecurityException {
+        if (c.getCanonicalName().equals("com.thebest12lines.worldmanager.api.GuiAPI")) {
+            return mainFrame;
+        } else {
+            throw new SecurityException("Cannot return mainFrame");
+        }
+        
+    }
+    protected static JFrame mainFrame = new JFrame("worldmanager Alpha 0.1.0");
     /**
      * Launches the main GUI.
      * @throws ClassNotFoundException
@@ -38,7 +48,7 @@ public class MainGui {
      * @throws UnsupportedLookAndFeelException
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-        JFrame mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+      //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
         ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
@@ -241,7 +251,7 @@ public class MainGui {
         mainFrame.repaint();
         try {
             UpdateCheckResult result = Updater.checkForUpdates();
-            System.out.println(result);
+           // System.out.println(result);
             if (result == UpdateCheckResult.UPDATE_NEEDED) {
                 updateFrame.setVisible(true);
             }
