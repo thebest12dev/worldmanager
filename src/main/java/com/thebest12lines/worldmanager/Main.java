@@ -16,7 +16,7 @@ public class Main {
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
-        System.out.println("worldmanager 0.0.1 Alpha\nLogs will be outputted to file worldmanager.log, use --verbose to output logs to console.");
+        System.out.println("worldmanager 0.1.0 Alpha\nLogs will be outputted to file worldmanager.log, use --verbose to output logs to console.");
        // System.out.println(OSInfo.osVersion);
         
        if (args.length > 0) {

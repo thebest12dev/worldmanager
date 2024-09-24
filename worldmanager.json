@@ -1,9 +1,19 @@
 {
+    "schemaVersion": 1,
     "worldmanagerMeta": {
-        "version": "0.1.0",
+        "version": "0.0.1",
         "branch": "alpha",
         "build": 3,
         "updateRepo": "https://github.com/thebest12dev/worldmanager/releases/latest/download/worldmanager.jar",
         "versionCheck": "https://raw.githubusercontent.com/thebest12dev/worldmanager/main/version"
-    }
+    },
+    "worldmanagerPreferences": {
+        "debugMode": false,
+        "verbose": false,
+        "autoBackupTime": "30min",
+        "webDebugPort": "random" 
+    },
+    "enableFeatures": [
+        "worldmanager.core"
+    ]
 }

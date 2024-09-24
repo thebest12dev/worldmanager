@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
@@ -19,9 +20,13 @@ import java.awt.event.ActionListener;
 import java.net.URI;
 import java.util.ArrayList;
 //import org.json.*;
+import java.util.concurrent.Flow;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 
 public class MainGui {
@@ -33,7 +38,7 @@ public class MainGui {
      * @throws UnsupportedLookAndFeelException
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-        JFrame mainFrame = new JFrame("worldmanager Alpha 0.0.1");
+        JFrame mainFrame = new JFrame("worldmanager Alpha 0.1.0");
         ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
@@ -194,6 +199,23 @@ public class MainGui {
         jMenus.add(FlatMenu.createFlatMenu("World", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("Help", menuBar));
         
+        JPanel worldsList = new JPanel();
+        worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
+        worldsList.setVisible(true);
+        //JPanel content = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        worldsList.setPreferredSize(new Dimension(250, mainFrameHeight));
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Worlds");
+        DefaultTreeModel model = new DefaultTreeModel(root);
+        JPanel jPanel = new JPanel(new BorderLayout());
+
+        JTree worlds = new JTree(model);
+       // worlds.setBackground(new Color(210, 210, 210));
+        worlds.setPreferredSize(new Dimension(150, mainFrameHeight));
+        worlds.setCellRenderer(new FlatTreeCellRenderer(createImageIcon("/folder.png", "Folder")));
+        jPanel.add(worlds);
+        worldsList.add(jPanel);
+        mainFrame.add(worldsList,BorderLayout.WEST);
+       // mainFrame.add(content);
         
         
         //menuBar.setLayout(new BorderLayout());
@@ -219,6 +241,7 @@ public class MainGui {
         mainFrame.repaint();
         try {
             UpdateCheckResult result = Updater.checkForUpdates();
+            System.out.println(result);
             if (result == UpdateCheckResult.UPDATE_NEEDED) {
                 updateFrame.setVisible(true);
             }
@@ -227,7 +250,7 @@ public class MainGui {
             e.printStackTrace();
         }
     }
-        private static ImageIcon createImageIcon(String path, String description) {
+        public static ImageIcon createImageIcon(String path, String description) {
             java.net.URL imgURL = MainGui.class.getResource(path);
         if (imgURL != null) {
             return new ImageIcon(imgURL, description);
