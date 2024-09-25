@@ -41,13 +41,21 @@ public class Main {
             Output.print("["+Main.class.getCanonicalName()+"]: Library verification check success, worldmanager will launch now.");
         }
         if (libraryExists("json-20240303")) {
-            StringBuilder builder = new StringBuilder("["+Main.class.getCanonicalName()+"]: Loaded features: ");
-            if (FeatureManager.isFeatureLoaded("worldmanager.core")) {
+            StringBuilder builder = new StringBuilder("["+Main.class.getCanonicalName()+"]: Enabled features: ");
+            if (FeatureManager.isFeatureEnabled("worldmanager.core")) {
                 builder.append("worldmanager.core");
             } else {
                 builder.append("null");
                 Output.print(builder.toString());
                 return;
+            }
+            for (Object string : FeatureManager.getEnabledFeatures()) {
+                if (string.equals("worldmanager.core")) {
+                    continue;
+                } else {
+                    FeatureManager.loadFeature("worldmanager.test");
+                    builder.append(", "+string);
+                }
             }
             Output.print(builder.toString());
             

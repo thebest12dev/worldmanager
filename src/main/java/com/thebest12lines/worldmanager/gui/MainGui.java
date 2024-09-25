@@ -31,20 +31,15 @@ import javax.swing.tree.TreeModel;
 
 public class MainGui {
     
-    public static JFrame getMainFrame(Class c) throws SecurityException {
-        if (c.getCanonicalName().equals("com.thebest12lines.worldmanager.api.GuiAPI")) {
+    public static JFrame getMainFrame()  {
+        
             return mainFrame;
-        } else {
-            throw new SecurityException("Cannot return mainFrame");
-        }
+        
         
     }
-    public static JMenuBar getMenuBar(Class c) throws SecurityException {
-        if (c.getCanonicalName().equals("com.thebest12lines.worldmanager.api.GuiAPI")) {
+    public static JMenuBar getMenuBar()  {
             return menuBar;
-        } else {
-            throw new SecurityException("Cannot return menuBar");
-        }
+        
         
     }
     protected static JFrame mainFrame = new JFrame("worldmanager Alpha 0.1.0");

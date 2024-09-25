@@ -4,4 +4,9 @@ module worldmanager.core {
     requires org.json;
     requires java.net.http;
     requires NBT;
+    exports com.thebest12lines.worldmanager;
+    exports com.thebest12lines.worldmanager.gui;
+    exports com.thebest12lines.worldmanager.launcher;
+    exports com.thebest12lines.worldmanager.util;
+    exports com.thebest12lines.worldmanager.world;
 }
