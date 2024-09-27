@@ -14,6 +14,10 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.thebest12lines.worldmanager.util.Constants;
+import com.thebest12lines.worldmanager.util.Constants.FeatureLoadResult;
+import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
+
 public class FeatureManager {
     public static boolean isFeatureEnabled(String feature) {
         StringBuilder builder = new StringBuilder();
@@ -54,8 +58,8 @@ public class FeatureManager {
         }
         return null;
     }
-    public static void loadFeature(String feature) {
-        if (new File("worldmanager/lib/features/"+feature+".jar").exists()) {
+    public static Constants.FeatureLoadResult loadFeature(String feature) {
+        if (new File("worldmanager/features/"+feature+".jar").exists()) {
             
                 try {
                     try (URLClassLoader classLoader = new URLClassLoader(new URL[] {new File("worldmanager/lib/features/"+feature+".jar").toURI().toURL()}, ClassLoader.getSystemClassLoader())) {
@@ -64,6 +68,7 @@ public class FeatureManager {
 
                         Method main = loadedClass.getDeclaredMethod("onStart", (Class<?>[]) null);
                         main.invoke(null, (Object[]) null);
+                        return FeatureLoadResult.LOADED;
                     } catch (MalformedURLException e) {
                         throw e;
                     } catch (IOException e) {
@@ -72,6 +77,7 @@ public class FeatureManager {
                     } catch (NoSuchMethodException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
+                        return FeatureLoadResult.CANNOT_FIND_METHOD;
                     } catch (SecurityException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -87,9 +93,12 @@ public class FeatureManager {
                 } catch (MalformedURLException | ClassNotFoundException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
+                    return FeatureLoadResult.CANNOT_FIND_CLASS;
                 }
         } else {
             Output.print("Error: Could not find feature "+feature+". That feature will not be loaded");
+            return FeatureLoadResult.NOT_LOADED;
         }
+        return FeatureLoadResult.NOT_LOADED;
     }
 }

@@ -20,15 +20,15 @@ import net.querz.nbt.tag.StringTag;
 import net.querz.nbt.tag.Tag;
 
 public class SaveManager {
-    public static Object[] getWorlds() {
+    public static World[] getWorlds() {
         
-        return readWorlds().toArray();
+        return (World[]) readWorlds().toArray(new World[0]);
         
     }
     private static ArrayList<World> readWorlds() {
         String savesFolder = System.getProperty("user.home") + "\\AppData\\Roaming\\.minecraft\\saves";
         File folder = new File(savesFolder);
-        ArrayList<World> worlds = new ArrayList<World>();
+        ArrayList<World> worlds = new ArrayList<>();
         File[] saves = folder.listFiles();
         
         for (File save : saves) {

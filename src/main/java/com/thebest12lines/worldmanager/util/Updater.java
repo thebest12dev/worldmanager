@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 import org.json.JSONObject;
 public class Updater {
     
-    public static Constants.UpdateCheckResult checkForUpdates() throws UpdateBuildException {
+    public static Constants.UpdateCheckResult checkForUpdates() throws UpdateBuildException  {
 
         
         try {
@@ -35,7 +36,7 @@ public class Updater {
             HttpResponse<String> response_ = client.send(request, HttpResponse.BodyHandlers.ofString());
 
            
-
+            
             try {
                 String response = response_.body();
                 if (currentVersion < Integer.parseInt(response)) {
@@ -60,7 +61,7 @@ public class Updater {
 
     }
 
-    public static void downloadAndInstallUpdates() throws UpdateBuildException {
+    public static void downloadAndInstallUpdates() throws UpdateBuildException, URISyntaxException {
 
         String localFilePath = "worldmanager_0.jar";
         StringBuilder builder = new StringBuilder();
@@ -75,7 +76,7 @@ public class Updater {
         String fileUrl = meta.getString("updateRepo");
 
 
-        try (InputStream in = new URL(fileUrl).openStream()) {
+        try (InputStream in = new URI(fileUrl).toURL().openStream()) {
             Files.copy(in, Paths.get(localFilePath), StandardCopyOption.REPLACE_EXISTING);
             System.out.println("File downloaded and saved as " + localFilePath);
         } catch (IOException e) {

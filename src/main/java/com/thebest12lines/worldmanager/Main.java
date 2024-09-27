@@ -8,6 +8,7 @@ import java.util.zip.ZipOutputStream;
 import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.ZipDirectory;
+import com.thebest12lines.worldmanager.util.Constants;
 
 import java.nio.file.*;
 
@@ -19,7 +20,7 @@ public class Main {
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
         
-        Output.printErr("worldmanager 0.1.0 Alpha\nLogs will be outputted to file worldmanager.log, use --verbose to output logs to console.");
+        Output.printErr("worldmanager 0.1.0 Alpha\nLogs will be outputted to file worldmanager.log.");
         Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");
         
         Output.print("["+Main.class.getCanonicalName()+"]: Verifying libraries exist...");
@@ -53,7 +54,8 @@ public class Main {
                 if (string.equals("worldmanager.core")) {
                     continue;
                 } else {
-                    FeatureManager.loadFeature("worldmanager.test");
+                    FeatureManager.loadFeature(string.toString());
+                    
                     builder.append(", "+string);
                 }
             }
@@ -64,15 +66,16 @@ public class Main {
         
        if (args.length > 0) {
         boolean zip = false;
-        boolean verbose = false;
+       // boolean verbose = false;
         String zipLoc = "";
     
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("--verbose")) {
-                verbose = true;
-                Output.consoleOutput = true;
-                Output.print("Verbose enabled, logging to both log file and console.");
-            } else if (new File(args[i]).exists()) {
+            // if (args[i].equals("--verbose")) {
+            //     verbose = true;
+            //     Output.consoleOutput = true;
+            //     Output.print("Verbose enabled, logging to both log file and console.");
+            // } else 
+             if (new File(args[i]).exists()) {
                 zip = true;
                 zipLoc = args[i];
                 Output.print("["+Main.class.getCanonicalName()+"]: Archive found. Unzipping to .minecraft/saves...");
@@ -82,9 +85,9 @@ public class Main {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                if (verbose) {
-                    // Additional verbose-specific actions (if needed)
-                }
+                // if (verbose) {
+                //     // Additional verbose-specific actions (if needed)
+                // }
             }
         }
     
@@ -103,14 +106,15 @@ public class Main {
         File file = new File("worldmanager/lib/"+libName+".jar");
         if (file.exists()) {
             return true;
-        } else if (!file.exists()) {
-            file = new File("worldmanager/lib/"+libName+".dll");
-            if (file.exists()) {
-                return true;
-            } else {
-                return false;
-            }
         }
+        // } else if (!file.exists()) {
+        //     // file = new File("worldmanager/lib/"+libName+".dll");
+        //     // if (file.exists()) {
+        //     //     return true;
+        //     // } else {
+        //         return false;
+        //    //  }
+        // }
         return false;
     }
     

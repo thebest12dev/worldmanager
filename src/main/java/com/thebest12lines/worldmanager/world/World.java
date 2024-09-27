@@ -2,7 +2,7 @@ package com.thebest12lines.worldmanager.world;
 
 import java.util.ArrayList;
 
-public class World {
+public class World extends Object{
     protected String name = "";
     protected ArrayList<Backup> backups = new ArrayList<Backup>();
     protected String version = "1.21";

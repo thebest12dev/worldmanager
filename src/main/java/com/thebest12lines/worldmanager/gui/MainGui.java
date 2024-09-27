@@ -11,12 +11,16 @@ import java.awt.Insets;
 import com.thebest12lines.worldmanager.gui.FlatLabel;
 import com.thebest12lines.worldmanager.util.Updater;
 import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
+import com.thebest12lines.worldmanager.world.SaveManager;
+import com.thebest12lines.worldmanager.world.World;
 import com.thebest12lines.worldmanager.util.UpdateBuildException;
 
 import java.awt.Panel;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.net.URI;
 import java.util.ArrayList;
 //import org.json.*;
@@ -62,6 +66,9 @@ public class MainGui {
         if (icon != null) {
             mainFrame.setIconImage(icon.getImage());
         }
+        UIManager.put("Tree.drawsFocusBorderAroundIcon", false);
+        UIManager.put("Tree.drawDashedFocusIndicator", false);
+
         // updateFrame.setVisible(true);
         updateFrame.setResizable(false);
         updateFrame.setSize(500, 300);
@@ -179,7 +186,7 @@ public class MainGui {
                         public void run() {
                             try {
                                 Updater.downloadAndInstallUpdates();
-                            } catch (UpdateBuildException e) {
+                            } catch (Exception e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
@@ -201,7 +208,8 @@ public class MainGui {
         btnPanel.add(cancelButton);
         updateFrame.add(btnPanel,BorderLayout.SOUTH);
 
-        
+        UIManager.put("Tree.collapsedIcon",createImageIcon("/caret-right-fill.png", "set"));
+        UIManager.put("Tree.expandedIcon", createImageIcon("/caret-down-fill.png", null));
         
         
        // updateFrame.setVisible(true);
@@ -218,19 +226,77 @@ public class MainGui {
         worldsList.setVisible(true);
         //JPanel content = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         worldsList.setPreferredSize(new Dimension(250, mainFrameHeight));
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Worlds");
+        
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Worlds (Java Edition)");
+       // DefaultMutableTreeNode world2 = new DefaultMutableTreeNode("World1");
+      //
+        World[] worldsArray = (World[]) SaveManager.getWorlds();
+        for (World object : worldsArray) {
+            
+            DefaultMutableTreeNode world = new DefaultMutableTreeNode(object.getWorldName());
+            
+            DefaultMutableTreeNode backups = new DefaultMutableTreeNode("Backups");
+            world.add(backups);
+            root.add(world);
+        }
+
+      //  root.add(world2);
+        JPopupMenu worldMenu1 = new JPopupMenu();
+        JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
+        worldMenu1.add(worldMenuItem1);
         DefaultTreeModel model = new DefaultTreeModel(root);
         JPanel jPanel = new JPanel(new BorderLayout());
 
         JTree worlds = new JTree(model);
-       // worlds.setBackground(new Color(210, 210, 210));
-        worlds.setPreferredSize(new Dimension(150, mainFrameHeight));
-        worlds.setCellRenderer(new FlatTreeCellRenderer(createImageIcon("/folder.png", "Folder")));
-        jPanel.add(worlds);
-        worldsList.add(jPanel);
-        mainFrame.add(worldsList,BorderLayout.WEST);
-       // mainFrame.add(content);
         
+       // worlds.setBackground(new Color(210, 210, 210));
+      //  worlds.setPreferredSize(new Dimension(150, mainFrameHeight));
+        FlatTreeCellRenderer renderer = new FlatTreeCellRenderer(
+            createImageIcon("/folder.png", "Folder")
+            ,new Font("Segoe UI Light", Font.PLAIN, 13)
+            ,createImageIcon("/box.png", null)
+            ,worldMenu1
+        );
+        
+        worlds.setCellRenderer(renderer);
+        jPanel.add(worlds,BorderLayout.WEST);
+        worldsList.add(jPanel, BorderLayout.WEST);
+        mainFrame.add(worldsList,BoxLayout.X_AXIS);
+       // mainFrame.add(content);
+       JScrollPane scrollPane2 =new JScrollPane(worlds);
+       
+       mainFrame.add(scrollPane2);
+       scrollPane2.setBorder(null);
+       scrollPane2.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+               @Override
+               protected void configureScrollBarColors() {
+                   int r = 255;
+                   int g = 190;
+                   this.thumbColor = new Color(g,g,g);
+                   this.trackColor = new Color(r,r,r);
+               }
+
+               @Override
+               protected JButton createDecreaseButton(int orientation) {
+                   return createZeroButton();
+               }
+
+               @Override
+               protected JButton createIncreaseButton(int orientation) {
+                   return createZeroButton();
+               }
+
+               private JButton createZeroButton() {
+                   JButton button = new JButton();
+                   button.setPreferredSize(new Dimension(0, 0));
+                   button.setMinimumSize(new Dimension(0, 0));
+                   button.setMaximumSize(new Dimension(0, 0));
+                   return button;
+               }
+           });
+        
+       // scrollPane2.repaint();
+       // scrollPane2.revalidate();
         
         //menuBar.setLayout(new BorderLayout());
 
