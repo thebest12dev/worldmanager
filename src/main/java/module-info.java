@@ -1,9 +1,9 @@
 module worldmanager.core {
     requires java.base;
    // requires java.desktop;
-    requires static org.json;
+    requires org.json;
     requires java.net.http;
-    requires static NBT;
+    requires NBT;
     requires transitive java.desktop;
     exports com.thebest12lines.worldmanager;
     exports com.thebest12lines.worldmanager.gui;
