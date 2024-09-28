@@ -50,14 +50,7 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
         
         // Set the custom font
         setFont(customFont);
-        addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e) && e.getClickCount() == 1) {
-                    Output.printErr("s");
-                    menu.show(MainGui.getMainFrame(),e.getX(),e.getY());
-                }
-            }
-        });
+        
 
         return this;
     }

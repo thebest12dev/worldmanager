@@ -87,7 +87,7 @@ public class FeatureManager {
                     } catch (InvocationTargetException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
-                    }
+                    } 
                 
                     
                 } catch (MalformedURLException | ClassNotFoundException e) {

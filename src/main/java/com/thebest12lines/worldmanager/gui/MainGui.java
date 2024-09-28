@@ -21,6 +21,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.ArrayList;
 //import org.json.*;
@@ -31,6 +32,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
+
+
 
 
 public class MainGui {
@@ -60,6 +64,7 @@ public class MainGui {
         ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
+       // mainFrame.setBackground(new Color());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         JFrame updateFrame = new JFrame("Update");
        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -239,15 +244,38 @@ public class MainGui {
             world.add(backups);
             root.add(world);
         }
-
+        Font worldFont = new Font("Segoe UI Light", Font.PLAIN, 13);
       //  root.add(world2);
-        JPopupMenu worldMenu1 = new JPopupMenu();
+        JPopupMenu worldMenu1 = FlatPopupMenu.createFlatPopupMenu();
         JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
+        worldMenuItem1.setBorder(null);
+        worldMenuItem1.setFont(worldFont);
         worldMenu1.add(worldMenuItem1);
+
+        JMenuItem worldMenuItem2 = new JMenuItem("Delete World");
+        worldMenuItem2.setBorder(null);
+        worldMenuItem2.setFont(worldFont);
+        worldMenu1.add(worldMenuItem2);
+
+        JMenuItem worldMenuItem3 = new JMenuItem("Properties");
+        worldMenuItem3.setBorder(null);
+        worldMenuItem3.setFont(worldFont);
+        worldMenu1.add(worldMenuItem3);
         DefaultTreeModel model = new DefaultTreeModel(root);
         JPanel jPanel = new JPanel(new BorderLayout());
 
         JTree worlds = new JTree(model);
+        worlds.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    TreePath path = worlds.getPathForLocation(e.getX(), e.getY());
+                    if (path != null) {
+                        worlds.setSelectionPath(path);
+                        worldMenu1.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                }
+            }
+        });
         
        // worlds.setBackground(new Color(210, 210, 210));
       //  worlds.setPreferredSize(new Dimension(150, mainFrameHeight));
