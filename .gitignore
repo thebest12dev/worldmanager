@@ -2,6 +2,6 @@ worldmanager.log
 output
 target
 .vscode
-worldmanager
+# worldmanager
 test.zip
-worldmanager_0.jr
+tests
