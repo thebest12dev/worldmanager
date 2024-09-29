@@ -13,6 +13,8 @@ public class UITest {
     @Test
     public void testUI() {
         try {
+            System.setProperty("java.awt.headless", "true");
+
             MainGui.launch();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {

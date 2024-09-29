@@ -14,7 +14,8 @@ import java.nio.file.*;
 
 public class Main {
     public static void main(String[] args) {
-        
+        System.setProperty("java.awt.headless", "true");
+
         String appDataPath = System.getProperty("user.home") + "\\AppData\\Roaming\\.worldmanager";
         File Directory = new File(appDataPath);
         Directory.mkdir();

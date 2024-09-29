@@ -11,6 +11,8 @@ public class UnzipFileTest {
     @Test
     public void testUnzip() {
         try {
+            System.setProperty("java.awt.headless", "true");
+
             Launcher.main(new String[] {"test.zip"});
         } catch (Exception e) {
             // TODO Auto-generated catch block
