@@ -242,6 +242,15 @@ public class MainGui {
         file.add(item5);
         file.add(new JSeparator());
         JMenuItem item4 = FlatMenuItem.createFlatMenuItem("Exit","");
+        item4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                System.exit(0);
+            }
+            
+        });
         item4.setFont(normalFont);
         file.add(item4);
         

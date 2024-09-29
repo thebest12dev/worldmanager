@@ -1,6 +1,8 @@
 package com.thebest12lines.worldmanager.gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
@@ -30,13 +32,24 @@ public class FlatMenuItem {
 
         menuItem.setLayout(new BorderLayout());
         menuItem.add(panel, BorderLayout.CENTER);
+        Color defaultBackground = menuItem.getBackground();
+        Color hoverBackground = defaultBackground.darker();
         menuItem.setPreferredSize(new Dimension(200, 20));
+        menuItem.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                panel.setBackground(defaultBackground);
+                menuItem.setBackground(defaultBackground);
+            }
+            
+        });
 
         // Custom border and hover effect
    //     Border defaultBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
      //   Border hoverBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 1);
-        Color defaultBackground = menuItem.getBackground();
-        Color hoverBackground = defaultBackground.darker();
+        
         menuItem.setBorder(null);
 
         
