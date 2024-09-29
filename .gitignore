@@ -2,6 +2,7 @@ worldmanager.log
 output
 target
 .vscode
+/worldmanager_0.jar
 /worldmanager
 !src/main/java/com/thebest12lines/worldmanager/
 test.zip
