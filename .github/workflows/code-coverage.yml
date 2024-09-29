@@ -22,12 +22,12 @@ jobs:
         curl -L -o jdk-21_windows-x64_bin.zip https://download.oracle.com/java/21/latest/jdk-21_windows-x64_bin.zip
         Expand-Archive -Path jdk-21_windows-x64_bin.zip -DestinationPath .
         dir
-        Move-Item -Path ".\jdk-21" -Destination "C:\Program Files\jdk-21"
+        
 
 
     - name: Set up Oracle JDK
       run: |
-        echo "JAVA_HOME=C:\Program Files\jdk-21" >> $env:GITHUB_ENV
+        echo "JAVA_HOME=./jdk-21.0.4" >> $env:GITHUB_ENV
         echo "PATH=$env:JAVA_HOME\bin;$env:PATH" >> $env:GITHUB_ENV
 
     - name: Verify Java installation
