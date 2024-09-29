@@ -1,8 +1,8 @@
 worldmanager.log
-!src/main/java/com/thebest12lines/worldmanager/
 output
 target
 .vscode
-worldmanager
+/worldmanager
+!src/main/java/com/thebest12lines/worldmanager/
 test.zip
 # tests
