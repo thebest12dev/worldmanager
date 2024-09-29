@@ -27,10 +27,10 @@
             <configuration>
                 <source>21</source>
                 <target>21</target>
-                <compilerArgs>
-                    <arg>--module-path</arg>
+             <!-- <compilerArgs>
+                    <arg> module-path</arg>
                     <arg>${maven.compile.modulepath}</arg>
-                </compilerArgs>
+                </compilerArgs>  -->
             </configuration>
         </plugin>
         <plugin>
