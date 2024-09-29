@@ -14,7 +14,7 @@ public class FlatPopupMenu {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(new Color(0, 0, 0, 50));
-        g2d.fillRoundRect(5, 5, getWidth() - 10, getHeight() - 10, 15, 15);
+     //   g2d.fillRoundRect(5, 5, getWidth() - 10, getHeight() - 10, 15, 15);
         g2d.dispose();
     }
         };

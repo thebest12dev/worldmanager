@@ -14,6 +14,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
 import org.json.JSONObject;
+
+import com.thebest12lines.worldmanager.DataManager;
 public class Updater {
     
     public static Constants.UpdateCheckResult checkForUpdates() throws UpdateBuildException  {
@@ -25,7 +27,7 @@ public class Updater {
             JSONObject obj = new JSONObject(builder.toString());
             JSONObject meta = obj.getJSONObject("worldmanagerMeta");
             String versionCheck = meta.getString("versionCheck");
-            int currentVersion = meta.getInt("build");
+            int currentVersion = DataManager.getBuild();
             HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()

@@ -215,8 +215,8 @@ public class MainGui {
 
         UIManager.put("Tree.collapsedIcon",createImageIcon("/caret-right-fill.png", "set"));
         UIManager.put("Tree.expandedIcon", createImageIcon("/caret-down-fill.png", null));
-        
-        
+        Font worldFont = new Font("Segoe UI Light", Font.PLAIN, 13);
+        Font normalFont = new Font("Segoe UI", Font.PLAIN, 13);
        // updateFrame.setVisible(true);
         
         menuBar = FlatMenuBar.createFlatMenuBar();
@@ -225,6 +225,25 @@ public class MainGui {
         jMenus.add(FlatMenu.createFlatMenu("Edit", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("World", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("Help", menuBar));
+        JMenu file = jMenus.get(0);
+        JMenuItem item1 = FlatMenuItem.createFlatMenuItem("New Backup","Ctrl+N");
+        item1.setFont(normalFont);
+        file.add(item1);
+        file.add(new JSeparator());
+        JMenuItem item2 = FlatMenuItem.createFlatMenuItem("Open World...","Ctrl+O");
+      //  item2.setFont(normalFont);
+        // item2.
+        file.add(item2);
+        JMenuItem item3 = FlatMenuItem.createFlatMenuItem("Open Backup...","Ctrl+B");
+        item3.setFont(normalFont);
+        file.add(item3);
+        JMenuItem item5 = FlatMenuItem.createFlatMenuItem("Import World...","Ctrl+Shift+O");
+        item5.setFont(normalFont);
+        file.add(item5);
+        file.add(new JSeparator());
+        JMenuItem item4 = FlatMenuItem.createFlatMenuItem("Exit","");
+        item4.setFont(normalFont);
+        file.add(item4);
         
         JPanel worldsList = new JPanel();
         worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
@@ -244,7 +263,7 @@ public class MainGui {
             world.add(backups);
             root.add(world);
         }
-        Font worldFont = new Font("Segoe UI Light", Font.PLAIN, 13);
+        
       //  root.add(world2);
         JPopupMenu worldMenu1 = FlatPopupMenu.createFlatPopupMenu();
         JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
