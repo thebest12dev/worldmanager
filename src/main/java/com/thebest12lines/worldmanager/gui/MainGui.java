@@ -61,6 +61,8 @@ public class MainGui {
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
       //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+        System.setProperty("java.awt.headless", "true");
+
         ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
@@ -242,6 +244,15 @@ public class MainGui {
         file.add(item5);
         file.add(new JSeparator());
         JMenuItem item4 = FlatMenuItem.createFlatMenuItem("Exit","");
+        item4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                System.exit(0);
+            }
+            
+        });
         item4.setFont(normalFont);
         file.add(item4);
         
