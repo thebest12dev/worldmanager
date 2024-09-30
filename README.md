@@ -1,4 +1,9 @@
 # `worldmanager`
+
+**⚠️Development will be paused for now, as I am testing worldmananager on Ubuntu/Debian. The next update will have a .deb file for installation to Linux users.⚠️**
+
+Supports Windows and Linux (Ubuntu/Debian)
+
 worldmanager (in lowercase) is an advanced world manager for Minecraft. It can save and restore backups, as well as automatically backup when Minecraft is closed.
 
 worldmanager does not need to be installed, just simply download the .zip file and run it.
