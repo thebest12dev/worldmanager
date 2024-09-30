@@ -9,19 +9,26 @@ import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.ZipDirectory;
 import com.thebest12lines.worldmanager.util.Constants;
+import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 
 import java.nio.file.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.setProperty("java.awt.headless", "true");
+      //  System.setProperty("java.awt.headless", "true");
 
         String appDataPath = System.getProperty("user.home") + "\\AppData\\Roaming\\.worldmanager";
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
         
-        Output.printErr("worldmanager 0.1.0 Alpha\nLogs will be outputted to file worldmanager.log.");
+        Output.printErr(
+            Constants.ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
+            +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
+            +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
+            +DataManager.getBranch().substring(1).toLowerCase()
+            +"\nLogs will be outputted to file worldmanager.log."
+        );
         Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");
         
         Output.print("["+Main.class.getCanonicalName()+"]: Verifying libraries exist...");

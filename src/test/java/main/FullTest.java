@@ -10,7 +10,7 @@ public class FullTest {
     @Test
     public void testFullApp() {
         try {
-            System.setProperty("java.awt.headless", "true");
+          //  System.setProperty("java.awt.headless", "true");
 
             Launcher.main(new String[] {});
         } catch (IOException e) {

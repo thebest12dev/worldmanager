@@ -61,7 +61,7 @@ public class MainGui {
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
       //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
-        System.setProperty("java.awt.headless", "true");
+       // System.setProperty("java.awt.headless", "true");
 
         ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

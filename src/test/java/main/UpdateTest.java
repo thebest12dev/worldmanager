@@ -15,7 +15,7 @@ import com.thebest12lines.worldmanager.util.Updater;
 public class UpdateTest {
     @Test
     public void testDeleteUpdate() {
-        System.setProperty("java.awt.headless", "true");
+       // System.setProperty("java.awt.headless", "true");
 
             new File("worldmanager_0.jar").delete();
          
@@ -23,7 +23,7 @@ public class UpdateTest {
     @Test
     public void testUpdateCheck() {
         try {
-            System.setProperty("java.awt.headless", "true");
+          //  System.setProperty("java.awt.headless", "true");
 
             Updater.checkForUpdates();
         } catch (UpdateBuildException e) {
@@ -34,7 +34,7 @@ public class UpdateTest {
     @Test
     public void testUpdateDownload() {
         try {
-            System.setProperty("java.awt.headless", "true");
+          //  System.setProperty("java.awt.headless", "true");
 
             Updater.downloadAndInstallUpdates();
             

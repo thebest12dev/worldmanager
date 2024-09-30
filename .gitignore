@@ -6,4 +6,5 @@ target
 /worldmanager
 !src/main/java/com/thebest12lines/worldmanager/
 test.zip
+/a.out
 # tests
