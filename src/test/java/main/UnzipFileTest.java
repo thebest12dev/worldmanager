@@ -4,8 +4,9 @@ package main;
 
 import org.junit.jupiter.api.Test;
 
+//import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.launcher.Launcher;
-import com.thebest12lines.worldmanager.util.Updater;
+// import com.thebest12lines.worldmanager.util.Updater;
 
 public class UnzipFileTest {
     @Test
@@ -13,7 +14,7 @@ public class UnzipFileTest {
         try {
           ///  System.setProperty("java.awt.headless", "true");
 
-            Launcher.main(new String[] {"test.zip"});
+            Launcher.main(new String[] {"./test.zip"});
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -22,4 +23,5 @@ public class UnzipFileTest {
             // Updater.checkForUpdates();
         
     }
+
 }

@@ -1,4 +1,4 @@
-
+rem For Windows only
 
 @echo off
 

@@ -3,7 +3,7 @@ package com.thebest12lines.worldmanager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
+
 import java.io.PrintStream;
 import java.nio.file.Files;
 
@@ -12,16 +12,16 @@ public class Output {
     private static PrintStream consoleStream;
     private static Process console;
     private static void initializeConsole() {
-        try {
-            console = Runtime.getRuntime().exec(new String[] {"cmd","/c","start","cmd.exe","/c","prompt", "$S","&"
-            , "cls", "&", ""
-        });
-            consoleStream = new PrintStream(console.getOutputStream());
+        // try {
+        //   //  console = Runtime.getRuntime().exec(new String[] {"cmd","/c","start","cmd.exe","/c","prompt", "$S","&"
+        //   //  , "cls", "&", ""
+        // //});
+        //     //consoleStream = new PrintStream(console.getOutputStream());
             
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
     }
     public static void print(String object) {
         if (console == null) {
@@ -29,7 +29,7 @@ public class Output {
         }
         if (stream != null) {
             System.setOut(stream);
-            System.setErr(consoleStream);
+            //System.setErr(consoleStream);
             System.out.println(object);
             if (consoleOutput) {
                 System.err.println(object);
@@ -50,7 +50,7 @@ public class Output {
                     stream = new PrintStream(new File("worldmanager.log"));
                 } else {
                     stream = new PrintStream(new File("worldmanager.log"));
-                    
+                    consoleStream = System.out;
                     System.setErr(consoleStream);
                     System.err.println(object);
                 }

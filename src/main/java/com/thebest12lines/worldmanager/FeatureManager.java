@@ -2,7 +2,7 @@ package com.thebest12lines.worldmanager;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Constants.FeatureLoadResult;
-import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
+
 
 public class FeatureManager {
     public static boolean isFeatureEnabled(String feature) {

@@ -3,24 +3,21 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import com.thebest12lines.worldmanager.Output;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 
 public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
     private Icon customIcon; // Your custom icon
     private Font customFont; // Your custom font
     private Icon worldIcon;
-    private JPopupMenu menu;
+  //  private JPopupMenu menu;
 
     public FlatTreeCellRenderer(Icon customIcon, Font customFont,Icon worldIcon, JPopupMenu menu) {
         this.customIcon = customIcon;
         this.customFont = customFont;
         this.worldIcon = worldIcon;
-        this.menu = menu;
+       // this.menu = menu;
         
     }
 

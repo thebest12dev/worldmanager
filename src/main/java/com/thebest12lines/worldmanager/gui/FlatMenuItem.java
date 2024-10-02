@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-import javax.swing.border.Border;
+//import javax.swing.border.Border;
 
 public class FlatMenuItem {
     public static JMenuItem createFlatMenuItem(String text, String shortcut) {

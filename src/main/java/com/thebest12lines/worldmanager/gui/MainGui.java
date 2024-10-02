@@ -4,34 +4,36 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+
 import java.awt.Font;
-import java.awt.Image;
+
 import java.awt.Insets;
-import com.thebest12lines.worldmanager.gui.FlatLabel;
+
+import com.thebest12lines.worldmanager.Output;
+
 import com.thebest12lines.worldmanager.util.Updater;
 import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
 import com.thebest12lines.worldmanager.world.World;
 import com.thebest12lines.worldmanager.util.UpdateBuildException;
 
-import java.awt.Panel;
-import java.awt.Point;
-import java.awt.Toolkit;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.ArrayList;
 //import org.json.*;
-import java.util.concurrent.Flow;
+
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
+
 import javax.swing.tree.TreePath;
 
 
@@ -50,7 +52,7 @@ public class MainGui {
         
         
     }
-    protected static JFrame mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+    protected static JFrame mainFrame = new JFrame("worldmanager");
     protected static JMenuBar menuBar;
     /**
      * Launches the main GUI.
@@ -62,9 +64,17 @@ public class MainGui {
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
       //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
        // System.setProperty("java.awt.headless", "true");
-
+       mainFrame.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            // Choose your desired behavior:
+            mainFrame.setVisible(false); // Hide the window
+            mainFrame.dispose(); // Dispose of the window's resources
+            System.exit(0); // Terminate the application
+        }
+    });
         ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
        // mainFrame.setBackground(new Color());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -265,18 +275,21 @@ public class MainGui {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Worlds (Java Edition)");
        // DefaultMutableTreeNode world2 = new DefaultMutableTreeNode("World1");
       //
+      JPopupMenu worldMenu1 = FlatPopupMenu.createFlatPopupMenu();
         World[] worldsArray = (World[]) SaveManager.getWorlds();
         for (World object : worldsArray) {
             
             DefaultMutableTreeNode world = new DefaultMutableTreeNode(object.getWorldName());
             
             DefaultMutableTreeNode backups = new DefaultMutableTreeNode("Backups");
+            
             world.add(backups);
+            
             root.add(world);
         }
         
       //  root.add(world2);
-        JPopupMenu worldMenu1 = FlatPopupMenu.createFlatPopupMenu();
+        
         JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
         worldMenuItem1.setBorder(null);
         worldMenuItem1.setFont(worldFont);
@@ -296,16 +309,38 @@ public class MainGui {
 
         JTree worlds = new JTree(model);
         worlds.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.isPopupTrigger()) {
+                    onContext(e);
+                    
+                }
+            }
+            
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    onContext(e);
+                }
+                // TODO Auto-generated method stub
+                
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // TODO Auto-generated method stub
+                onContext(e);
+            }
+            public void onContext(MouseEvent e) {
+                Output.print("["+MainGui.class.getCanonicalName()+"]: Right click context open (World)");
                     TreePath path = worlds.getPathForLocation(e.getX(), e.getY());
                     if (path != null) {
                         worlds.setSelectionPath(path);
                         worldMenu1.show(e.getComponent(), e.getX(), e.getY());
                     }
-                }
             }
+            
         });
+       
         
        // worlds.setBackground(new Color(210, 210, 210));
       //  worlds.setPreferredSize(new Dimension(150, mainFrameHeight));

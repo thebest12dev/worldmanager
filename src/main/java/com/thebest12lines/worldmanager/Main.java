@@ -1,23 +1,24 @@
 package com.thebest12lines.worldmanager;
 import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.PrintStream;
-import java.util.zip.ZipOutputStream;
 
-import org.json.JSONObject;
 
-import com.thebest12lines.worldmanager.ZipDirectory;
+
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 
-import java.nio.file.*;
+
 
 public class Main {
     public static void main(String[] args) {
       //  System.setProperty("java.awt.headless", "true");
-
+        //System.out.println(System.getProperty("os.name"));
         String appDataPath = System.getProperty("user.home") + "\\AppData\\Roaming\\.worldmanager";
+        if (System.getProperty("os.name") == "Linux") {
+            appDataPath = System.getProperty("user.home") + "/.worldmanager";
+        }
+        
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();

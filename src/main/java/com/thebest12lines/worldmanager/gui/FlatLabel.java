@@ -1,13 +1,12 @@
 package com.thebest12lines.worldmanager.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.Font;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
+
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
+
 
 public class FlatLabel {
     /**
