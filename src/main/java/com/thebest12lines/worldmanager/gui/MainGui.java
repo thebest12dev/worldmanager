@@ -238,6 +238,33 @@ public class MainGui {
         jMenus.add(FlatMenu.createFlatMenu("World", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("Help", menuBar));
         JMenu file = jMenus.get(0);
+        JMenu help = jMenus.get(3);
+      //  help.add(new JSeparator());
+      
+        JFrame infoFrame = new JFrame("About worldmanager");
+        infoFrame.setSize(500,300);
+        infoFrame.setResizable(false);
+        infoFrame.setAlwaysOnTop(true);
+        
+
+        JMenuItem info = FlatMenuItem.createFlatMenuItem("About", "");
+        info.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int mainFrameX = mainFrame.getX();
+                int mainFrameY = mainFrame.getY();
+                int mainFrameWidth = mainFrame.getWidth();
+                int mainFrameHeight = mainFrame.getHeight();
+
+                int updateFrameX = mainFrameX + (mainFrameWidth - updateFrame.getWidth()) / 2;
+                int updateFrameY = mainFrameY + (mainFrameHeight - updateFrame.getHeight()) / 2;
+                infoFrame.setVisible(true);
+                infoFrame.setLocation(updateFrameX, updateFrameY);
+            }
+            
+        });
+        help.add(info);
         JMenuItem item1 = FlatMenuItem.createFlatMenuItem("New Backup","Ctrl+N");
         item1.setFont(normalFont);
         file.add(item1);

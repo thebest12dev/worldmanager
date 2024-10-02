@@ -1,3 +1,20 @@
+/**
+ * <code>worldmanager v0.2.0 Alpha</code>
+ * <p>
+ * The worldmanager.core module for core features present in the program. Without this module, worldmanager would not work. This module has a special worldmanager.json file that is configured to save and get storage from it. This module also depends on 2 open source moudles. See README.md for attribution.
+ * This code is subject to updates, so make sure that worldmanager is updated before launching it.
+ * </p>
+ * <p>
+ * This project is licensed under the MIT License, which means you are free to modify, distribute or do anything with it as LONG you include the MIT license and include the original copyright holder (thebest12lines).
+ * </p>
+ * @version 0.2.0 Alpha
+ * @since Initial release
+ * @author thebest12lines
+ * @see README.md
+ * 
+ * @uses org.json, NBT
+ * @apiNote Please use the worldmanager.features module to use the API.
+ */
 module worldmanager.core {
     requires java.base;
    // requires java.desktop;

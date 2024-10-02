@@ -75,5 +75,11 @@ public class DataManager {
             e.printStackTrace();
         }
     }
+    public static Object getSetting(String key) {
+        if (json == null) {
+            initialize();
+        }
+        return json.getJSONObject("worldmanagerPreferences").get(key);
+    }
     
 }

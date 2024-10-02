@@ -1,6 +1,8 @@
 # `worldmanager`
 worldmanager (in lowercase) is an advanced world manager for Minecraft. It can save and restore backups, as well as automatically backup when Minecraft is closed.
 
+**NOT AN OFFICIAL MINECRAFT PROGRAM. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT**
+
 worldmanager does not need to be installed, just simply download the .zip file and run it.
 
 ## Features

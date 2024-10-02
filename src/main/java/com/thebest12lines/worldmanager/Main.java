@@ -22,14 +22,27 @@ public class Main {
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
-        
+        if ((boolean) DataManager.getSetting("debug") == true) {
         Output.printErr(
             Constants.ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
             +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
             +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
             +DataManager.getBranch().substring(1).toLowerCase()
-            +"\nLogs will be outputted to file worldmanager.log."
+            +" (Debug Mode)\nLogs will be outputted to file worldmanager.log."
         );
+        } else {
+            Output.printErr(
+                Constants.ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
+                +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
+                +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
+                +DataManager.getBranch().substring(1).toLowerCase()
+                +"\nLogs will be outputted to file worldmanager.log."
+            );
+        }
+        if ((boolean) DataManager.getSetting("verbose") == true) {
+            Output.consoleOutput = true;
+        }
+       
         Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");
         
         Output.print("["+Main.class.getCanonicalName()+"]: Verifying libraries exist...");
