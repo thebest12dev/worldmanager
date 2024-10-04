@@ -6,8 +6,9 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 
 import java.awt.Font;
-
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.List;
 
 import com.thebest12lines.worldmanager.Output;
 
@@ -72,17 +73,23 @@ public class MainGui {
             mainFrame.dispose(); // Dispose of the window's resources
             System.exit(0); // Terminate the application
         }
-    });
-        ImageIcon icon = createImageIcon("/minecraft.png", "Minecraft Icon");
+    }); 
+        ArrayList<Image> icons = new ArrayList<>();
+        icons.add(createImageIcon("/icon16.png").getImage());
+        icons.add(createImageIcon("/icon32.png").getImage());
+
+        mainFrame.setIconImages(icons);
+        
         //mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 500);
+        
        // mainFrame.setBackground(new Color());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         JFrame updateFrame = new JFrame("Update");
        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-        if (icon != null) {
-            mainFrame.setIconImage(icon.getImage());
-        }
+       
+            // mainFrame.setIconImage(null);
+        
         UIManager.put("Tree.drawsFocusBorderAroundIcon", false);
         UIManager.put("Tree.drawDashedFocusIndicator", false);
 
@@ -244,10 +251,17 @@ public class MainGui {
         JFrame infoFrame = new JFrame("About worldmanager");
         infoFrame.setSize(500,300);
         infoFrame.setResizable(false);
+        infoFrame.setLayout(new BorderLayout());
+        infoFrame.setIconImages(icons);
         infoFrame.setAlwaysOnTop(true);
+        JLabel version = new JLabel("An open source world manager for Minecraft");
         
-
+        version.setFont(normalFont);
+        
+        infoFrame.add(new JLabel(createImageIcon("/logo.png")),BorderLayout.NORTH);
+        infoFrame.add(version);
         JMenuItem info = FlatMenuItem.createFlatMenuItem("About", "");
+
         info.addActionListener(new ActionListener() {
 
             @Override
@@ -355,7 +369,9 @@ public class MainGui {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // TODO Auto-generated method stub
+                if (e.isPopupTrigger()) {
                 onContext(e);
+                }
             }
             public void onContext(MouseEvent e) {
                 Output.print("["+MainGui.class.getCanonicalName()+"]: Right click context open (World)");
@@ -459,4 +475,13 @@ public class MainGui {
             return null;
         }
     }
+    public static ImageIcon createImageIcon(String path) {
+        java.net.URL imgURL = MainGui.class.getResource(path);
+    if (imgURL != null) {
+        return new ImageIcon(imgURL);
+    } else {
+        System.err.println("Couldn't find file: " + path);
+        return null;
+    }
+}
 }
