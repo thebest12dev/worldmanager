@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,6 +74,12 @@ public class DataManager {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    public static Object getSetting(String key) {
+        if (json == null) {
+            initialize();
+        }
+        return json.getJSONObject("worldmanagerPreferences").get(key);
     }
     
 }

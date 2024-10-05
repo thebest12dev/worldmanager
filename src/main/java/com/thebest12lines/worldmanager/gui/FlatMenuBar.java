@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
+//import javax.swing.Box;
+//import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
 
 public class FlatMenuBar {

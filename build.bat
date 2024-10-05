@@ -1,4 +1,4 @@
-
+:: For Windows only
 
 @echo off
 
@@ -38,5 +38,5 @@ call :HASH_FILE
 
 :HASH_FILE
 for /f %%a in ('certutil.exe -hashfile "%LIBRARIES%\%FILE%" SHA256 ^| findstr /i /v "SHA256 hash of version:"') do set "HASH_RESULT=%%a"
-rename %LIBRARIES%\%FILE% %HASH_RESULT%
+rename %LIBRARIES%\%FILE% %HASH_RESULT%".jar"
 exit /b
