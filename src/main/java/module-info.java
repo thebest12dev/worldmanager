@@ -10,10 +10,6 @@
  * @version 0.2.0 Alpha
  * @since Initial release
  * @author thebest12lines
- * @see README.md
- * 
- * @uses org.json, NBT
- * @apiNote Please use the worldmanager.features module to use the API.
  */
 module worldmanager.core {
     requires java.base;
