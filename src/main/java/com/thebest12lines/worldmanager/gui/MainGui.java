@@ -4,21 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
-
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.List;
-
 import com.thebest12lines.worldmanager.Output;
-
 import com.thebest12lines.worldmanager.util.Updater;
 import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
 import com.thebest12lines.worldmanager.world.World;
 import com.thebest12lines.worldmanager.util.UpdateBuildException;
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,14 +21,25 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.ArrayList;
-//import org.json.*;
-
-
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
 import javax.swing.tree.TreePath;
 
 
@@ -173,7 +178,7 @@ public class MainGui {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                // 
                try {
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 URI url = new URI("https://github.com/thebest12dev/worldmanager/releases/latest"); // Replace with your desired URL
@@ -204,14 +209,14 @@ public class MainGui {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                // 
                     Thread thread = new Thread("UpdateThread"){
                         @Override
                         public void run() {
                             try {
                                 Updater.downloadAndInstallUpdates();
                             } catch (Exception e) {
-                                // TODO Auto-generated catch block
+                                // 
                                 e.printStackTrace();
                             }
                         }
@@ -299,7 +304,7 @@ public class MainGui {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                // 
                 System.exit(0);
             }
             
@@ -363,12 +368,12 @@ public class MainGui {
                 if (e.isPopupTrigger()) {
                     onContext(e);
                 }
-                // TODO Auto-generated method stub
+                // 
                 
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                // TODO Auto-generated method stub
+                // 
                 if (e.isPopupTrigger()) {
                 onContext(e);
                 }
@@ -440,7 +445,7 @@ public class MainGui {
         //     //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         // } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
         //         | UnsupportedLookAndFeelException e) {
-        //     // TODO Auto-generated catch block
+        //     // 
         //     e.printStackTrace();
         // }
         mainFrame.setVisible(true);
@@ -462,7 +467,7 @@ public class MainGui {
                 updateFrame.setVisible(true);
             }
         } catch (UpdateBuildException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
     }

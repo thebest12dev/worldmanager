@@ -36,7 +36,7 @@ public class FeatureManager {
             return result;
             
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
             
         }
@@ -52,7 +52,7 @@ public class FeatureManager {
             //Output.print(array.toList().toString());
             return array.toList().toArray();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
             
         }
@@ -72,26 +72,26 @@ public class FeatureManager {
                     } catch (MalformedURLException e) {
                         throw e;
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         e.printStackTrace();
                     } catch (NoSuchMethodException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         e.printStackTrace();
                         return FeatureLoadResult.CANNOT_FIND_METHOD;
                     } catch (SecurityException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         e.printStackTrace();
                     } catch (InvocationTargetException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         e.printStackTrace();
                     } 
                 
                     
                 } catch (MalformedURLException | ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
+                    // 
                     e.printStackTrace();
                     return FeatureLoadResult.CANNOT_FIND_CLASS;
                 }

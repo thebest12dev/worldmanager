@@ -50,12 +50,12 @@ public class Updater {
                 }
               //  s.close();
             } catch (NumberFormatException e) {
-                // TODO Auto-generated catch block
+                // 
                 e.printStackTrace();
             }
             
         } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
        
@@ -70,7 +70,7 @@ public class Updater {
         try {
             Files.lines(Paths.get("worldmanager.json")).forEach(builder::append);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
         JSONObject obj = new JSONObject(builder.toString());

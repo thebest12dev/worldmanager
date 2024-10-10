@@ -13,6 +13,5 @@
         "webDebugPort": "random",
         "debug": false,
         "verbose": false
-    },
-    "worldmanagerData": {}
+    }
 }

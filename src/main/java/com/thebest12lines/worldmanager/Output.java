@@ -19,7 +19,7 @@ public class Output {
         //     //consoleStream = new PrintStream(console.getOutputStream());
             
         // } catch (IOException e) {
-        //     // TODO Auto-generated catch block
+        //     // 
         //     e.printStackTrace();
         // }
     }
@@ -40,7 +40,7 @@ public class Output {
                     try {
                         Files.write(new File("worldmanager.log").toPath(), "".getBytes());
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         Output.print("Output1");
                         e.printStackTrace();
                     }
@@ -60,7 +60,7 @@ public class Output {
                 System.out.println(object);
                 
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
+                //
                 Output.print("Error while outputting:");
                 e.printStackTrace();
             }

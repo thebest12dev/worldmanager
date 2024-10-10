@@ -73,10 +73,10 @@ public class Main {
                 
                 }
             } catch (NoSuchAlgorithmException e) {
-                // TODO Auto-generated catch block
+                // 
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
+                // 
                 e.printStackTrace();
             }
         }
@@ -130,7 +130,7 @@ public class Main {
                 try {
                     ZipDirectory.uncompressToSavesFolder(zipLoc);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    // 
                     e.printStackTrace();
                 }
                 // if (verbose) {

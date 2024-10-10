@@ -39,7 +39,7 @@ public class FlatMenuItem {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
+                // 
                 panel.setBackground(defaultBackground);
                 menuItem.setBackground(defaultBackground);
             }
