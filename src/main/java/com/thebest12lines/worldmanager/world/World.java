@@ -41,12 +41,13 @@ public class World extends Object{
 
             @Override
             public void run() {
-                 String backupPath = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))+"_World";
-         File fileToZip = new File(path);
+                 String backupPath = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss.SSS'Z'"))+"_"+getWorldName();
+                
          new File(path+"\\backups\\").mkdir();
-        try (FileOutputStream fos = new FileOutputStream(path+"\\backups\\"+backupPath+".zip");
-             ZipOutputStream zipOut = new ZipOutputStream(fos)) {
-             ZipDirectory.zipFile(fileToZip, fileToZip.getName(), zipOut);
+        try {;
+            System.err.println(path);
+             new File(path+"\\backups\\"+backupPath+".zip").createNewFile();
+             ZipDirectory.zipDirectory(getWorldPath(), getWorldPath()+"\\backups\\"+backupPath+".zip", path+"\\backups");
              isBackingUp = false;
         } catch (IOException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import com.thebest12lines.worldmanager.Output;
+import com.thebest12lines.worldmanager.ZipDirectory;
 import com.thebest12lines.worldmanager.util.Updater;
 import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
@@ -325,9 +326,11 @@ public class MainGui {
         World[] worldsArray = (World[]) SaveManager.getWorlds();
         for (World object : worldsArray) {
             
-            DefaultMutableTreeNode world = new DefaultMutableTreeNode(object.getWorldName());
+            WorldMutableTreeNode world = new WorldMutableTreeNode(object.getWorldName());
+            world.setWorld(object);
             
-            DefaultMutableTreeNode backups = new DefaultMutableTreeNode("Backups");
+           WorldMutableTreeNode backups = new WorldMutableTreeNode("Backups");
+           backups.setWorld(object);
             
             world.add(backups);
             
@@ -336,11 +339,13 @@ public class MainGui {
         
       //  root.add(world2);
         
-        JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
-        worldMenuItem1.setBorder(null);
-        worldMenuItem1.setFont(worldFont);
-        worldMenu1.add(worldMenuItem1);
-
+                
+      JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
+        
+      worldMenuItem1.setBorder(null);
+      worldMenuItem1.setFont(worldFont);
+      worldMenu1.add(worldMenuItem1);
+      
         JMenuItem worldMenuItem2 = new JMenuItem("Delete World");
         worldMenuItem2.setBorder(null);
         worldMenuItem2.setFont(worldFont);
@@ -354,6 +359,7 @@ public class MainGui {
         JPanel jPanel = new JPanel(new BorderLayout());
 
         JTree worlds = new JTree(model);
+        WorldMutableTreeNode[] treeNodes = new WorldMutableTreeNode[1];
         worlds.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -382,13 +388,38 @@ public class MainGui {
                 Output.print("["+MainGui.class.getCanonicalName()+"]: Right click context open (World)");
                     TreePath path = worlds.getPathForLocation(e.getX(), e.getY());
                     if (path != null) {
+                        
+                        
+                        
+                
+                        
+                        treeNodes[0] = (WorldMutableTreeNode) path.getLastPathComponent();
                         worlds.setSelectionPath(path);
                         worldMenu1.show(e.getComponent(), e.getX(), e.getY());
                     }
             }
             
         });
-       
+        boolean[] r = {false};
+        
+        ActionListener t = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                try {
+                    if (treeNodes[0] != null) {
+                        treeNodes[0].getWorld().backupWorld();
+                    }
+                   
+                } catch (Exception ef) {
+                    ef.printStackTrace();
+                }
+                
+            }
+            
+          };
+          worldMenuItem1.addActionListener(t);
         
        // worlds.setBackground(new Color(210, 210, 210));
       //  worlds.setPreferredSize(new Dimension(150, mainFrameHeight));

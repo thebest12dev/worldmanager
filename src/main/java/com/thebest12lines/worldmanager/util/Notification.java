@@ -1,25 +1,74 @@
 package com.thebest12lines.worldmanager.util;
-import java.awt.desktop.*;
-import java.awt.*;;
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
+import java.io.IOException;
 
 
 public class Notification {
-    public void displayTray() throws AWTException {
+    private String title;
+    private String text;
+    private TrayIcon ti;
+    public Notification setText(String text) {
+        this.text = text;
+        return this;
+    }
+    public Notification setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+    public String getText() {
+        return text;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public void show() throws AWTException{
         //Obtain only one instance of the SystemTray object
-        SystemTray tray = SystemTray.getSystemTray();
-        M
+        
+        if (System.getProperty("os.name").contains("Windows")) {
+            SystemTray tray = SystemTray.getSystemTray();
+        
         //If the icon is a file
-        Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
+        Image image = Toolkit.getDefaultToolkit().createImage("");
         //Alternative (if the icon is on the classpath):
         //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
-
-        TrayIcon trayIcon = new TrayIcon(image, "Tray Demo");
+        if (ti == null) {
+            ti = new TrayIcon(image, "Program");
+        }
+        
         //Let the system resize the image if needed
-        trayIcon.setImageAutoSize(true);
+        ti.setImageAutoSize(true);
         //Set tooltip text for the tray icon
-        trayIcon.setToolTip("System tray icon demo");
-        tray.add(trayIcon);
+        ti.setToolTip("System tray");
+        tray.add(ti);
 
-        trayIcon.displayMessage("Hello, World", "notification demo", MessageType.INFO);
+        ti.displayMessage(title, text, MessageType.INFO);
+        
+        } else if (System.getProperty("os.name").equals("Linux")) {
+            String[] cmd = { "/usr/bin/notify-send",
+            "-a",title,
+                 "-t",
+                 "10000",
+                 text};
+            try {
+                Runtime.getRuntime().exec(cmd);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
+    }
+    protected Notification(String title, String text) {
+        this.text = text;
+        this.title = title;
+    }
+    protected Notification(String text) {
+        this.text = text;
+        this.title = "Notification";
     }
 }
