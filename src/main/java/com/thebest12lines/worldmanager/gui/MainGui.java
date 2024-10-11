@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+
+import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Output;
 import com.thebest12lines.worldmanager.ZipDirectory;
 import com.thebest12lines.worldmanager.util.Updater;
@@ -22,6 +24,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -67,10 +71,14 @@ public class MainGui {
      * @throws InstantiationException
      * @throws IllegalAccessException
      * @throws UnsupportedLookAndFeelException
+     * @throws InterruptedException 
      */
-    public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException {
       //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
        // System.setProperty("java.awt.headless", "true");
+       if ((Boolean) DataManager.getSetting("debug")) {
+            mainFrame.setTitle("worldmanager "+DataManager.getFullVersion()+" @ "+System.getProperty("os.name"));
+       }
        mainFrame.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

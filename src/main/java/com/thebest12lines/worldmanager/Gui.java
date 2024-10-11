@@ -20,8 +20,7 @@ public class Gui {
             Output.print("["+RunnableImpl.class.getCanonicalName()+"]: Launching GUI");
             try {
                 MainGui.launch();
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                    | UnsupportedLookAndFeelException e) {
+            } catch (Exception e) {
                 // 
                 e.printStackTrace();
             }
