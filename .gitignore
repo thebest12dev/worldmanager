@@ -6,3 +6,5 @@ target
 !src/main/java/com/thebest12lines/worldmanager/
 test.zip
 # tests
+worldmanager_0.jar
+worldmanager.data.json
