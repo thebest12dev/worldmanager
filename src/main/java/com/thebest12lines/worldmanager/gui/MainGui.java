@@ -10,13 +10,13 @@ import java.awt.Insets;
 
 import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Output;
-import com.thebest12lines.worldmanager.ZipDirectory;
+//import com.thebest12lines.worldmanager.ZipDirectory;
 import com.thebest12lines.worldmanager.util.Updater;
-import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
+//import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
 import com.thebest12lines.worldmanager.world.World;
 import com.thebest12lines.worldmanager.util.SystemSettings;
-import com.thebest12lines.worldmanager.util.UpdateBuildException;
+//import com.thebest12lines.worldmanager.util.UpdateBuildException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,7 +26,7 @@ import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Random;
+//import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -42,7 +42,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
-import javax.swing.LookAndFeel;
+//import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -70,6 +70,14 @@ public class MainGui {
     public static Color fgColor;
     protected static JFrame mainFrame = new JFrame("worldmanager");
     protected static JMenuBar menuBar;
+    public static ArrayList<Image> icons;
+    public static JFrame updateFrame;
+    public static int updateFrameX;
+    public static int updateFrameY;
+    public static int mainFrameHeight;
+    public static int mainFrameWidth;
+    public static int mainFrameX;
+    public static int mainFrameY;
     /**
      * Launches the main GUI.
      * @throws ClassNotFoundException
@@ -79,13 +87,31 @@ public class MainGui {
      * @throws InterruptedException 
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException {
-      //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+        initialize();
+        initializeFrames();
+        drawMenus();
+        drawWorlds();
+    };
+    private static void initialize() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
        bgColor = new Color(255,255,255);
        fgColor = new Color(0,0,0);
     
       // mainFrame.setUndecorated(true);
       System.out.println(SystemSettings.getSystemTheme().equals("Dark"));
       if (SystemSettings.getSystemTheme().equals("Dark")) {
+        bgColor = new Color(37,37,37);
+        fgColor = new Color(255,255,255);
+        mainFrame.setBackground(bgColor);
+        mainFrame.setForeground(fgColor);
+      }
+      if (DataManager.getSetting("theme").equals("light")) {
+        bgColor = new Color(255,255,255);
+        fgColor = new Color(0,0,0);
+        mainFrame.setBackground(bgColor);
+        mainFrame.setForeground(fgColor);
+      }
+      if (DataManager.getSetting("theme").equals("dark")) {
         bgColor = new Color(37,37,37);
         fgColor = new Color(255,255,255);
         mainFrame.setBackground(bgColor);
@@ -116,7 +142,7 @@ public class MainGui {
             System.exit(0); // Terminate the application
         }
     }); 
-        ArrayList<Image> icons = new ArrayList<>();
+        icons = new ArrayList<>();
         icons.add(createImageIcon("/icon16.png").getImage());
         icons.add(createImageIcon("/icon32.png").getImage());
 
@@ -127,156 +153,160 @@ public class MainGui {
         
        // mainFrame.setBackground(new Color());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        JFrame updateFrame = new JFrame("Update");
-       // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-       
-            // mainFrame.setIconImage(null);
+    }
+      private static void initializeFrames() {
+         updateFrame = new JFrame("Update");
+        // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         
-        UIManager.put("Tree.drawsFocusBorderAroundIcon", false);
-        UIManager.put("Tree.drawDashedFocusIndicator", false);
-
-        // updateFrame.setVisible(true);
-        updateFrame.setResizable(false);
-        updateFrame.setSize(500, 300);
-
-        int mainFrameX = mainFrame.getX();
-        int mainFrameY = mainFrame.getY();
-        int mainFrameWidth = mainFrame.getWidth();
-        int mainFrameHeight = mainFrame.getHeight();
-
-        int updateFrameX = mainFrameX + (mainFrameWidth - updateFrame.getWidth()) / 2;
-        int updateFrameY = mainFrameY + (mainFrameHeight - updateFrame.getHeight()) / 2;
-
-        updateFrame.setLocation(updateFrameX, updateFrameY);
-        updateFrame.setAlwaysOnTop(true);
-        updateFrame.setType(JFrame.Type.UTILITY);
-        updateFrame.setLayout(new BorderLayout());
-        
-
-        JLabel updateVersion = FlatLabel.createFlatLabel("0.1.0 Alpha");
-        JPanel panel_ = new JPanel();
-        
-        updateVersion.setFont(new Font("Segoe UI",Font.PLAIN,25));
-        panel_.add(updateVersion);
-        JTextArea changelog = new JTextArea();
-        JPanel panel2 = new JPanel();
-        changelog.setFont(new Font("Segoe UI",Font.PLAIN,16));
-       // changelog.setPreferredSize(new Dimension(100, 200));
-        changelog.setLineWrap(true); // Enable line wrapping
-        changelog.setWrapStyleWord(true); // Wrap at word boundaries
-        changelog.setRows(8);
-        changelog.setColumns(34);
-        changelog.setEditable(true);
-        changelog.setText("     We recommend you install the latest update to experience the                                       latest bug fixes and features.\r\n" + //
-                    "\r\n" + //
-                    "                                        - Added new features\r\n" + //
-                    "                                        - Added updating (0.1.0+)");
-        
-      //  changelog.setBackground(Color.lightGray);
-        panel2.add(changelog);
-        JScrollPane scrollPane =new JScrollPane(changelog);
-        scrollPane.setBorder(null);
-        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-                @Override
-                protected void configureScrollBarColors() {
-                    int r = 255;
-                    int g = 190;
-                    this.thumbColor = new Color(g,g,g);
-                    this.trackColor = new Color(r,r,r);
-                }
-
-                @Override
-                protected JButton createDecreaseButton(int orientation) {
-                    return createZeroButton();
-                }
-
-                @Override
-                protected JButton createIncreaseButton(int orientation) {
-                    return createZeroButton();
-                }
-
-                private JButton createZeroButton() {
-                    JButton button = new JButton();
-                    button.setPreferredSize(new Dimension(0, 0));
-                    button.setMinimumSize(new Dimension(0, 0));
-                    button.setMaximumSize(new Dimension(0, 0));
-                    return button;
-                }
-            });
-        panel2.add(scrollPane);
-        updateFrame.add(panel_,BorderLayout.NORTH);
-       // JButton updateButton = FlatButton.createFlatButton();
-        
-        JButton changelogButton = FlatButton.createFlatButton("<html><center>Changelog</center></html>");
-        changelogButton.setFont(new Font("Segoe UI",Font.PLAIN,16));
-        changelogButton.setMargin(new Insets(10,10,10,10));
-        changelogButton.setPreferredSize(new Dimension(90,30));
-        changelogButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 
-               try {
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                URI url = new URI("https://github.com/thebest12dev/worldmanager/releases/latest"); // Replace with your desired URL
-                Desktop.getDesktop().browse(url);
-            } else {
-                System.out.println("Desktop browsing is not supported on this platform.");
-            }
-        } catch (Exception e2) {
-            e2.printStackTrace();
-        }
-        }
-               
-            
-            
-            
-        });
-        JPanel btnPanel = new JPanel();
-        //btnPanel.setLayout(new BorderLayout());
-        updateFrame.add(panel2);
-        JButton updateButton = FlatButton.createFlatButton("<html><center>Update</center></html>");
-
-    
-        updateButton.setFont(new Font("Segoe UI",Font.PLAIN,16));
-        updateButton.setMargin(new Insets(10,10,10,10));
-        updateButton.setPreferredSize(new Dimension(70,30));
-        updateButton.setLocation(15, 15);
-        updateButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 
-                    Thread thread = new Thread("UpdateThread"){
-                        @Override
-                        public void run() {
-                            try {
-                                Updater.downloadAndInstallUpdates();
-                            } catch (Exception e) {
-                                // 
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                    thread.start();
+             // mainFrame.setIconImage(null);
+         
+         UIManager.put("Tree.drawsFocusBorderAroundIcon", false);
+         UIManager.put("Tree.drawDashedFocusIndicator", false);
+ 
+         // updateFrame.setVisible(true);
+         updateFrame.setResizable(false);
+         updateFrame.setSize(500, 300);
+ 
+          mainFrameX = mainFrame.getX();
+          mainFrameY = mainFrame.getY();
+          mainFrameWidth = mainFrame.getWidth();
+          mainFrameHeight = mainFrame.getHeight();
+ 
+          updateFrameX = mainFrameX + (mainFrameWidth - updateFrame.getWidth()) / 2;
+          updateFrameY = mainFrameY + (mainFrameHeight - updateFrame.getHeight()) / 2;
+ 
+         updateFrame.setLocation(updateFrameX, updateFrameY);
+         updateFrame.setAlwaysOnTop(true);
+         updateFrame.setType(JFrame.Type.UTILITY);
+         updateFrame.setLayout(new BorderLayout());
+         
+ 
+         JLabel updateVersion = FlatLabel.createFlatLabel("0.1.0 Alpha");
+         JPanel panel_ = new JPanel();
+         
+         updateVersion.setFont(new Font("Segoe UI",Font.PLAIN,25));
+         panel_.add(updateVersion);
+         JTextArea changelog = new JTextArea();
+         JPanel panel2 = new JPanel();
+         changelog.setFont(new Font("Segoe UI",Font.PLAIN,16));
+        // changelog.setPreferredSize(new Dimension(100, 200));
+         changelog.setLineWrap(true); // Enable line wrapping
+         changelog.setWrapStyleWord(true); // Wrap at word boundaries
+         changelog.setRows(8);
+         changelog.setColumns(34);
+         changelog.setEditable(true);
+         changelog.setText("     We recommend you install the latest update to experience the                                       latest bug fixes and features.\r\n" + //
+                     "\r\n" + //
+                     "                                        - Added new features\r\n" + //
+                     "                                        - Added updating (0.1.0+)");
+         
+       //  changelog.setBackground(Color.lightGray);
+         panel2.add(changelog);
+         JScrollPane scrollPane =new JScrollPane(changelog);
+         scrollPane.setBorder(null);
+         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+                 @Override
+                 protected void configureScrollBarColors() {
+                     int r = 255;
+                     int g = 190;
+                     this.thumbColor = new Color(g,g,g);
+                     this.trackColor = new Color(r,r,r);
+                 }
+ 
+                 @Override
+                 protected JButton createDecreaseButton(int orientation) {
+                     return createZeroButton();
+                 }
+ 
+                 @Override
+                 protected JButton createIncreaseButton(int orientation) {
+                     return createZeroButton();
+                 }
+ 
+                 private JButton createZeroButton() {
+                     JButton button = new JButton();
+                     button.setPreferredSize(new Dimension(0, 0));
+                     button.setMinimumSize(new Dimension(0, 0));
+                     button.setMaximumSize(new Dimension(0, 0));
+                     return button;
+                 }
+             });
+         panel2.add(scrollPane);
+         updateFrame.add(panel_,BorderLayout.NORTH);
+        // JButton updateButton = FlatButton.createFlatButton();
+         
+         JButton changelogButton = FlatButton.createFlatButton("<html><center>Changelog</center></html>");
+         changelogButton.setFont(new Font("Segoe UI",Font.PLAIN,16));
+         changelogButton.setMargin(new Insets(10,10,10,10));
+         changelogButton.setPreferredSize(new Dimension(90,30));
+         changelogButton.addActionListener(new ActionListener() {
+ 
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 // 
+                try {
+             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                 URI url = new URI("https://github.com/thebest12dev/worldmanager/releases/latest"); // Replace with your desired URL
+                 Desktop.getDesktop().browse(url);
+             } else {
+                 System.out.println("Desktop browsing is not supported on this platform.");
+             }
+         } catch (Exception e2) {
+             e2.printStackTrace();
+         }
+         }
                 
-            }
-            
-        });
-        JButton cancelButton = FlatButton.createFlatButton("<html><center>Ignore</center></html>");
-       // cancelButton.setText("Ignore");
-        cancelButton.setFont(new Font("Segoe UI",Font.PLAIN,16));
-        cancelButton.setMargin(new Insets(10,10,10,10));
-        cancelButton.setPreferredSize(new Dimension(70,30));
-       // cancelButton.setLocation(15, 15);
-        btnPanel.add(changelogButton);
-        btnPanel.add(updateButton);
-        btnPanel.add(cancelButton);
-        updateFrame.add(btnPanel,BorderLayout.SOUTH);
-
+             
+             
+             
+         });
+         JPanel btnPanel = new JPanel();
+         //btnPanel.setLayout(new BorderLayout());
+         updateFrame.add(panel2);
+         JButton updateButton = FlatButton.createFlatButton("<html><center>Update</center></html>");
+ 
+     
+         updateButton.setFont(new Font("Segoe UI",Font.PLAIN,16));
+         updateButton.setMargin(new Insets(10,10,10,10));
+         updateButton.setPreferredSize(new Dimension(70,30));
+         updateButton.setLocation(15, 15);
+         updateButton.addActionListener(new ActionListener() {
+ 
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 // 
+                     Thread thread = new Thread("UpdateThread"){
+                         @Override
+                         public void run() {
+                             try {
+                                 Updater.downloadAndInstallUpdates();
+                             } catch (Exception e) {
+                                 // 
+                                 e.printStackTrace();
+                             }
+                         }
+                     };
+                     thread.start();
+                 
+             }
+             
+         });
+         JButton cancelButton = FlatButton.createFlatButton("<html><center>Ignore</center></html>");
+        // cancelButton.setText("Ignore");
+         cancelButton.setFont(new Font("Segoe UI",Font.PLAIN,16));
+         cancelButton.setMargin(new Insets(10,10,10,10));
+         cancelButton.setPreferredSize(new Dimension(70,30));
+        // cancelButton.setLocation(15, 15);
+         btnPanel.add(changelogButton);
+         btnPanel.add(updateButton);
+         btnPanel.add(cancelButton);
+         updateFrame.add(btnPanel,BorderLayout.SOUTH);
+      }
+       
+      private static void drawMenus() {
         UIManager.put("Tree.collapsedIcon",createImageIcon("/caret-right-fill.png", "set"));
         UIManager.put("Tree.expandedIcon", createImageIcon("/caret-down-fill.png", null));
-        Font worldFont = new Font("Segoe UI Light", Font.PLAIN, 13);
+        
         Font normalFont = new Font("Segoe UI", Font.PLAIN, 13);
        // updateFrame.setVisible(true);
         
@@ -353,7 +383,8 @@ public class MainGui {
         });
         item4.setFont(normalFont);
         file.add(item4);
-        
+    }
+    private static void drawWorlds() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         JPanel worldsList = new JPanel();
         
         worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
@@ -385,7 +416,7 @@ public class MainGui {
         
                 
       JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
-      
+      Font worldFont = new Font("Segoe UI Light", Font.PLAIN, 13);
         worldMenuItem1.setBackground(bgColor);
         worldMenuItem1.setForeground(fgColor);
       worldMenuItem1.setBorder(null);
@@ -450,7 +481,7 @@ public class MainGui {
             }
             
         });
-        boolean[] r = {false};
+        //boolean[] r = {false};
         
         ActionListener t = new ActionListener() {
 
@@ -544,16 +575,7 @@ public class MainGui {
         mainFrame.setJMenuBar(menuBar);
         mainFrame.revalidate();
         mainFrame.repaint();
-        try {
-            UpdateCheckResult result = Updater.checkForUpdates();
-           // System.out.println(result);
-            if (result == UpdateCheckResult.UPDATE_NEEDED) {
-                updateFrame.setVisible(true);
-            }
-        } catch (UpdateBuildException e) {
-            // 
-            e.printStackTrace();
-        }
+        
     }
         public static ImageIcon createImageIcon(String path, String description) {
             java.net.URL imgURL = MainGui.class.getResource(path);
