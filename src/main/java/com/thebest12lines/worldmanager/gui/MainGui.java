@@ -25,6 +25,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -65,7 +66,8 @@ public class MainGui {
         
         
     }
-    
+    public static Color bgColor;
+    public static Color fgColor;
     protected static JFrame mainFrame = new JFrame("worldmanager");
     protected static JMenuBar menuBar;
     /**
@@ -78,16 +80,27 @@ public class MainGui {
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException {
       //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
-      Color bgColor = new Color(255,255,255);
-      Color fgColor = new Color(0,0,0);
+       bgColor = new Color(255,255,255);
+       fgColor = new Color(0,0,0);
+    
+      // mainFrame.setUndecorated(true);
       System.out.println(SystemSettings.getSystemTheme().equals("Dark"));
       if (SystemSettings.getSystemTheme().equals("Dark")) {
         bgColor = new Color(37,37,37);
-        bgColor = new Color(255,255,255);
+        fgColor = new Color(255,255,255);
         mainFrame.setBackground(bgColor);
         mainFrame.setForeground(fgColor);
       }
-      
+      Enumeration<Object> keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+            Object key = keys.nextElement();
+            if (key.toString().endsWith(".background")) {
+                UIManager.put(key, bgColor);
+            }
+            if (key.toString().endsWith(".foreground")) {
+                UIManager.put(key, fgColor);
+            }
+        }
       UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
       
        // System.setProperty("java.awt.headless", "true");
@@ -279,15 +292,20 @@ public class MainGui {
       
         JFrame infoFrame = new JFrame("About worldmanager");
         infoFrame.setSize(500,300);
+        infoFrame.setBackground(bgColor);
+        infoFrame.setForeground(fgColor);
         infoFrame.setResizable(false);
         infoFrame.setLayout(new BorderLayout());
         infoFrame.setIconImages(icons);
         infoFrame.setAlwaysOnTop(true);
         JLabel version = new JLabel("An open source world manager for Minecraft");
-        
+        version.setBackground(bgColor);
+        version.setForeground(fgColor);
         version.setFont(normalFont);
-        
-        infoFrame.add(new JLabel(createImageIcon("/logo.png")),BorderLayout.NORTH);
+        JLabel logo = new JLabel(createImageIcon("/logo.png"));
+        logo.setBackground(bgColor);
+        logo.setForeground(fgColor);
+        infoFrame.add(logo,BorderLayout.NORTH);
         infoFrame.add(version);
         JMenuItem info = FlatMenuItem.createFlatMenuItem("About", "");
 
@@ -307,7 +325,7 @@ public class MainGui {
             }
             
         });
-        help.add(info);
+        help.add(info);   
         JMenuItem item1 = FlatMenuItem.createFlatMenuItem("New Backup","Ctrl+N");
         item1.setFont(normalFont);
         file.add(item1);
@@ -347,6 +365,8 @@ public class MainGui {
        // DefaultMutableTreeNode world2 = new DefaultMutableTreeNode("World1");
       //
       JPopupMenu worldMenu1 = FlatPopupMenu.createFlatPopupMenu();
+      worldMenu1.setBackground(bgColor);
+        worldMenu1.setForeground(fgColor);
         World[] worldsArray = (World[]) SaveManager.getWorlds();
         for (World object : worldsArray) {
             
@@ -375,11 +395,15 @@ public class MainGui {
         JMenuItem worldMenuItem2 = new JMenuItem("Delete World");
         worldMenuItem2.setBorder(null);
         worldMenuItem2.setFont(worldFont);
+        worldMenuItem2.setBackground(bgColor);
+        worldMenuItem2.setForeground(fgColor);
         worldMenu1.add(worldMenuItem2);
 
         JMenuItem worldMenuItem3 = new JMenuItem("Properties");
         worldMenuItem3.setBorder(null);
         worldMenuItem3.setFont(worldFont);
+        worldMenuItem3.setBackground(bgColor);
+        worldMenuItem3.setForeground(fgColor);
         worldMenu1.add(worldMenuItem3);
         DefaultTreeModel model = new DefaultTreeModel(root);
         JPanel jPanel = new JPanel(new BorderLayout());
@@ -463,8 +487,10 @@ public class MainGui {
        // mainFrame.add(content);
        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
        JScrollPane scrollPane2 =new JScrollPane(worlds);
-       
+       scrollPane2.setOpaque(true);
+      
        mainFrame.add(scrollPane2);
+       
        scrollPane2.setBorder(null);
     //    scrollPane2.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
     //            @Override

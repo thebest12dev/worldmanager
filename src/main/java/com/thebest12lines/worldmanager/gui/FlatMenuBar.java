@@ -16,10 +16,12 @@ public class FlatMenuBar {
      * @return A "flat" style JMenuBar.
      */
     public static JMenuBar createFlatMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
+        JMenuBar menuBar = new MenuBar(MainGui.bgColor);
         
-        menuBar.setBackground(new Color(255,255,255));
-        menuBar.setPreferredSize(new Dimension(0, 35));
+       
+        menuBar.setOpaque(true);
+         menuBar.setBackground(MainGui.bgColor);
+        menuBar.setPreferredSize(new Dimension(MainGui.getMainFrame().getWidth(), 35));
         menuBar.setBorder(null);
         menuBar.setFont(new Font("Segoe UI",Font.PLAIN,25));
         

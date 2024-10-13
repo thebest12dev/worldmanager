@@ -18,6 +18,7 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
         this.customIcon = customIcon;
         this.customFont = customFont;
         this.worldIcon = worldIcon;
+        
        // this.menu = menu;
         
     }
@@ -26,15 +27,22 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
     public Component getTreeCellRendererComponent(
             JTree tree, Object value, boolean selected,
             boolean expanded, boolean leaf, int row, boolean hasFocus) {
-        super.getTreeCellRendererComponent(
+        Component c = super.getTreeCellRendererComponent(
                 tree, value, selected, expanded, leaf, row, hasFocus);
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
         // Check some condition (e.g., node.getUserObject().getStatus())
         // and set the appropriate icon
+        if (c instanceof JComponent) {
+            ((JComponent) c).setOpaque(true);
+        }
+
+
         if (node != null) {
             
+            setBackground(new Color(37,37,37));
+            setForeground(MainGui.fgColor);
            // System.out.println(node.getLevel());
             if (node.getLevel() == 0) {
                 setIcon(customIcon);

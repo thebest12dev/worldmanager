@@ -17,6 +17,7 @@ public class FlatMenu {
      */
     public static JMenu createFlatMenu(String text, JMenuBar menuBar) {
         JMenu menu = new JMenu(text);
+        menu.setOpaque(true);
         menu.setBorder(null);
         menu.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         
@@ -27,18 +28,18 @@ public class FlatMenu {
         
         menu.setMargin(margins);
         menu.addMouseListener(new MouseAdapter() {
-            Color originalColor = menu.getForeground();
-            Color hoverColor = Color.lightGray;
+            Color originalColor = menu.getBackground();
+            Color hoverColor = originalColor.darker();
             @Override
             public void mouseEntered(MouseEvent e) {
                 
-                menu.setForeground(hoverColor);
+                menu.setBackground(hoverColor);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 
-                menu.setForeground(originalColor);
+                menu.setBackground(originalColor);
             }
         });
          
