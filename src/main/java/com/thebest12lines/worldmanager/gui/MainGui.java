@@ -15,6 +15,7 @@ import com.thebest12lines.worldmanager.util.Updater;
 import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
 import com.thebest12lines.worldmanager.world.World;
+import com.thebest12lines.worldmanager.util.SystemSettings;
 import com.thebest12lines.worldmanager.util.UpdateBuildException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +41,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -63,6 +65,7 @@ public class MainGui {
         
         
     }
+    
     protected static JFrame mainFrame = new JFrame("worldmanager");
     protected static JMenuBar menuBar;
     /**
@@ -75,6 +78,18 @@ public class MainGui {
      */
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException {
       //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+      Color bgColor = new Color(255,255,255);
+      Color fgColor = new Color(0,0,0);
+      System.out.println(SystemSettings.getSystemTheme().equals("Dark"));
+      if (SystemSettings.getSystemTheme().equals("Dark")) {
+        bgColor = new Color(37,37,37);
+        bgColor = new Color(255,255,255);
+        mainFrame.setBackground(bgColor);
+        mainFrame.setForeground(fgColor);
+      }
+      
+      UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+      
        // System.setProperty("java.awt.headless", "true");
        if ((Boolean) DataManager.getSetting("debug")) {
             mainFrame.setTitle("worldmanager "+DataManager.getFullVersion()+" @ "+System.getProperty("os.name"));
@@ -322,6 +337,7 @@ public class MainGui {
         file.add(item4);
         
         JPanel worldsList = new JPanel();
+        
         worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
         worldsList.setVisible(true);
         //JPanel content = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -349,7 +365,9 @@ public class MainGui {
         
                 
       JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
-        
+      
+        worldMenuItem1.setBackground(bgColor);
+        worldMenuItem1.setForeground(fgColor);
       worldMenuItem1.setBorder(null);
       worldMenuItem1.setFont(worldFont);
       worldMenu1.add(worldMenuItem1);
@@ -443,37 +461,38 @@ public class MainGui {
         worldsList.add(jPanel, BorderLayout.WEST);
         mainFrame.add(worldsList,BoxLayout.X_AXIS);
        // mainFrame.add(content);
+       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
        JScrollPane scrollPane2 =new JScrollPane(worlds);
        
        mainFrame.add(scrollPane2);
        scrollPane2.setBorder(null);
-       scrollPane2.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
-               @Override
-               protected void configureScrollBarColors() {
-                   int r = 255;
-                   int g = 190;
-                   this.thumbColor = new Color(g,g,g);
-                   this.trackColor = new Color(r,r,r);
-               }
+    //    scrollPane2.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+    //            @Override
+    //            protected void configureScrollBarColors() {
+    //                int r = 255;
+    //                int g = 190;
+    //                this.thumbColor = new Color(g,g,g);
+    //                this.trackColor = new Color(r,r,r);
+    //            }
 
-               @Override
-               protected JButton createDecreaseButton(int orientation) {
-                   return createZeroButton();
-               }
+    //            @Override
+    //            protected JButton createDecreaseButton(int orientation) {
+    //                return createZeroButton();
+    //            }
 
-               @Override
-               protected JButton createIncreaseButton(int orientation) {
-                   return createZeroButton();
-               }
+    //            @Override
+    //            protected JButton createIncreaseButton(int orientation) {
+    //                return createZeroButton();
+    //            }
 
-               private JButton createZeroButton() {
-                   JButton button = new JButton();
-                   button.setPreferredSize(new Dimension(0, 0));
-                   button.setMinimumSize(new Dimension(0, 0));
-                   button.setMaximumSize(new Dimension(0, 0));
-                   return button;
-               }
-           });
+    //            private JButton createZeroButton() {
+    //                JButton button = new JButton();
+    //                button.setPreferredSize(new Dimension(0, 0));
+    //                button.setMinimumSize(new Dimension(0, 0));
+    //                button.setMaximumSize(new Dimension(0, 0));
+    //                return button;
+    //            }
+    //        });
         
        // scrollPane2.repaint();
        // scrollPane2.revalidate();

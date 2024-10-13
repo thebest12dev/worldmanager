@@ -3,6 +3,7 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.thebest12lines.worldmanager.util.SystemSettings;
 
 import java.awt.*;
 
@@ -33,6 +34,7 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
         // Check some condition (e.g., node.getUserObject().getStatus())
         // and set the appropriate icon
         if (node != null) {
+            
            // System.out.println(node.getLevel());
             if (node.getLevel() == 0) {
                 setIcon(customIcon);

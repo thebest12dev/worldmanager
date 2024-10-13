@@ -2,6 +2,7 @@ package com.thebest12lines.worldmanager.gui;
 
 import javax.swing.*;
 
+import com.thebest12lines.worldmanager.util.SystemSettings;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -18,6 +19,7 @@ public class FlatMenu {
         JMenu menu = new JMenu(text);
         menu.setBorder(null);
         menu.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        
       //  menu.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
 
         // Set margins (adjust as needed)

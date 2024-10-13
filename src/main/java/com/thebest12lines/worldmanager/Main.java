@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.thebest12lines.worldmanager.gui.Console;
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 
@@ -24,6 +25,7 @@ public class Main {
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
         if ((boolean) DataManager.getSetting("debug") == true) {
+            
         Output.printErr(
             Constants.ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
             +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
@@ -31,6 +33,8 @@ public class Main {
             +DataManager.getBranch().substring(1).toLowerCase()
             +" (Debug Mode)\nLogs will be outputted to file worldmanager.log."
         );
+        new Console();
+        Output.print("Debug mode enabled, also forwarding logs to console.");
         } else {
             Output.printErr(
                 Constants.ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET

@@ -1,5 +1,6 @@
 package com.thebest12lines.worldmanager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,9 +9,11 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 
 public class Output {
-    private static PrintStream stream;
-    private static PrintStream consoleStream;
+    
+    public static ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    public static PrintStream consoleStream = new PrintStream(outputStream);
     private static Process console;
+    public static PrintStream stream = new PrintStream(outputStream);
     private static void initializeConsole() {
         // try {
         //   //  console = Runtime.getRuntime().exec(new String[] {"cmd","/c","start","cmd.exe","/c","prompt", "$S","&"

@@ -8,6 +8,8 @@ import java.awt.Font;
 //import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
 
+import com.thebest12lines.worldmanager.util.SystemSettings;
+
 public class FlatMenuBar {
     /**
      * Creates a "flat" style JMenuBar.
@@ -15,6 +17,7 @@ public class FlatMenuBar {
      */
     public static JMenuBar createFlatMenuBar() {
         JMenuBar menuBar = new JMenuBar();
+        
         menuBar.setBackground(new Color(255,255,255));
         menuBar.setPreferredSize(new Dimension(0, 35));
         menuBar.setBorder(null);
