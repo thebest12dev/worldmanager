@@ -2,12 +2,13 @@ package com.thebest12lines.worldmanager.gui;
 
 import javax.swing.*;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.SystemSettings;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+@CoreClass
 public class FlatMenu {
     /**
      * Creates a "flat" style JMenu.

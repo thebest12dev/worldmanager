@@ -1,5 +1,7 @@
 package com.thebest12lines.worldmanager;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,7 +9,7 @@ import java.io.IOException;
 
 import java.io.PrintStream;
 import java.nio.file.Files;
-
+@CoreClass
 public class Output {
     
     public static ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

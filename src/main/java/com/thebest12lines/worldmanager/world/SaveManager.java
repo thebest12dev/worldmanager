@@ -10,6 +10,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.DataManager;
@@ -22,7 +23,7 @@ import net.querz.nbt.tag.CompoundTag;
 import net.querz.nbt.tag.LongTag;
 import net.querz.nbt.tag.StringTag;
 
-
+@CoreClass
 public class SaveManager {
     public static World[] getWorlds() {
             Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Reading worlds (DEBUG)...");

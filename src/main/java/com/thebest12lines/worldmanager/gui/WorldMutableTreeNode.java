@@ -4,9 +4,10 @@ import java.awt.Color;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.SystemSettings;
 import com.thebest12lines.worldmanager.world.World;
-
+@CoreClass
 public class WorldMutableTreeNode extends DefaultMutableTreeNode {
     protected World world;
     public void setWorld(World world) {

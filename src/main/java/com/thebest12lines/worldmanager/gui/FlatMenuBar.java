@@ -8,8 +8,9 @@ import java.awt.Font;
 //import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.SystemSettings;
-
+@CoreClass
 public class FlatMenuBar {
     /**
      * Creates a "flat" style JMenuBar.

@@ -1,0 +1,41 @@
+#   ******** READ THIS IF YOU ARE DECOMPILING THIS JAR FILE *********
+#   Just so you know, worldmanager is open source so you can do anything with it
+#   as long as you adhere to the MIT license included. If you are looking to
+#   access the source code, you should check the official GitHub repository
+#   for the source code as it is more reliable and quicker. To verify, all
+#   code in this JAR are the same code as the GitHub repository.
+#   ******** END READ THIS IF YOU ARE DECOMPILING THIS JAR FILE *********
+
+#   This module "worldmanager.core" is licensed under the MIT license, which means
+#   this program is provided "AS IS", which means there IS NO WARRANTY.
+
+#   This file is used for literal constants of the JAR and other data which is
+#   required for worldmanager to run.
+
+#   This file should not be confused with the MANIFEST.MF file.
+#   For open source contributors, modify this to your own liking.
+
+[Metadata]
+Author: thebest12lines
+Main-Class: com.thebest12lines.launcher.Launcher
+Java-Version: 21.0.4
+Sha256: null
+Build: 3
+Version: 0.2.0-alpha
+Platform: Windows-x64
+Repository: https://github.com/thebest12lines/worldmanager
+
+[Settings-Filesystem]
+JSON-File: worldmanager.json
+Create-JSON: false
+
+[Module]
+Module-Name: worldmanager.core
+Module-Type: main_module
+Requires: org.json, NBT
+Main-Class: com.thebest12lines.worldmanager.Main
+
+[Mod]
+Installed-Fabric: false
+
+

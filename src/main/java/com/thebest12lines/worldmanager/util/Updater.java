@@ -13,9 +13,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.DataManager;
+@CoreClass
 public class Updater {
     
     public static Constants.UpdateCheckResult checkForUpdates() throws UpdateBuildException  {

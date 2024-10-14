@@ -1,4 +1,6 @@
 package com.thebest12lines.worldmanager.util;
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.SystemTray;
@@ -7,7 +9,7 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 
-
+@CoreClass
 public class Notification {
     private String title;
     private String text;

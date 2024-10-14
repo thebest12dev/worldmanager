@@ -1,5 +1,7 @@
 package com.thebest12lines.worldmanager.gui;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-
+@CoreClass
 public class FlatButton {
     /**
      * Creates a "flat" style JButton.

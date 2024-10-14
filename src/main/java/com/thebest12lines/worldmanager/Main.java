@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.gui.Console;
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 
 
-
+@CoreClass
 public class Main {
     public static Console console;
     public static void main(String[] args) {

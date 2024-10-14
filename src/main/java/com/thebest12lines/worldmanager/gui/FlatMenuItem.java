@@ -1,5 +1,7 @@
 package com.thebest12lines.worldmanager.gui;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 //import javax.swing.border.Border;
-
+@CoreClass
 public class FlatMenuItem {
     public static JMenuItem createFlatMenuItem(String text, String shortcut) {
         JMenuItem menuItem = new JMenuItem();

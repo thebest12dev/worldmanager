@@ -3,11 +3,12 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.SystemSettings;
 
 import java.awt.*;
 
-
+@CoreClass
 public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
     private Icon customIcon; // Your custom icon
     private Font customFont; // Your custom font

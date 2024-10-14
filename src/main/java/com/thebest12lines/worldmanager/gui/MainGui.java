@@ -14,6 +14,7 @@ import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.Output;
 //import com.thebest12lines.worldmanager.ZipDirectory;
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.Updater;
 //import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
@@ -58,7 +59,7 @@ import javax.swing.tree.TreePath;
 
 
 
-
+@CoreClass
 public class MainGui {
     
     public static JFrame getMainFrame()  {

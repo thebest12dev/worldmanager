@@ -11,13 +11,14 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Constants.FeatureLoadResult;
 
-
+@CoreClass
 public class FeatureManager {
     public static boolean isFeatureEnabled(String feature) {
         StringBuilder builder = new StringBuilder();

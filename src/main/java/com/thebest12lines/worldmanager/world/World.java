@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.zip.ZipOutputStream;
 
 import com.thebest12lines.worldmanager.ZipDirectory;
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 
+@CoreClass
 public class World extends Object{
     protected String name = "";
     protected ArrayList<Backup> backups = new ArrayList<Backup>();

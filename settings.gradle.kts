@@ -3,4 +3,11 @@
  */
 
 rootProject.name = "worldmanager"
-include(":NBT",":org.json")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+      create ("libs") {
+            files("./gradle/libs.versions.toml")
+        }
+    }
+}

@@ -3,6 +3,7 @@ package com.thebest12lines.worldmanager.gui;
 import javax.swing.*;
 
 import com.thebest12lines.worldmanager.Output;
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,7 @@ import java.io.PrintStream;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
+@CoreClass
 public class Console extends JFrame {
 
     private JTextArea consoleArea;

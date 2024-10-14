@@ -2,8 +2,9 @@ package com.thebest12lines.worldmanager;
 
 import javax.swing.UnsupportedLookAndFeelException;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
-
+@CoreClass
 public class Gui {
     public static void start(String[] args) {
        // System.out.println("Main thread is: " + Thread.currentThread().getName());

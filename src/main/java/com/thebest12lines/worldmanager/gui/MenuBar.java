@@ -1,8 +1,10 @@
 package com.thebest12lines.worldmanager.gui;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import javax.swing.*;
 import java.awt.*;
-
+@CoreClass
 public class MenuBar extends JMenuBar {
     private Color backgroundColor;
 

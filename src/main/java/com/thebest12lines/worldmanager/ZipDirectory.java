@@ -1,8 +1,10 @@
 package com.thebest12lines.worldmanager;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.io.*;
 import java.util.zip.*;
-
+@CoreClass
 public class ZipDirectory {
     
     public static void zipDirectory(String sourceDirPath, String zipFilePath, String excludeDir) throws IOException {

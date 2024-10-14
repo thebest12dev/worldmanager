@@ -6,9 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+@CoreClass
 public class DataManager {
 
     private static JSONObject json;
