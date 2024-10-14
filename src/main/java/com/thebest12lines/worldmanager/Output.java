@@ -13,7 +13,7 @@ public class Output {
     public static ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     public static PrintStream consoleStream = new PrintStream(outputStream);
     private static Process console;
-    public static PrintStream stream = new PrintStream(outputStream);
+    public static PrintStream stream;
     private static void initializeConsole() {
         // try {
         //   //  console = Runtime.getRuntime().exec(new String[] {"cmd","/c","start","cmd.exe","/c","prompt", "$S","&"
@@ -26,12 +26,13 @@ public class Output {
         //     e.printStackTrace();
         // }
     }
-    public static void print(String object) {
+    public static void print(Object object) {
         if (console == null) {
             initializeConsole();
         }
         if (stream != null) {
             System.setOut(stream);
+            
             //System.setErr(consoleStream);
             System.out.println(object);
             if (consoleOutput) {
@@ -39,6 +40,7 @@ public class Output {
             }
         } else {
             try {
+                
                 if (new File("worldmanager.log").exists()) {
                     try {
                         Files.write(new File("worldmanager.log").toPath(), "".getBytes());
@@ -74,6 +76,11 @@ public class Output {
     }
     public static void printFile(Object object) {
         System.out.println(object);
+    }
+    public static void printDebug(Object object) {
+        if ((Boolean)DataManager.getSetting("debug")) {
+            print(object);
+        }
     }
     public static boolean consoleOutput = false;
 }

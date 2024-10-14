@@ -12,9 +12,12 @@ import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 
 
 public class Main {
+    public static Console console;
     public static void main(String[] args) {
       //  System.setProperty("java.awt.headless", "true");
       Output.consoleOutput = true;
+      System.out.println();
+    //  System.loadLibrary("SystemSettings");
         //System.out.println(System.getProperty("os.name"));
         String appDataPath = System.getProperty("user.home") + "\\AppData\\Roaming\\.worldmanager";
         if (System.getProperty("os.name") == "Linux") {
@@ -33,7 +36,7 @@ public class Main {
             +DataManager.getBranch().substring(1).toLowerCase()
             +" (Debug Mode)\nLogs will be outputted to file worldmanager.log."
         );
-        new Console();
+        console = new Console();
         Output.print("Debug mode enabled, also forwarding logs to console.");
         } else {
             Output.printErr(
@@ -52,13 +55,17 @@ public class Main {
         
         Output.print("["+Main.class.getCanonicalName()+"]: Verifying libraries exist...");
         String[] libraries = {
-            "3cf6cd6892e32e2b4c1c39e0f52f5248a2f5b37646fdfbb79a66b46b618414ed",
-            "5b8e868ea6690d7c606e6deb0d3d6167f4b1c0fcffa2b6170b7cb1e9819b969d"
+            "jar3cf6cd6892e32e2b4c1c39e0f52f5248a2f5b37646fdfbb79a66b46b618414ed",
+            "jar5b8e868ea6690d7c606e6deb0d3d6167f4b1c0fcffa2b6170b7cb1e9819b969d",
+            "dll5395d4bc7825c78abba04c5ed39b3c5698722a7eb0cd93d46203b9aaa6784316"
         };
         boolean isFatal = false;
         for (int i = 0; i < libraries.length; i++) {
-            if (libraryExists(libraries[i])) {
-                Output.print("["+Main.class.getCanonicalName()+"]: Library \""+libraries[i].substring(0, 16)+"\" found ("+(i+1)+"/"+libraries.length+")");
+            if (libraryExists(libraries[i].substring(3))) {
+                Output.print("["+Main.class.getCanonicalName()+"]: Library \""+libraries[i].substring(3, 19)+"\" found ("+(i+1)+"/"+libraries.length+")");
+                if (libraries[i].substring(0,3).equals("dll")) {
+                    System.loadLibrary(libraries[i].substring(3));
+                }
             } else {
                 Output.print("FATAL: Library \""+libraries[i].substring(0, 16)+"\" is not found. worldmanager will not run without this library.");
                 isFatal = true;
@@ -159,15 +166,14 @@ public class Main {
         
         if (file.exists()) {
             return true;
+        } else if (!file.exists()) {
+            file = new File("worldmanager/objects/main/2/"+libName+".dll");
+            if (file.exists()) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        // } else if (!file.exists()) {
-        //     // file = new File("worldmanager/lib/"+libName+".dll");
-        //     // if (file.exists()) {
-        //     //     return true;
-        //     // } else {
-        //         return false;
-        //    //  }
-        // }
         return false;
     }
     public static boolean verifyFileHash(String filePath) throws IOException, NoSuchAlgorithmException {
@@ -183,7 +189,7 @@ public class Main {
         return fileHash.equals(expectedHash);
     }
 
-    private static String computeSHA256(File file) throws IOException, NoSuchAlgorithmException {
+    public static String computeSHA256(File file) throws IOException, NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         FileInputStream fis = new FileInputStream(file);
         byte[] byteArray = new byte[1024];
@@ -201,5 +207,15 @@ public class Main {
         }
         return sb.toString();
     }
-    
+    public static String computeSHA256(String text) throws IOException, NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] byteArray = text.getBytes();
+        digest.update(byteArray,0, text.getBytes().length);
+        byte[] bytes = digest.digest();
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
 }

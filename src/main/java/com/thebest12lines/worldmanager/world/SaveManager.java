@@ -10,6 +10,9 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
+import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Output;
 
 
@@ -22,25 +25,29 @@ import net.querz.nbt.tag.StringTag;
 
 public class SaveManager {
     public static World[] getWorlds() {
-    
+            Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Reading worlds (DEBUG)...");
         return (World[]) readWorlds().toArray(new World[0]);
         
     }
     private static ArrayList<World> readWorlds() {
         String savesFolder = System.getProperty("user.home") + "\\AppData\\Roaming\\.minecraft\\saves";
         if (System.getProperty("os.name").equals("Linux")) {
-            
+            Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Using Linux!");
             savesFolder =   System.getProperty("user.home")+"/.minecraft/saves/";
         }
+        Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Saves folder is "+savesFolder);
        // System.out.println(savesFolder);
         File folder = new File(savesFolder);
         ArrayList<World> worlds = new ArrayList<>();
         //System.out.println(folder.getAbsolutePath());
         File[] saves = folder.listFiles();
-        
+        Output.printDebug("========================== DEBUG START ==============================");
+
         
         for (File save : saves) {
             try {
+                Output.printDebug("========================================================");
+                Output.printDebug("File: "+save.toString());
                 if (save.getAbsolutePath().endsWith("/worldmanager.dat") | save.getAbsolutePath().endsWith("\\worldmanager.dat") ) {
                     continue;
                 }
@@ -53,9 +60,11 @@ public class SaveManager {
                 }
                 
                 CompoundTag tag = (CompoundTag) worldInfo.getTag();
+                
+
                 CompoundTag data = tag.getCompoundTag("Data");
                 StringTag stringTag = data.getStringTag("LevelName");
-                
+                Output.printDebug("Level name: "+stringTag.getValue());
             
                 
                 World world = new World();
@@ -63,7 +72,9 @@ public class SaveManager {
                 world.path = save.getAbsolutePath();
                 try {
                      CompoundTag versionTag = data.getCompoundTag("Version");
+                    
                      world.version = versionTag.getStringTag("Name").getValue();
+                     Output.printDebug("Version: "+world.version);
                 } catch (Exception e) {
                     Output.print("["+SaveManager.class.getCanonicalName()+"]: Something went wrong on a certain world! Exception is shown below (world name "+world.name+", world path "+world.path+"):");
                     StringWriter sw = new StringWriter();
@@ -90,12 +101,13 @@ public class SaveManager {
                 
                 // }
                 worlds.add(world);
-                
+               // Output.printDebug("========================================================");
             } catch (Exception e) {
                 // 
                 e.printStackTrace();
             }
         }
+        Output.printDebug("========================== DEBUG END ==============================");
         return worlds;
     }
 

@@ -7,8 +7,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 
 import com.thebest12lines.worldmanager.DataManager;
+import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.Output;
 //import com.thebest12lines.worldmanager.ZipDirectory;
 import com.thebest12lines.worldmanager.util.Updater;
@@ -19,6 +22,7 @@ import com.thebest12lines.worldmanager.util.SystemSettings;
 //import com.thebest12lines.worldmanager.util.UpdateBuildException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -26,7 +30,9 @@ import java.awt.event.WindowEvent;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 //import java.util.Random;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -91,6 +97,7 @@ public class MainGui {
         initializeFrames();
         drawMenus();
         drawWorlds();
+        initializeKeycodes();
     };
     private static void initialize() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
@@ -98,8 +105,8 @@ public class MainGui {
        fgColor = new Color(0,0,0);
     
       // mainFrame.setUndecorated(true);
-      System.out.println(SystemSettings.getSystemTheme().equals("Dark"));
-      if (SystemSettings.getSystemTheme().equals("Dark")) {
+      
+      if (SystemSettings.getSystemTheme().equals("Dark") && DataManager.getSetting("theme").equals("default")) {
         bgColor = new Color(37,37,37);
         fgColor = new Color(255,255,255);
         mainFrame.setBackground(bgColor);
@@ -576,6 +583,29 @@ public class MainGui {
         mainFrame.revalidate();
         mainFrame.repaint();
         
+    }
+    private static void initializeKeycodes() {
+        Set<Integer> pressedKeys = new HashSet<>();
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getID() == KeyEvent.KEY_PRESSED) {
+                    pressedKeys.add(e.getKeyCode());
+                    checkKeyCombination();
+                } else if (e.getID() == KeyEvent.KEY_RELEASED) {
+                    pressedKeys.remove(e.getKeyCode());
+                }
+                return false;
+            }
+
+            private void checkKeyCombination() {
+                if (pressedKeys.contains(KeyEvent.VK_CONTROL) && pressedKeys.contains(KeyEvent.VK_SHIFT) && pressedKeys.contains(KeyEvent.VK_C)) {
+                    Main.console.setVisible(true);
+                    // Execute your action here
+                }
+            }
+        });
     }
         public static ImageIcon createImageIcon(String path, String description) {
             java.net.URL imgURL = MainGui.class.getResource(path);

@@ -7,6 +7,8 @@ import com.thebest12lines.worldmanager.Output;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.concurrent.Executors;
@@ -27,14 +29,14 @@ public class Console extends JFrame {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(700, 500);
         setLocationRelativeTo(null);
 
         // Create a JTextArea for the console output
         consoleArea = new JTextArea();
         consoleArea.setEditable(false);
-        consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        consoleArea.setFont(new Font("Consolas", Font.PLAIN, 13));
         consoleArea.setBackground(Color.BLACK);
         consoleArea.setForeground(Color.white);
 
@@ -46,7 +48,14 @@ public class Console extends JFrame {
 
         // Redirect System.out and System.err to the console area
         redirectOutput();
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Choose your desired behavior:
+                setVisible(false); // Hide the window
+                dispose(); // Dispose of the window's resources
+            }
+        }); 
         // Show the window
         setVisible(true);
     }

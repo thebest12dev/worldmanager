@@ -41,7 +41,7 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
 
         if (node != null) {
             
-            setBackground(new Color(37,37,37));
+            setBackground(MainGui.bgColor);
             setForeground(MainGui.fgColor);
            // System.out.println(node.getLevel());
             if (node.getLevel() == 0) {
