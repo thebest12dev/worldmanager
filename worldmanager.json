@@ -12,7 +12,7 @@
         "autoBackupTime": "30min",
         "webDebugPort": "random",
         "debug": false,
-        "verbose": false
-    },
-    "worldmanagerData": {}
+        "verbose": false,
+        "theme": "default"
+    }
 }

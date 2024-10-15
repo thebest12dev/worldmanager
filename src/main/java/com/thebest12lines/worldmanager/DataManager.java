@@ -6,9 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+@CoreClass
 public class DataManager {
 
     private static JSONObject json;
@@ -20,7 +21,7 @@ public class DataManager {
         try {
             Files.write(new File("worldmanager.json").toPath(), json.toString(4).getBytes());
         } catch (JSONException | IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
         
@@ -33,7 +34,7 @@ public class DataManager {
         try {
             Files.write(new File("worldmanager.json").toPath(), json.toString(4).getBytes());
         } catch (JSONException | IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
     }
@@ -71,7 +72,7 @@ public class DataManager {
             Files.lines(Paths.get("worldmanager.json")).forEach(builder::append);
             json = new JSONObject(builder.toString());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
     }

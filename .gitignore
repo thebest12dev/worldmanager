@@ -6,7 +6,11 @@ target
 /worldmanager
 !src/main/java/com/thebest12lines/worldmanager/
 test.zip
+worldmanager.data.json
 /a.out
 # tests
-worldmanager_0.jar
-worldmanager.data.json
+output-linux
+output-linux.deb
+.gradle
+build
+.idea

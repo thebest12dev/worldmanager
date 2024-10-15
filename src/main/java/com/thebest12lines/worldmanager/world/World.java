@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.zip.ZipOutputStream;
 
 import com.thebest12lines.worldmanager.ZipDirectory;
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+/**
+ * Base class for a Minecraft world.
+ * @author thebest12lines
+ */
+@CoreClass
 
 public class World extends Object{
     protected String name = "";
@@ -18,22 +24,49 @@ public class World extends Object{
     protected String path = "";
     protected String lastModified = "1/1/2024 10:10:13PM";
     protected boolean isBackingUp = false;
-    
+
+    /**
+     * Gets world name.
+     * @return World name.
+     */
     public String getWorldName() {
         return name;
     }
+
+    /**
+     * Gets version
+     * @return Version
+     */
     public String getVersion() {
         return version;
     }
+
+    /**
+     * Backup
+     */
     public Object[] getBackups() {
         return (Object[]) backups.toArray();
     }
+
+    /**
+     * Get world path
+     * @return world path
+     */
     public String getWorldPath() {
         return path;
     }
+
+    /**
+     * gets the last modified date from the current world's metadata.
+     * @return last modified
+     */
     public String getLastModified() {
         return lastModified;
     }
+
+    /**
+     * backup world
+     */
     public void backupWorld() {
         if (!isBackingUp) {
             isBackingUp = true;
@@ -41,12 +74,13 @@ public class World extends Object{
 
             @Override
             public void run() {
-                 String backupPath = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))+"_World";
-         File fileToZip = new File(path);
+                 String backupPath = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss.SSS'Z'"))+"_"+getWorldName();
+                
          new File(path+"\\backups\\").mkdir();
-        try (FileOutputStream fos = new FileOutputStream(path+"\\backups\\"+backupPath+".zip");
-             ZipOutputStream zipOut = new ZipOutputStream(fos)) {
-             ZipDirectory.zipFile(fileToZip, fileToZip.getName(), zipOut);
+        try {;
+            System.err.println(path);
+             new File(path+"\\backups\\"+backupPath+".zip").createNewFile();
+             ZipDirectory.zipDirectory(getWorldPath(), getWorldPath()+"\\backups\\"+backupPath+".zip", path+"\\backups");
              isBackingUp = false;
         } catch (IOException e) {
             e.printStackTrace();

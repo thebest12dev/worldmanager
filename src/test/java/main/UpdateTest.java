@@ -27,7 +27,7 @@ public class UpdateTest {
 
             Updater.checkForUpdates();
         } catch (UpdateBuildException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
     }
@@ -39,7 +39,7 @@ public class UpdateTest {
             Updater.downloadAndInstallUpdates();
             
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         } 
         

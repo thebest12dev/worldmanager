@@ -3,10 +3,12 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+import com.thebest12lines.worldmanager.util.SystemSettings;
 
 import java.awt.*;
 
-
+@CoreClass
 public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
     private Icon customIcon; // Your custom icon
     private Font customFont; // Your custom font
@@ -17,6 +19,7 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
         this.customIcon = customIcon;
         this.customFont = customFont;
         this.worldIcon = worldIcon;
+        
        // this.menu = menu;
         
     }
@@ -25,14 +28,22 @@ public class FlatTreeCellRenderer extends DefaultTreeCellRenderer {
     public Component getTreeCellRendererComponent(
             JTree tree, Object value, boolean selected,
             boolean expanded, boolean leaf, int row, boolean hasFocus) {
-        super.getTreeCellRendererComponent(
+        Component c = super.getTreeCellRendererComponent(
                 tree, value, selected, expanded, leaf, row, hasFocus);
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
         // Check some condition (e.g., node.getUserObject().getStatus())
         // and set the appropriate icon
+        if (c instanceof JComponent) {
+            ((JComponent) c).setOpaque(true);
+        }
+
+
         if (node != null) {
+            
+            setBackground(MainGui.bgColor);
+            setForeground(MainGui.fgColor);
            // System.out.println(node.getLevel());
             if (node.getLevel() == 0) {
                 setIcon(customIcon);

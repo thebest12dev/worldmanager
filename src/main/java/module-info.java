@@ -7,17 +7,18 @@
  * <p>
  * This project is licensed under the MIT License, which means you are free to modify, distribute or do anything with it as LONG you include the MIT license and include the original copyright holder (thebest12lines).
  * </p>
- * @version 0.2.0 Alpha
  * @since Initial release
  * @author thebest12lines
  */
 module worldmanager.core {
+
     requires java.base;
    // requires java.desktop;
     requires org.json;
     requires java.net.http;
-    requires NBT;
+
     requires transitive java.desktop;
+    requires NBT;
     exports com.thebest12lines.worldmanager;
     exports com.thebest12lines.worldmanager.gui;
     exports com.thebest12lines.worldmanager.launcher;

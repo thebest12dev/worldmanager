@@ -14,7 +14,7 @@ public class FullTest {
 
             Launcher.main(new String[] {});
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
     }

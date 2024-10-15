@@ -1,11 +1,13 @@
 package com.thebest12lines.worldmanager.gui;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPopupMenu;
-
+@CoreClass
 public class FlatPopupMenu {
     public static JPopupMenu createFlatPopupMenu() {
         JPopupMenu menu = new JPopupMenu() {

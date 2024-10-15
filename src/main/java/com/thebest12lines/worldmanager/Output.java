@@ -1,16 +1,21 @@
 package com.thebest12lines.worldmanager;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.io.PrintStream;
 import java.nio.file.Files;
-
+@CoreClass
 public class Output {
-    private static PrintStream stream;
-    private static PrintStream consoleStream;
+    
+    public static ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    public static PrintStream consoleStream = new PrintStream(outputStream);
     private static Process console;
+    public static PrintStream stream;
     private static void initializeConsole() {
         // try {
         //   //  console = Runtime.getRuntime().exec(new String[] {"cmd","/c","start","cmd.exe","/c","prompt", "$S","&"
@@ -19,16 +24,17 @@ public class Output {
         //     //consoleStream = new PrintStream(console.getOutputStream());
             
         // } catch (IOException e) {
-        //     // TODO Auto-generated catch block
+        //     // 
         //     e.printStackTrace();
         // }
     }
-    public static void print(String object) {
+    public static void print(Object object) {
         if (console == null) {
             initializeConsole();
         }
         if (stream != null) {
             System.setOut(stream);
+            
             //System.setErr(consoleStream);
             System.out.println(object);
             if (consoleOutput) {
@@ -36,11 +42,12 @@ public class Output {
             }
         } else {
             try {
+                
                 if (new File("worldmanager.log").exists()) {
                     try {
                         Files.write(new File("worldmanager.log").toPath(), "".getBytes());
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
+                        // 
                         Output.print("Output1");
                         e.printStackTrace();
                     }
@@ -60,7 +67,7 @@ public class Output {
                 System.out.println(object);
                 
             } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
+                //
                 Output.print("Error while outputting:");
                 e.printStackTrace();
             }
@@ -71,6 +78,11 @@ public class Output {
     }
     public static void printFile(Object object) {
         System.out.println(object);
+    }
+    public static void printDebug(Object object) {
+        if ((Boolean)DataManager.getSetting("debug")) {
+            print(object);
+        }
     }
     public static boolean consoleOutput = false;
 }

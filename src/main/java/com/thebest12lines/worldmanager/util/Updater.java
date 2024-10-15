@@ -13,11 +13,21 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.DataManager;
+@CoreClass
+/**
+ * The de facto standard updater for worldmanager.
+ * @author thebest12lines
+ */
 public class Updater {
-    
+    /**
+     * Checks for updates
+     * @return update check result
+     * @throws UpdateBuildException
+     */
     public static Constants.UpdateCheckResult checkForUpdates() throws UpdateBuildException  {
 
         
@@ -50,12 +60,12 @@ public class Updater {
                 }
               //  s.close();
             } catch (NumberFormatException e) {
-                // TODO Auto-generated catch block
+                // 
                 e.printStackTrace();
             }
             
         } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
        
@@ -63,6 +73,11 @@ public class Updater {
 
     }
 
+    /**
+     * downloads and install updates
+     * @throws UpdateBuildException
+     * @throws URISyntaxException
+     */
     public static void downloadAndInstallUpdates() throws UpdateBuildException, URISyntaxException {
 
         String localFilePath = "worldmanager_0.jar";
@@ -70,7 +85,7 @@ public class Updater {
         try {
             Files.lines(Paths.get("worldmanager.json")).forEach(builder::append);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // 
             e.printStackTrace();
         }
         JSONObject obj = new JSONObject(builder.toString());

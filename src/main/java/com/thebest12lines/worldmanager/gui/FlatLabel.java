@@ -1,5 +1,7 @@
 package com.thebest12lines.worldmanager.gui;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
 import java.awt.Color;
 
 import java.awt.Font;
@@ -7,7 +9,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 
-
+@CoreClass
 public class FlatLabel {
     /**
      * Creates a "flat" style JLabel.

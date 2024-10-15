@@ -8,15 +8,21 @@ import java.awt.Font;
 //import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+import com.thebest12lines.worldmanager.util.SystemSettings;
+@CoreClass
 public class FlatMenuBar {
     /**
      * Creates a "flat" style JMenuBar.
      * @return A "flat" style JMenuBar.
      */
     public static JMenuBar createFlatMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(255,255,255));
-        menuBar.setPreferredSize(new Dimension(0, 35));
+        JMenuBar menuBar = new MenuBar(MainGui.bgColor);
+        
+       
+        menuBar.setOpaque(true);
+         menuBar.setBackground(MainGui.bgColor);
+        menuBar.setPreferredSize(new Dimension(MainGui.getMainFrame().getWidth(), 35));
         menuBar.setBorder(null);
         menuBar.setFont(new Font("Segoe UI",Font.PLAIN,25));
         

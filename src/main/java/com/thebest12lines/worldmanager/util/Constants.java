@@ -1,7 +1,16 @@
 package com.thebest12lines.worldmanager.util;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
+
+/**
+ * The main class for storing constants, such as enumerations and string and int constants.
+ * @author thebest12lines
+ */
+@CoreClass
 public class Constants {
-    
+    /**
+     * The enum for the result of an update check.
+     */
     public static enum UpdateCheckResult {
         UPDATE_NEEDED,UP_TO_DATE
     }
@@ -11,9 +20,17 @@ public class Constants {
     // public static enum WorldBackupResult {
     //     INSUFFICIENT_DISK_SPACE, BACKED_UP, FAIL, UNKNOWN
     // }
+
+    /**
+     * The enum for the result of a feature load.
+     */
     public static enum FeatureLoadResult {
         LOADED,CANNOT_FIND_METHOD,CANNOT_FIND_CLASS,NOT_LOADED
     }
+
+    /**
+     * The specific string constants for ANSI colors.
+     */
     public static class ANSIColor {
         public static final String RESET = "\u001B[0m";
         public static final String BLACK = "\u001B[30m";
