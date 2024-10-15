@@ -57,17 +57,25 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-
-
+/**
+ * The main GUI responsible for all the GUIs used by worldmanager.
+ * It provides static methods to launch and initialize the GUI.
+ * @author thebest12lines
+ */
 @CoreClass
 public class MainGui {
-    
+    /**
+     * Returns the main frame.
+     */
     public static JFrame getMainFrame()  {
         
             return mainFrame;
         
         
     }
+    /**
+     * Returns the main menu bar.
+     */
     public static JMenuBar getMenuBar()  {
             return menuBar;
         
@@ -93,6 +101,7 @@ public class MainGui {
      * @throws UnsupportedLookAndFeelException
      * @throws InterruptedException 
      */
+
     public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException {
         initialize();
         initializeFrames();
@@ -100,6 +109,14 @@ public class MainGui {
         drawWorlds();
         initializeKeycodes();
     };
+
+    /**
+     * Initializes the GUI.
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws UnsupportedLookAndFeelException
+     */
     private static void initialize() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
        bgColor = new Color(255,255,255);
@@ -118,12 +135,22 @@ public class MainGui {
         fgColor = new Color(0,0,0);
         mainFrame.setBackground(bgColor);
         mainFrame.setForeground(fgColor);
-      }
-      if (DataManager.getSetting("theme").equals("dark")) {
+      } else if (DataManager.getSetting("theme").equals("dark")) {
         bgColor = new Color(37,37,37);
         fgColor = new Color(255,255,255);
         mainFrame.setBackground(bgColor);
         mainFrame.setForeground(fgColor);
+      }
+      if (Main.themeExplicit == 1) {
+          bgColor = new Color(255,255,255);
+          fgColor = new Color(0,0,0);
+          mainFrame.setBackground(bgColor);
+          mainFrame.setForeground(fgColor);
+      } else if (Main.themeExplicit == 2) {
+          bgColor = new Color(37,37,37);
+          fgColor = new Color(255,255,255);
+          mainFrame.setBackground(bgColor);
+          mainFrame.setForeground(fgColor);
       }
       Enumeration<Object> keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
@@ -162,6 +189,10 @@ public class MainGui {
        // mainFrame.setBackground(new Color());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
+
+    /**
+     * Initializes the frames.
+     */
       private static void initializeFrames() {
          updateFrame = new JFrame("Update");
         // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -310,8 +341,11 @@ public class MainGui {
          btnPanel.add(cancelButton);
          updateFrame.add(btnPanel,BorderLayout.SOUTH);
       }
-       
-      private static void drawMenus() {
+
+    /**
+     * Draws the menus.
+     */
+    private static void drawMenus() {
         UIManager.put("Tree.collapsedIcon",createImageIcon("/caret-right-fill.png", "set"));
         UIManager.put("Tree.expandedIcon", createImageIcon("/caret-down-fill.png", null));
         
@@ -392,6 +426,14 @@ public class MainGui {
         item4.setFont(normalFont);
         file.add(item4);
     }
+
+    /**
+     * Draws the worlds.
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws UnsupportedLookAndFeelException
+     */
     private static void drawWorlds() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         JPanel worldsList = new JPanel();
         
@@ -585,6 +627,9 @@ public class MainGui {
         mainFrame.repaint();
         
     }
+    /**
+     * Initializes the keycodes used for shortcuts.
+     */
     private static void initializeKeycodes() {
         Set<Integer> pressedKeys = new HashSet<>();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -608,6 +653,9 @@ public class MainGui {
             }
         });
     }
+    /**
+     * Creates an image icon with a description.
+     */
         public static ImageIcon createImageIcon(String path, String description) {
             java.net.URL imgURL = MainGui.class.getResource(path);
         if (imgURL != null) {
@@ -617,6 +665,9 @@ public class MainGui {
             return null;
         }
     }
+    /**
+     * Creates an image icon
+     */
     public static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = MainGui.class.getResource(path);
     if (imgURL != null) {

@@ -11,8 +11,12 @@ import java.util.zip.ZipOutputStream;
 
 import com.thebest12lines.worldmanager.ZipDirectory;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
-
+/**
+ * Base class for a Minecraft world.
+ * @author thebest12lines
+ */
 @CoreClass
+
 public class World extends Object{
     protected String name = "";
     protected ArrayList<Backup> backups = new ArrayList<Backup>();
@@ -20,22 +24,49 @@ public class World extends Object{
     protected String path = "";
     protected String lastModified = "1/1/2024 10:10:13PM";
     protected boolean isBackingUp = false;
-    
+
+    /**
+     * Gets world name.
+     * @return World name.
+     */
     public String getWorldName() {
         return name;
     }
+
+    /**
+     * Gets version
+     * @return Version
+     */
     public String getVersion() {
         return version;
     }
+
+    /**
+     * Backup
+     */
     public Object[] getBackups() {
         return (Object[]) backups.toArray();
     }
+
+    /**
+     * Get world path
+     * @return world path
+     */
     public String getWorldPath() {
         return path;
     }
+
+    /**
+     * gets the last modified date from the current world's metadata.
+     * @return last modified
+     */
     public String getLastModified() {
         return lastModified;
     }
+
+    /**
+     * backup world
+     */
     public void backupWorld() {
         if (!isBackingUp) {
             isBackingUp = true;

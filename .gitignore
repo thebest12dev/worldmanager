@@ -11,3 +11,6 @@ worldmanager.data.json
 # tests
 output-linux
 output-linux.deb
+.gradle
+build
+.idea

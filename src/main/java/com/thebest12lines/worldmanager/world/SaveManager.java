@@ -23,8 +23,16 @@ import net.querz.nbt.tag.CompoundTag;
 import net.querz.nbt.tag.LongTag;
 import net.querz.nbt.tag.StringTag;
 
+/**
+ * The world manager for <code>worldmanager</code> to read and get worlds.
+ * @author thebest12lines.
+ */
 @CoreClass
 public class SaveManager {
+    /**
+     * Gets the worlds from the saves directory.
+     * @return An array.
+     */
     public static World[] getWorlds() {
             Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Reading worlds (DEBUG)...");
         return (World[]) readWorlds().toArray(new World[0]);

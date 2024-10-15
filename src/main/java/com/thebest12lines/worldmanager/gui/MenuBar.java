@@ -4,6 +4,11 @@ import com.thebest12lines.worldmanager.annotation.CoreClass;
 
 import javax.swing.*;
 import java.awt.*;
+
+/**
+ * A more better JMenuBar.
+ * @author thebest12lines
+ */
 @CoreClass
 public class MenuBar extends JMenuBar {
     private Color backgroundColor;

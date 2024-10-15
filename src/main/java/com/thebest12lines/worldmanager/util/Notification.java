@@ -9,25 +9,54 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 
+/**
+ * A robust system to sending toast notifications. Works on both Windows and Ubuntu
+ * @author thebest12lines
+ */
 @CoreClass
 public class Notification {
     private String title;
     private String text;
     private TrayIcon ti;
+
+    /**
+     * Sets the text of the notification object.
+     * @param text The text to set.
+     * @return The new notification object with the settings applied.
+     */
     public Notification setText(String text) {
         this.text = text;
         return this;
     }
+    /**
+     * Sets the title of the notification object.
+     * @param title The text to set.
+     * @return The new notification object with the settings applied.
+     */
     public Notification setTitle(String title) {
         this.title = title;
         return this;
     }
+    /**
+     * Gets the text of the notification object.
+     * @return The text.
+     */
     public String getText() {
         return text;
     }
+
+    /**
+     * Gets the title of the notification object.
+     * @return The title.
+     */
     public String getTitle() {
         return title;
     }
+
+    /**
+     * Shows the <code>Notification</code> as a toast notification.
+     * @throws AWTException
+     */
     public void show() throws AWTException{
         //Obtain only one instance of the SystemTray object
         

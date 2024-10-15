@@ -18,8 +18,16 @@ import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.DataManager;
 @CoreClass
+/**
+ * The de facto standard updater for worldmanager.
+ * @author thebest12lines
+ */
 public class Updater {
-    
+    /**
+     * Checks for updates
+     * @return update check result
+     * @throws UpdateBuildException
+     */
     public static Constants.UpdateCheckResult checkForUpdates() throws UpdateBuildException  {
 
         
@@ -65,6 +73,11 @@ public class Updater {
 
     }
 
+    /**
+     * downloads and install updates
+     * @throws UpdateBuildException
+     * @throws URISyntaxException
+     */
     public static void downloadAndInstallUpdates() throws UpdateBuildException, URISyntaxException {
 
         String localFilePath = "worldmanager_0.jar";
