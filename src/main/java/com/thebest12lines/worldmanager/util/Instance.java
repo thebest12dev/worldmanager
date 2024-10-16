@@ -1,4 +1,4 @@
-package com.thebest12lines.worldmanager;
+package com.thebest12lines.worldmanager.util;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 

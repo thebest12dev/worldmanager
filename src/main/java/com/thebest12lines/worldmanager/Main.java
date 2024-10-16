@@ -4,14 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Map;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
-import com.thebest12lines.worldmanager.gui.Console;
-import com.thebest12lines.worldmanager.util.ArgumentMetadata;
-import com.thebest12lines.worldmanager.util.CommandArgsParser;
-import com.thebest12lines.worldmanager.util.Constants;
+import com.thebest12lines.worldmanager.util.*;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 
 /**
@@ -22,7 +18,7 @@ import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
  */
 @CoreClass
 public class Main extends Instance {
-    public static Console console;
+  //  public static Console console;
     public static boolean debugMode = false;
     public static int themeExplicit = 0;
     /**
@@ -34,6 +30,7 @@ public class Main extends Instance {
     }
     @Override
     public void onStart(String[] args0) {
+        Output.consoleOutput = true;
       //  System.setProperty("java.awt.headless", "true");
         StringBuilder builder = new StringBuilder();
         String[] libraries = {
@@ -63,8 +60,9 @@ public class Main extends Instance {
             
 
         }
-        Output.consoleOutput = true;
+
       //  System.out.println(Arrays.toString(args0));
+
         Map<String, ArgumentMetadata> args = CommandArgsParser.parseArgs(args0);
 //        ArgumentMetadata arg1 = args.toString();
      //  System.out.println(args.get("version").getValue());
@@ -129,7 +127,7 @@ public class Main extends Instance {
             +DataManager.getBranch().substring(1).toLowerCase()
             +" (Debug Mode)\nLogs will be outputted to file worldmanager.log."
         );
-        console = new Console();
+       // console = new Console();
         Output.print("Debug mode enabled, also forwarding logs to console.");
         } else {
             Output.printErr(
@@ -240,7 +238,10 @@ public class Main extends Instance {
         return false;
     }
     public static boolean verifyFileHash(String filePath) throws IOException, NoSuchAlgorithmException {
-        File file = new File("worldmanager/objects/main/1/"+filePath+".jar");
+        File file = new File("worldmanager/objects/main/1/"+filePath.substring(3)+".jar");
+        if (filePath.contains("dll")) {
+            file = new File("worldmanager/objects/main/2/"+filePath.substring(3)+".dll");
+        }
         String fileName = file.getName();
         String expectedHash = fileName.split("\\.")[0]; // Extract hash from filename
 

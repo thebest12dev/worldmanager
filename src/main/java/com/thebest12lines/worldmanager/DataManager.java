@@ -9,10 +9,20 @@ import java.nio.file.Paths;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+/**
+ * Provides functionality for I/O to the settings file (worldmanager.json).
+ * @author thebest12lines
+ */
 @CoreClass
 public class DataManager {
 
     private static JSONObject json;
+
+    /**
+     * Sets the worldmanagerMeta.version string to
+     * @param version
+     */
     public static void setVersion(String version) {
         if (json == null) {
             initialize();

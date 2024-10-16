@@ -10,7 +10,6 @@ int main(int argc, const char* argv[])
     {
         args = args+" "+argv[i];
     }
-    
 
     system(args.c_str());
     return 0;

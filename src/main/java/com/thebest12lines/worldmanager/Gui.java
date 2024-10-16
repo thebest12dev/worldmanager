@@ -1,9 +1,8 @@
 package com.thebest12lines.worldmanager;
 
-import javax.swing.UnsupportedLookAndFeelException;
-
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
+import com.thebest12lines.worldmanager.util.Output;
 
 /**
  * The used class for starting the GUI. It creates a thread-safe GUI that will not cause any problems with the main thread.

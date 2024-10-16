@@ -2,7 +2,7 @@ package com.thebest12lines.worldmanager.gui;
 
 import javax.swing.*;
 
-import com.thebest12lines.worldmanager.Output;
+import com.thebest12lines.worldmanager.util.Output;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 
 import java.awt.*;
@@ -11,10 +11,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+/**
+ * A class for providing a GUI that replicates a console.
+ * @deprecated Use the built-in terminal instead. Note that this will be removed in later versions.
+ */
+@Deprecated
 @CoreClass
 public class Console extends JFrame {
 

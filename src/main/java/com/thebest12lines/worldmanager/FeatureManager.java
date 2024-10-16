@@ -12,14 +12,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
+import com.thebest12lines.worldmanager.util.Output;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Constants.FeatureLoadResult;
 
+/**
+ * A proper way of managing worldmanager features.
+ * @author thebest12lines
+ */
 @CoreClass
 public class FeatureManager {
+    /**
+     * Checks if a feature is enabled.
+     * @param feature The feature to check from worldmanager.json
+     * @return The result of the feature being enabled.
+     */
     public static boolean isFeatureEnabled(String feature) {
         StringBuilder builder = new StringBuilder();
         try {
@@ -44,6 +54,11 @@ public class FeatureManager {
         return false;
         
     }
+
+    /**
+     * Gets the list of enabled features
+     * @return The array of enabled features.
+     */
     public static Object[] getEnabledFeatures() {
         StringBuilder builder = new StringBuilder();
         try {
@@ -59,6 +74,12 @@ public class FeatureManager {
         }
         return null;
     }
+
+    /**
+     * Loads a feature to worldmanager, thus allowing it to run and modify worldmanager's functionality.
+     * @param feature The fully qualified feature name (typically the module name) to load.
+     * @return The load result.
+     */
     public static Constants.FeatureLoadResult loadFeature(String feature) {
         if (new File("worldmanager/features/"+feature+".jar").exists()) {
             
