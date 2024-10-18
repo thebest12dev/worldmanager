@@ -18,11 +18,12 @@ import java.nio.file.Path;
  */
 @CoreClass
 public class ObjectManager {
+    /**
+     * Returns the object library with the resource identifier.
+     * @param objectLibraryId The fully qualified name.
+     * @return The object library.
+     */
     public static ObjectLibrary getObjectLibrary(String objectLibraryId) {
         return new ObjectLibrary(objectLibraryId);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getObjectLibrary("objects/main").getPath("resources/libraries/json-20240303"));
     }
 }

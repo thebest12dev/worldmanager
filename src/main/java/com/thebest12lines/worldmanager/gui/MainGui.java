@@ -91,8 +91,10 @@ public class MainGui {
 
     public static Color bgColor;
     public static Color fgColor;
+    public static boolean safeToClose = true;
     protected static JFrame mainFrame = new JFrame("worldmanager");
     protected static JMenuBar menuBar;
+    protected static JFrame infoFrame;
     public static ArrayList<Image> icons;
     public static JFrame updateFrame;
     public static int updateFrameX;
@@ -112,16 +114,32 @@ public class MainGui {
      * @throws InterruptedException
      */
 
-    public static void launch() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException {
+    public static void launch() throws Exception {
         initialize();
         initializeFrames();
         drawMenus();
         drawWorlds();
         initializeKeycodes();
+        throw new RuntimeException("Test");
     }
 
-    ;
+    /**
+     * Safely closes worldmanager, in the case of a crash.
+     */
+    public static void safeClose() {
 
+        if (safeToClose) {
+            mainFrame.setVisible(false);
+            mainFrame.dispose();
+            mainFrame = null;
+            updateFrame.setVisible(false);
+            updateFrame.dispose();
+            mainFrame = null;
+            infoFrame.setVisible(false);
+            infoFrame.dispose();
+            infoFrame = null;
+        }
+    }
     /**
      * Initializes the GUI.
      *
@@ -130,8 +148,9 @@ public class MainGui {
      * @throws IllegalAccessException
      * @throws UnsupportedLookAndFeelException
      */
-    private static void initialize() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    private static void initialize() throws Exception {
         //  mainFrame = new JFrame("worldmanager Alpha 0.1.0");
+        safeToClose = false;
         bgColor = new Color(255, 255, 255);
         fgColor = new Color(0, 0, 0);
 
@@ -201,12 +220,13 @@ public class MainGui {
 
         // mainFrame.setBackground(new Color());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        safeToClose = true;
     }
-
     /**
      * Initializes the frames.
      */
     private static void initializeFrames() {
+        safeToClose = false;
         updateFrame = new JFrame("Update");
         // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 
@@ -351,12 +371,14 @@ public class MainGui {
         btnPanel.add(updateButton);
         btnPanel.add(cancelButton);
         updateFrame.add(btnPanel, BorderLayout.SOUTH);
+        safeToClose = true;
     }
 
     /**
      * Draws the menus.
      */
     private static void drawMenus() {
+        safeToClose = false;
         UIManager.put("Tree.collapsedIcon", createImageIcon("resources/icons/caret-right-fill"));
         UIManager.put("Tree.expandedIcon", createImageIcon("resources/icons/caret-down-fill"));
 
@@ -373,7 +395,7 @@ public class MainGui {
         JMenu help = jMenus.get(3);
         //  help.add(new JSeparator());
 
-        JFrame infoFrame = new JFrame("About worldmanager");
+        infoFrame = new JFrame("About worldmanager");
         infoFrame.setSize(500, 300);
         infoFrame.setBackground(bgColor);
         infoFrame.setForeground(fgColor);
@@ -436,6 +458,7 @@ public class MainGui {
         });
         item4.setFont(normalFont);
         file.add(item4);
+        safeToClose = true;
     }
 
     /**
@@ -446,7 +469,7 @@ public class MainGui {
      * @throws IllegalAccessException
      * @throws UnsupportedLookAndFeelException
      */
-    private static void drawWorlds() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    private static void drawWorlds() throws Exception{
         JPanel worldsList = new JPanel();
 
         worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
@@ -636,13 +659,14 @@ public class MainGui {
         mainFrame.setJMenuBar(menuBar);
         mainFrame.revalidate();
         mainFrame.repaint();
-
+        safeToClose = true;
     }
 
     /**
      * Initializes the keycodes used for shortcuts.
      */
     private static void initializeKeycodes() {
+        safeToClose = false;
         Set<Integer> pressedKeys = new HashSet<>();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 
@@ -664,6 +688,7 @@ public class MainGui {
 //                }
             }
         });
+        safeToClose = true;
     }
 
     /**

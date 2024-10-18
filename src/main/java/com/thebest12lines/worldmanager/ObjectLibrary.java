@@ -8,6 +8,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+/**
+ * A class for managing "object libraries". Object libraries are special folders used within worldmanager to store assets like JARs and shared libraries.
+ * It is also used to store icons and other assets, and are represented by the {@code objects/<libraryName>} resource identifier where {@code libraryName} is the fully qualified
+ * name of the object library.
+ * @author thebest12lines
+ */
 @CoreClass
 public class ObjectLibrary {
     private String objectLibraryId;
@@ -15,6 +22,15 @@ public class ObjectLibrary {
     public ObjectLibrary(String id) {
         this.objectLibraryId = id;
     }
+
+    /**
+     * Returns a resource from the object library in its object form. Note that this only works on some file types, so it is not guaranteed that this will work.
+     * Resource identifiers are represented by anything prefixed with <code>resources/</code>. There are several different types of <strong>resource types</strong>, or
+     * the identifier right after <code>resources/</code>. For example <code>resources/libraries/</code> and <code>resources/icons/</code> are valid resource types.
+     * Finally, the fully qualified name goes after these, like <code>resources/icons/icon32</code> where <code>icon32</code> is the fully qualified name (excluding file extensions).
+     * @param resourceId The fully qualified resource ID to return.
+     * @return The resource in its object form.
+     */
     public Object getResource(String resourceId) {
         String path = getPath(resourceId);
         Object object = new Object();

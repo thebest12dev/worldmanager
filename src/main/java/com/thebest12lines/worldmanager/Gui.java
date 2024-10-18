@@ -1,6 +1,7 @@
 package com.thebest12lines.worldmanager;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
+import com.thebest12lines.worldmanager.gui.CrashGui;
 import com.thebest12lines.worldmanager.gui.MainGui;
 import com.thebest12lines.worldmanager.util.Output;
 
@@ -31,8 +32,14 @@ public class Gui {
             try {
                 MainGui.launch();
             } catch (Exception e) {
-                // 
+
                 e.printStackTrace();
+                MainGui.safeClose();
+                try {
+                    CrashGui.launch();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }
