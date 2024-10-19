@@ -14,6 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+/**
+ * A class that provides static methods to create a JButton with a "flat" style.
+ * @author thebest12lines
+ */
 @CoreClass
 public class FlatButton {
     /**

@@ -1,7 +1,7 @@
 /**
  * <code>worldmanager v0.2.0 Alpha</code>
- * <p>
- * The worldmanager.core module for core features present in the program. Without this module, worldmanager would not work. This module has a special worldmanager.json file that is configured to save and get storage from it. This module also depends on 2 open source moudles. See README.md for attribution.
+ * <p style="color:#0077ff">
+ * The worldmanager.core module for core features present in the program. Without this module, worldmanager would not work. This module has a special worldmanager.json file that is configured to save and get storage from it. This module also depends on 2 open source moudles. See <a href="README.md">README.md</a> for attribution.
  * This code is subject to updates, so make sure that worldmanager is updated before launching it.
  * </p>
  * <p>

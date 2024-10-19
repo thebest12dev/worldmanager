@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="worldmanager (Main)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.thebest12lines.worldmanager.launcher.Launcher" />
+    <module name="worldmanager.main" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.thebest12lines.worldmanager.launcher.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

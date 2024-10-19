@@ -11,8 +11,8 @@
     "worldmanagerPreferences": {
         "autoBackupTime": "30min",
         "webDebugPort": "random",
-        "debug": false,
+        "debug": true,
         "verbose": false,
-        "theme": "default"
+        "theme": "light"
     }
 }

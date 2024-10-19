@@ -1,15 +1,13 @@
 package com.thebest12lines.worldmanager.world;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.zip.ZipOutputStream;
 
-import com.thebest12lines.worldmanager.ZipDirectory;
+import com.thebest12lines.worldmanager.util.ZipDirectory;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 /**
  * Base class for a Minecraft world.
