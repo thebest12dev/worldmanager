@@ -29,18 +29,21 @@ public class Gui {
             
             
             Output.print("["+RunnableImpl.class.getCanonicalName()+"]: Launching GUI");
-            try {
-                MainGui.launch();
-            } catch (Exception e) {
 
-                e.printStackTrace();
-                MainGui.safeClose();
-                try {
-                    CrashGui.launch();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                int result = MainGui.launch();
+                if (result != 0x00000000) {
+                    MainGui.safeClose();
+                    try {
+                        Output.printErr("FATAL: worldmanager crashed, error code: 0x"+Integer.toHexString(result));
+                        CrashGui.launch(result);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+
+
+
             }
         }
-    }
 }
+

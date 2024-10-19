@@ -96,6 +96,7 @@ public class Updater {
         try (InputStream in = new URI(fileUrl).toURL().openStream()) {
             Files.copy(in, Paths.get(localFilePath), StandardCopyOption.REPLACE_EXISTING);
             System.out.println("File downloaded and saved as " + localFilePath);
+            System.exit(0x00000002);
         } catch (IOException e) {
             e.printStackTrace();
         }

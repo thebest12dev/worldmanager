@@ -14,14 +14,12 @@ import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.ObjectLibrary;
 import com.thebest12lines.worldmanager.ObjectManager;
-import com.thebest12lines.worldmanager.util.Output;
+import com.thebest12lines.worldmanager.util.*;
 //import com.thebest12lines.worldmanager.util.ZipDirectory;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
-import com.thebest12lines.worldmanager.util.Updater;
 //import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
 import com.thebest12lines.worldmanager.world.World;
-import com.thebest12lines.worldmanager.util.SystemSettings;
 //import com.thebest12lines.worldmanager.util.UpdateBuildException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,11 +32,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
+import java.util.*;
 //import java.util.Random;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -106,21 +101,27 @@ public class MainGui {
 
     /**
      * Launches the main GUI.
-     *
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws UnsupportedLookAndFeelException
-     * @throws InterruptedException
+     * @return The status code.
      */
 
-    public static void launch() throws Exception {
-        initialize();
-        initializeFrames();
-        drawMenus();
-        drawWorlds();
-        initializeKeycodes();
-        throw new RuntimeException("Test");
+    public static int launch() {
+        try {
+            initialize();
+            initializeFrames();
+            drawMenus();
+            drawWorlds();
+            initializeKeycodes();
+        } catch (Exception e) {
+            if (e instanceof UpdateBuildException) {
+                return 0x13f20001;
+            } else if (e instanceof RuntimeException) {
+                return 0x12f20001;
+            } else if (e instanceof ClassNotFoundException) {
+                return 0x11f20001;
+            }
+        }
+        return 0;
+        //throw new RuntimeException("Test");
     }
 
     /**
@@ -225,7 +226,7 @@ public class MainGui {
     /**
      * Initializes the frames.
      */
-    private static void initializeFrames() {
+    private static void initializeFrames() throws Exception {
         safeToClose = false;
         updateFrame = new JFrame("Update");
         // UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -371,6 +372,11 @@ public class MainGui {
         btnPanel.add(updateButton);
         btnPanel.add(cancelButton);
         updateFrame.add(btnPanel, BorderLayout.SOUTH);
+
+            if (Objects.equals(Updater.checkForUpdates(), Constants.UpdateCheckResult.UPDATE_NEEDED)) {
+                updateFrame.setVisible(true);
+            }
+
         safeToClose = true;
     }
 
@@ -667,6 +673,7 @@ public class MainGui {
      */
     private static void initializeKeycodes() {
         safeToClose = false;
+
         Set<Integer> pressedKeys = new HashSet<>();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 

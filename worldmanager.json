@@ -13,6 +13,6 @@
         "webDebugPort": "random",
         "debug": true,
         "verbose": false,
-        "theme": "default"
+        "theme": "light"
     }
 }
