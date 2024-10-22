@@ -5,10 +5,11 @@ import java.io.IOException;
 import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 
-/**
- * The de facto main class for launching worldmanager.
- * @author thebest12lines
- */
+/// The de facto main class for launching worldmanager.
+/// @author thebest12lines
+/// @deprecated Use `worldmanager.Launcher` instead. Currently, the launcher class will not be removed due to compatibility reasons.
+///
+@Deprecated
 @CoreClass
 public class Launcher {
     /**
@@ -18,6 +19,6 @@ public class Launcher {
      */
     public static void main(String[] args) throws IOException {
     //    System.setProperty("java.awt.headless", "true");
-        Main.init(args);
+        worldmanager.Launcher.main(args);
     }
 }

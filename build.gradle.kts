@@ -15,6 +15,7 @@ plugins {
     `java-library`
     `maven-publish`
     java
+    id("jacoco")
 }
 
 tasks.register("setup") {
@@ -63,6 +64,7 @@ tasks.named("clean") {
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         url = uri("https://jitpack.io")
     }
@@ -100,7 +102,7 @@ dependencies {
 group = "com.thebest12lines"
 version = "0.2.0"
 description = "worldmanager"
-java.sourceCompatibility = JavaVersion.VERSION_21
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
     withSourcesJar()
@@ -112,3 +114,15 @@ publishing {
         from(components["java"])
     }
 }
+
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+
+
+tasks.test {
+    useJUnitPlatform()
+}
+

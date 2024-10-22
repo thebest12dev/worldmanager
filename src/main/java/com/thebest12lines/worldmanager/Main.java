@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Objects;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.*;
@@ -39,7 +40,7 @@ public class Main extends Instance {
                 "dll5395d4bc7825c78abba04c5ed39b3c5698722a7eb0cd93d46203b9aaa6784316"
         };
         if (libraryExists(libraries[0].substring(3))) {
-            Output.print("");
+           // Output.print("");
             builder = new StringBuilder();
             if (FeatureManager.isFeatureEnabled("worldmanager.core")) {
                 builder.append("worldmanager.core");
@@ -48,13 +49,13 @@ public class Main extends Instance {
                 Output.print(builder.toString());
                 return;
             }
-            for (Object string : FeatureManager.getEnabledFeatures()) {
+            for (Object string : Objects.requireNonNull(FeatureManager.getEnabledFeatures())) {
                 if (string.equals("worldmanager.core")) {
                     continue;
                 } else {
                     FeatureManager.loadFeature(string.toString());
 
-                    builder.append(", "+string);
+                    builder.append(", ").append(string);
                 }
             }
             
@@ -118,29 +119,7 @@ public class Main extends Instance {
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
-        if ((boolean) DataManager.getSetting("debug") == true) {
-            
-        Output.printErr(
-            ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
-            +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
-            +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
-            +DataManager.getBranch().substring(1).toLowerCase()
-            +" (Debug Mode)\nLogs will be outputted to file worldmanager.log."
-        );
-       // console = new Console();
-        Output.print("Debug mode enabled, also forwarding logs to console.");
-        } else {
-            Output.printErr(
-                ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
-                +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
-                +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
-                +DataManager.getBranch().substring(1).toLowerCase()
-                +"\nLogs will be outputted to file worldmanager.log."
-            );
-        }
-        if ((boolean) DataManager.getSetting("verbose") == true) {
-            Output.consoleOutput = true;
-        }
+
        
         Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");
         

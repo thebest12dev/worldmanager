@@ -10,16 +10,18 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import com.thebest12lines.worldmanager.DataManager;
+import com.thebest12lines.worldmanager.FeatureManager;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 
 import com.thebest12lines.worldmanager.util.Output;
 
 
+import net.querz.mca.MCAFile;
+import net.querz.mca.MCAUtil;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
-import net.querz.nbt.tag.CompoundTag;
-import net.querz.nbt.tag.LongTag;
-import net.querz.nbt.tag.StringTag;
+import net.querz.nbt.tag.*;
 
 /**
  * The world manager for <code>worldmanager</code> to read and get worlds.
@@ -93,12 +95,14 @@ public class SaveManager {
                 
                 world.lastModified = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
 
-                // if (!new File(save.getAbsolutePath()+"\\worldmanager.dat").exists()) {
+                 if (!new File(save.getAbsolutePath()+"\\worldmanager.dat").exists()) {
                     CompoundTag worldTag = new CompoundTag();
                     CompoundTag meta = new CompoundTag();
                     worldTag.put("Metadata", meta);
-                    meta.put("lastLoaded", new StringTag(Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))));
-                    meta.put("version", new LongTag(-1));
+                    meta.put("LastLoaded", new StringTag(Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))));
+                    meta.put("Version", new LongTag(DataManager.getBuild()));
+                   // meta.put("",);
+                    worldTag.put("Backups",ListTag.createUnchecked(CompoundTag.class));
                     if (System.getProperty("os.name").equals("Linux")) {
                        NBTUtil.write(new NamedTag("Data", worldTag), save.getAbsolutePath()+"/worldmanager.dat");
                     } else {
@@ -106,7 +110,7 @@ public class SaveManager {
                     }
                     
                 
-                // }
+                }
                 worlds.add(world);
                // Output.printDebug("========================================================");
             } catch (Exception e) {
