@@ -11,9 +11,9 @@ jobs:
         with:
           java-version: 21
       - name: Install dependencies
-        run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+        run: ./gradlew install -x test -x javadoc -Dorg.gradle.daemon=false --info
       - name: Run tests and collect coverage
-        run: mvn -B test jacoco:report -Djava.awt.headless=true
+        run: ./gradlew test jacocoTestReport -Djava.awt.headless=true
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
