@@ -10,6 +10,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 21
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+      - name: Verify if gradlew is executable
+        run: ls -l ./gradlew
       - name: Install dependencies
         run: ./gradlew install -x test -x javadoc -Dorg.gradle.daemon=false --info
       - name: Run tests and collect coverage
