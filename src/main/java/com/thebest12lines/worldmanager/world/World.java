@@ -6,9 +6,15 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import com.thebest12lines.worldmanager.util.ZipDirectory;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
+import net.querz.nbt.io.NBTUtil;
+import net.querz.nbt.io.NamedTag;
+import net.querz.nbt.tag.CompoundTag;
+import net.querz.nbt.tag.ListTag;
+
 /**
  * Base class for a Minecraft world.
  * @author thebest12lines
@@ -79,6 +85,13 @@ public class World extends Object{
             System.err.println(path);
              new File(path+"\\backups\\"+backupPath+".zip").createNewFile();
              ZipDirectory.zipDirectory(getWorldPath(), getWorldPath()+"\\backups\\"+backupPath+".zip", path+"\\backups");
+            CompoundTag worldInfo = (CompoundTag) NBTUtil.read(new File(path+"\\worldmanager.dat")).getTag();
+            ListTag<CompoundTag> tag = (ListTag<CompoundTag>) worldInfo.getListTag("Backups");
+            CompoundTag t = new CompoundTag();
+            t.putString("BackupDate", Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+            t.putString("BackupPath", path+"\\backups\\"+backupPath+".zip");
+            tag.add(t);
+            NBTUtil.write(new NamedTag("Data", worldInfo), path+"/worldmanager.dat");
              isBackingUp = false;
         } catch (IOException e) {
             e.printStackTrace();
