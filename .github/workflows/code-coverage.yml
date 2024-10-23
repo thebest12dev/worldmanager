@@ -15,7 +15,7 @@ jobs:
       - name: Verify if gradlew is executable
         run: ls -l ./gradlew
       - name: Install dependencies
-        run: ./gradlew setup install
+        run: ./gradlew setup build
       - name: Run tests and collect coverage
         run: ./gradlew test jacocoTestReport -Djava.awt.headless=true
       - name: Upload coverage to Codecov
