@@ -16,6 +16,8 @@ jobs:
         run: ls -l ./gradlew
       - name: Install dependencies
         run: ./gradlew setup build
+      - name: Debug!
+        run: ./gradlew tasks
       - name: Run tests and collect coverage
         run: ./gradlew test jacocoTestReport -Djava.awt.headless=true
       - name: Upload coverage to Codecov
