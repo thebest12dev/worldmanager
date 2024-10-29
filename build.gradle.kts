@@ -81,7 +81,7 @@ tasks.compileJava {
         options.compilerArgs = listOf(
             "--module-path", namedModules.asPath,
             "--add-modules", "org.json",
-            "--patch-module", "worldmanager.core=${unnamedModules.asPath}"
+           "--patch-module", "worldmanager.core=${unnamedModules.asPath}"
         )
 
         classpath = files()
@@ -90,12 +90,12 @@ tasks.compileJava {
 
 //println(unnamedModules.asPath)
 dependencies {
-    api(libs.org.json.json)
+    implementation(libs.org.json.json)
    namedModules(libs.org.json.json)
 
-    api(libs.com.github.querz.nbt)
+    implementation(libs.com.github.querz.nbt)
     namedModules(libs.com.github.querz.nbt)
- unnamedModules(libs.com.github.querz.nbt)
+    unnamedModules(libs.com.github.querz.nbt)
     testImplementation(libs.org.junit.jupiter.junit.jupiter)
 }
 

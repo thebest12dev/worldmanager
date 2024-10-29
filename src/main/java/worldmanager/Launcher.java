@@ -5,6 +5,7 @@ import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.Output;
+import net.querz.nbt.tag.StringTag;
 
 
 /// The de facto main class for launching worldmanager.
@@ -26,7 +27,9 @@ public class Launcher {
             // console = new Console();
             Output.print("Debug mode enabled, also forwarding logs to console.");
         }
-        // Begin lower-level processing
+        DataFile.createIfNotExists();
+
+
         Main.init(args);
     }
 }

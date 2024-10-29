@@ -1,14 +1,6 @@
 package com.thebest12lines.worldmanager.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
+import java.awt.*;
 
 import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Main;
@@ -409,15 +401,22 @@ public class MainGui {
         infoFrame.setLayout(new BorderLayout());
         infoFrame.setIconImages(icons);
         infoFrame.setAlwaysOnTop(true);
-        JLabel version = new JLabel("An open source world manager for Minecraft");
+        JLabel version = new JLabel("<html><center>An open source world manager for Minecraft</center></html>");
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(version,BorderLayout.CENTER);
+       // infoFrame.add(version);
+
+
         version.setBackground(bgColor);
         version.setForeground(fgColor);
         version.setFont(normalFont);
         JLabel logo = new JLabel(createImageIcon("resources/icons/logo"));
         logo.setBackground(bgColor);
         logo.setForeground(fgColor);
+        panel.add(logo,BorderLayout.NORTH);
         infoFrame.add(logo, BorderLayout.NORTH);
-        infoFrame.add(version);
+       // infoFrame.add(version);
         JMenuItem info = FlatMenuItem.createFlatMenuItem("About", "");
 
         info.addActionListener(new ActionListener() {
