@@ -1,5 +1,6 @@
 package worldmanager;
 
+import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.Output;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
@@ -11,11 +12,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/// The main API for managing and configuring the data file (in this case, `worldmanager.dat`).
+/// @author thebest12lines
+@CoreClass
 public class DataFile {
+    /// No constructor
     private DataFile() {}
+    /// Creates the data file if it does not exist.
+    /// May be subject to exceptions.
     public static void createIfNotExists() {
         if (!Files.exists(Path.of("worldmanager/worldmanager.dat"))) initializeFile();
     }
+    /// Private method for initializing the data file.
     private static void initializeFile() {
         boolean success = false;
         Output.print("["+DataFile.class.getCanonicalName()+"]: Data file does not exist! Recreating file...");
@@ -66,6 +74,13 @@ public class DataFile {
             }
         }
     }
+
+    /**
+     * Returns the specified flag as a <code>net.querz.nbt.tag.Tag</code> with any tag.
+     * @param flagName The 'flag' (or setting) to return
+     * @param clazz The class to initialize the value with
+     * @return The returned tag.
+     */
     public static Tag<?> getFlag(String flagName, Class clazz) {
         try {
            // createIfNotExists();
@@ -77,6 +92,12 @@ public class DataFile {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Sets the flag to its value.
+     * @param flagName The name of the flag.
+     * @param value The value of the flag.
+     */
     public static void setFlag(String flagName, String value) {
         try {
             // createIfNotExists();

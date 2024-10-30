@@ -1,7 +1,6 @@
 package com.thebest12lines.worldmanager.gui;
 
 import java.awt.*;
-
 import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.ObjectLibrary;
@@ -28,23 +27,8 @@ import java.util.*;
 //import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
+import javax.swing.*;
 //import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -384,7 +368,7 @@ public class MainGui {
         // updateFrame.setVisible(true);
 
         menuBar = FlatMenuBar.createFlatMenuBar();
-        ArrayList<JMenu> jMenus = new ArrayList<JMenu>();
+        ArrayList<JMenu> jMenus = new ArrayList<>();
         jMenus.add(FlatMenu.createFlatMenu("File", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("Edit", menuBar));
         jMenus.add(FlatMenu.createFlatMenu("World", menuBar));
@@ -394,30 +378,66 @@ public class MainGui {
         //  help.add(new JSeparator());
 
         infoFrame = new JFrame("About worldmanager");
-        infoFrame.setSize(500, 300);
+        infoFrame.setSize(480, 640);
         infoFrame.setBackground(bgColor);
         infoFrame.setForeground(fgColor);
         infoFrame.setResizable(false);
         infoFrame.setLayout(new BorderLayout());
         infoFrame.setIconImages(icons);
         infoFrame.setAlwaysOnTop(true);
-        JLabel version = new JLabel("<html><center>An open source world manager for Minecraft</center></html>");
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.add(version,BorderLayout.CENTER);
-       // infoFrame.add(version);
-
-
-        version.setBackground(bgColor);
-        version.setForeground(fgColor);
-        version.setFont(normalFont);
-        JLabel logo = new JLabel(createImageIcon("resources/icons/logo"));
+        JLabel logo = new JLabel(createImageIcon("resources/icons/testicon"));
+        logo.setPreferredSize(new Dimension(166,256));
         logo.setBackground(bgColor);
         logo.setForeground(fgColor);
-        panel.add(logo,BorderLayout.NORTH);
-        infoFrame.add(logo, BorderLayout.NORTH);
+        panel.add(logo, BorderLayout.NORTH);
+       // panel.setBackground(new Color(1,1,1));
+        JPanel panel2 = new JPanel();
+        JLabel t = FlatLabel.createFlatLabel("<html>" +
+                "<body style='text-align:center'>" +
+                "<strong>" +
+                "worldmanager" +
+                "</strong><br>" +
+                "A world manager for Minecraft.<br>" +
+                "<br><span style='font-size: 16pt'>Version: "+DataManager.getFullVersion()+"</span><br><span style='font-family: \"Segoe UI\";font-size:16pt'><br><br><br><br>Copyright &copy; 2024 thebest12lines<br><br>worldmanager is not an official Minecraft product <br>and is not endorsed nor affiliated with Mojang. </span></body></html>");
+        t.setFont(new Font("Segoe UI",Font.PLAIN, 20));
+        t.setHorizontalAlignment(SwingConstants.CENTER);
+        t.setVerticalAlignment(SwingConstants.NORTH);
+
+       // a.setFont(new Font("Segoe UI",Font.BOLD, 20));
+
+
+        panel2.add(t);
+
+
+        panel.add(panel2, BorderLayout.CENTER);
+        infoFrame.add(panel,BorderLayout.CENTER);
+        JPanel btnPanel = new JPanel();
+        btnPanel.setLayout(new FlowLayout());
+        JButton a = FlatButton.createFlatButton("<html><center>Repository</center></html>");
+        a.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        URI url = new URI("https://github.com/thebest12dev/worldmanager/");
+                        Desktop.getDesktop().browse(url);
+                    } else {
+                        System.out.println("Desktop browsing is not supported on this platform.");
+                    }
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+        });
+        a.setPreferredSize(new Dimension(100,30));
+        btnPanel.add(a);
+
+        panel.add(btnPanel,BorderLayout.SOUTH);
        // infoFrame.add(version);
         JMenuItem info = FlatMenuItem.createFlatMenuItem("About", "");
+
 
         info.addActionListener(new ActionListener() {
 
@@ -431,7 +451,7 @@ public class MainGui {
                 int updateFrameX = mainFrameX + (mainFrameWidth - updateFrame.getWidth()) / 2;
                 int updateFrameY = mainFrameY + (mainFrameHeight - updateFrame.getHeight()) / 2;
                 infoFrame.setVisible(true);
-                infoFrame.setLocation(updateFrameX, updateFrameY);
+                infoFrame.setLocation(updateFrameX, updateFrameY-150);
             }
 
         });
