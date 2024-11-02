@@ -34,6 +34,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import static com.thebest12lines.worldmanager.Main.debugMode;
+import static com.thebest12lines.worldmanager.Main.mainTerminal;
+
 /**
  * The main GUI responsible for all the GUIs used by worldmanager.
  * It provides static methods to launch and initialize the GUI.
@@ -87,6 +90,9 @@ public class MainGui {
             drawMenus();
             drawWorlds();
             initializeKeycodes();
+            Main.mainTerminal.isProcessing = false;
+            Main.mainTerminal.terminalArea.append("> ");
+            mainTerminal.terminalArea.setCaretPosition(mainTerminal.terminalArea.getText().length());
         } catch (Exception e) {
             if (e instanceof UpdateBuildException) {
                 return 0x13f20001;
@@ -180,10 +186,17 @@ public class MainGui {
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                if (!mainTerminal.isVisible()) {
+
+                    mainFrame.setVisible(false); // Hide the window
+                    mainFrame.dispose(); // Dispose of the window's resources
+                    System.exit(0); // Terminate the application
+                } else {
+                    mainFrame.setVisible(false); // Hide the window
+                    mainFrame.dispose(); // Dispose of the window's resources
+                }
                 // Choose your desired behavior:
-                mainFrame.setVisible(false); // Hide the window
-                mainFrame.dispose(); // Dispose of the window's resources
-                System.exit(0); // Terminate the application
+
             }
         });
         icons = new ArrayList<>();
@@ -387,7 +400,7 @@ public class MainGui {
         infoFrame.setAlwaysOnTop(true);
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        JLabel logo = new JLabel(createImageIcon("resources/icons/testicon"));
+        JLabel logo = new JLabel(createImageIcon("resources/icons/icon-about"));
         logo.setPreferredSize(new Dimension(166,256));
         logo.setBackground(bgColor);
         logo.setForeground(fgColor);
@@ -400,7 +413,7 @@ public class MainGui {
                 "worldmanager" +
                 "</strong><br>" +
                 "A world manager for Minecraft.<br>" +
-                "<br><span style='font-size: 16pt'>Version: "+DataManager.getFullVersion()+"</span><br><span style='font-family: \"Segoe UI\";font-size:16pt'><br><br><br><br>Copyright &copy; 2024 thebest12lines<br><br>worldmanager is not an official Minecraft product <br>and is not endorsed nor affiliated with Mojang. </span></body></html>");
+                "<br><span style='font-size: 16pt'>Version: "+DataManager.getFullVersion()+"</span><br><span style='font-family: \"Segoe UI\";font-size:16pt'><br><br><br><br>Copyright &copy; 2024 thebest12lines<br><br><span style='font-size:12pt'>worldmanager is not an official Minecraft product <br>and is not endorsed nor affiliated with Mojang. </span></span></body></html>");
         t.setFont(new Font("Segoe UI",Font.PLAIN, 20));
         t.setHorizontalAlignment(SwingConstants.CENTER);
         t.setVerticalAlignment(SwingConstants.NORTH);
@@ -614,7 +627,7 @@ public class MainGui {
         // worlds.setBackground(new Color(210, 210, 210));
         //  worlds.setPreferredSize(new Dimension(150, mainFrameHeight));
         FlatTreeCellRenderer renderer = new FlatTreeCellRenderer(
-                createImageIcon("resources/icons/box")
+                createImageIcon("resources/icons/folder")
                 , new Font("Segoe UI Light", Font.PLAIN, 13)
                 , createImageIcon("resources/icons/box")
                 , worldMenu1
