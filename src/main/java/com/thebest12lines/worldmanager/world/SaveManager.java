@@ -35,7 +35,7 @@ public class SaveManager {
      */
     public static World[] getWorlds() {
             Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Reading worlds (DEBUG)...");
-        return (World[]) readWorlds().toArray(new World[0]);
+        return readWorlds().toArray(new World[0]);
         
     }
     private static ArrayList<World> readWorlds() {
@@ -52,7 +52,7 @@ public class SaveManager {
         File[] saves = folder.listFiles();
         Output.printDebug("========================== DEBUG START ==============================");
 
-        
+
         for (File save : saves) {
             try {
                 Output.printDebug("========================================================");
@@ -121,7 +121,7 @@ public class SaveManager {
         Output.printDebug("========================== DEBUG END ==============================");
         return worlds;
     }
-
+    public static void restoreBackup() {}
 }
 
 

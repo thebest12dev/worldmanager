@@ -4,6 +4,7 @@ import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.Constants;
+import com.thebest12lines.worldmanager.util.CoreApplication;
 import com.thebest12lines.worldmanager.util.Output;
 import net.querz.nbt.tag.StringTag;
 
@@ -30,6 +31,6 @@ public class Launcher {
         DataFile.createIfNotExists();
 
 
-        Main.init(args);
+        CoreApplication.getCoreApplication().start(args);
     }
 }

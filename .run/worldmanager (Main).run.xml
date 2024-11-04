@@ -2,7 +2,6 @@
   <configuration default="false" name="worldmanager (Main)" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="com.thebest12lines.worldmanager.launcher.Launcher" />
     <module name="worldmanager.main" />
-    <option name="PROGRAM_PARAMETERS" value="--debug-mode" />
     <option name="VM_PARAMETERS" value="-XX:+ShowCodeDetailsInExceptionMessages -XX:StartFlightRecording:filename=worldmanager/recording.jfr" />
     <extension name="coverage">
       <pattern>

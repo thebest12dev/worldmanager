@@ -39,6 +39,7 @@ public class Terminal extends JFrame {
 
     private boolean isFontAvailable(String fontName) {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
         String[] availableFontFamilyNames = ge.getAvailableFontFamilyNames();
         for (String availableFont : availableFontFamilyNames) {
             if (availableFont.equalsIgnoreCase(fontName)) {
@@ -51,10 +52,11 @@ public class Terminal extends JFrame {
         setTitle("Terminal");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setIconImages(MainGui.icons);
         terminalArea = new JTextArea();
         terminalArea.setLineWrap(true);
         terminalArea.setEditable(false);
+
         terminalArea.setBackground(Color.BLACK);
         terminalArea.setCaretColor(Color.WHITE);
         terminalArea.setForeground(Color.WHITE);
@@ -80,10 +82,14 @@ public class Terminal extends JFrame {
                     switch (keyCode) {
                         case KeyEvent.VK_ENTER:
                             terminalArea.append("\n");
-
+                            if (currentInput.isBlank()) {
+                                isProcessing = false;
+                            } else {
                                 processCommand(currentInput);
+                            }
 
-                            if (!isProcessing) {
+
+                            if (!isProcessing ) {
                                 terminalArea.append(prompt);
                                 if (!currentInput.isEmpty()) {
                                     history.add(currentInput);
@@ -197,7 +203,7 @@ public class Terminal extends JFrame {
             } else if (command.equalsIgnoreCase("clear")) {
                 terminalArea.setText("");
 
-                terminalArea.append(prompt);
+
                 isProcessing = false;
             } else if (command.equalsIgnoreCase("help")) {
                 terminalArea.append("""
