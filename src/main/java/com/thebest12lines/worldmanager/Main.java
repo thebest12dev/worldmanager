@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
+import com.thebest12lines.worldmanager.gui.MainGui;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.*;
@@ -20,6 +23,7 @@ import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 public class Main extends Instance {
   //  public static Console console;
     public static boolean debugMode = false;
+    public static volatile Terminal mainTerminal = new Terminal();
     public static int themeExplicit = 0;
     /**
      * Initializes the <code>Main</code> class with the specified arguments.
@@ -31,6 +35,7 @@ public class Main extends Instance {
     @Override
     public void onStart(String[] args0) {
         Output.consoleOutput = true;
+
       //  System.setProperty("java.awt.headless", "true");
         StringBuilder builder = new StringBuilder();
         String[] libraries = {
@@ -39,7 +44,7 @@ public class Main extends Instance {
                 "dll5395d4bc7825c78abba04c5ed39b3c5698722a7eb0cd93d46203b9aaa6784316"
         };
         if (libraryExists(libraries[0].substring(3))) {
-            Output.print("");
+           // Output.print("");
             builder = new StringBuilder();
             if (FeatureManager.isFeatureEnabled("worldmanager.core")) {
                 builder.append("worldmanager.core");
@@ -48,13 +53,13 @@ public class Main extends Instance {
                 Output.print(builder.toString());
                 return;
             }
-            for (Object string : FeatureManager.getEnabledFeatures()) {
+            for (Object string : Objects.requireNonNull(FeatureManager.getEnabledFeatures())) {
                 if (string.equals("worldmanager.core")) {
                     continue;
                 } else {
                     FeatureManager.loadFeature(string.toString());
 
-                    builder.append(", "+string);
+                    builder.append(", ").append(string);
                 }
             }
             
@@ -104,7 +109,22 @@ public class Main extends Instance {
         } else if (CommandArgsParser.hasOption(args,"--theme=light")) {
             themeExplicit=1;
         }
+        boolean[] t = new boolean[1];
+        t[0] = true;
+        if (CommandArgsParser.hasOption(args,"--debug-mode")) {
+            Output.print(ANSIColor.BOLD+"Debug mode is turned on, enabling debug console! Type debug-enter to launch the debug session."+ANSIColor.RESET);
 
+            new Thread(((Runnable) () -> {
+
+                boolean debugSession = false;
+                t[0] = false;
+
+
+
+                mainTerminal.setVisible(true);
+            })).start();
+
+        }
 
 
       System.out.println();
@@ -118,29 +138,7 @@ public class Main extends Instance {
         File Directory = new File(appDataPath);
         Directory.mkdir();
         new File(appDataPath+"\\worlds").mkdir();
-        if ((boolean) DataManager.getSetting("debug") == true) {
-            
-        Output.printErr(
-            ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
-            +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
-            +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
-            +DataManager.getBranch().substring(1).toLowerCase()
-            +" (Debug Mode)\nLogs will be outputted to file worldmanager.log."
-        );
-       // console = new Console();
-        Output.print("Debug mode enabled, also forwarding logs to console.");
-        } else {
-            Output.printErr(
-                ANSIColor.LIGHT_BLUE+"worldmanager "+ANSIColor.RESET
-                +ANSIColor.GRAY+"v"+ANSIColor.RESET+ANSIColor.BOLD+DataManager.getVersion()+ANSIColor.RESET
-                +" "+Character.toUpperCase(DataManager.getBranch().charAt(0))
-                +DataManager.getBranch().substring(1).toLowerCase()
-                +"\nLogs will be outputted to file worldmanager.log."
-            );
-        }
-        if ((boolean) DataManager.getSetting("verbose") == true) {
-            Output.consoleOutput = true;
-        }
+
        
         Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");
         
@@ -216,11 +214,17 @@ public class Main extends Instance {
         }
 
         if (!zip) {
-            Gui.start(args0);
+            if (t[0]) {
+                // Launch GUI
+                Gui.start(args0);
+            }
         }
     } else {
-        // Launch GUI
-        Gui.start(args0);
+           if (t[0]) {
+               // Launch GUI
+               Gui.start(args0);
+           }
+
     }
     
 

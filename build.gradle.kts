@@ -15,6 +15,7 @@ plugins {
     `java-library`
     `maven-publish`
     java
+    id("jacoco")
 }
 
 tasks.register("setup") {
@@ -63,6 +64,7 @@ tasks.named("clean") {
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         url = uri("https://jitpack.io")
     }
@@ -79,7 +81,7 @@ tasks.compileJava {
         options.compilerArgs = listOf(
             "--module-path", namedModules.asPath,
             "--add-modules", "org.json",
-            "--patch-module", "worldmanager.core=${unnamedModules.asPath}"
+           "--patch-module", "worldmanager.core=${unnamedModules.asPath}"
         )
 
         classpath = files()
@@ -88,19 +90,19 @@ tasks.compileJava {
 
 //println(unnamedModules.asPath)
 dependencies {
-    api(libs.org.json.json)
+    implementation(libs.org.json.json)
    namedModules(libs.org.json.json)
 
-    api(libs.com.github.querz.nbt)
+    implementation(libs.com.github.querz.nbt)
     namedModules(libs.com.github.querz.nbt)
- unnamedModules(libs.com.github.querz.nbt)
+    unnamedModules(libs.com.github.querz.nbt)
     testImplementation(libs.org.junit.jupiter.junit.jupiter)
 }
 
 group = "com.thebest12lines"
 version = "0.2.0"
 description = "worldmanager"
-java.sourceCompatibility = JavaVersion.VERSION_21
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
     withSourcesJar()
@@ -112,3 +114,15 @@ publishing {
         from(components["java"])
     }
 }
+
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+
+
+tasks.test {
+    useJUnitPlatform()
+}
+
