@@ -469,7 +469,15 @@ public class MainGui {
 
         });
         help.add(info);
+        JFrame backupFrame = new JFrame();
+
         JMenuItem item1 = FlatMenuItem.createFlatMenuItem("New Backup", "Ctrl+N");
+        item1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         item1.setFont(normalFont);
         file.add(item1);
         file.add(new JSeparator());
@@ -498,7 +506,7 @@ public class MainGui {
         file.add(item4);
         safeToClose = true;
     }
-
+    public static JLabel statusLabel = FlatLabel.createFlatLabel("");
     /**
      * Draws the worlds.
      *
@@ -508,6 +516,11 @@ public class MainGui {
      * @throws UnsupportedLookAndFeelException
      */
     private static void drawWorlds() throws Exception{
+
+        statusLabel.setVisible(false);
+        statusLabel.setPreferredSize(new Dimension(500, 20));
+        statusLabel.setFont(new Font("Segoe UI",Font.PLAIN,12));
+        mainFrame.add(statusLabel,BorderLayout.SOUTH);
         JPanel worldsList = new JPanel();
 
         worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
