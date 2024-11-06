@@ -32,5 +32,6 @@ public class Launcher {
 
 
         CoreApplication.getCoreApplication().start(args);
+
     }
 }

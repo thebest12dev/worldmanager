@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 //import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -34,9 +35,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import static com.thebest12lines.worldmanager.Main.debugMode;
 import static com.thebest12lines.worldmanager.Main.mainTerminal;
-
 /**
  * The main GUI responsible for all the GUIs used by worldmanager.
  * It provides static methods to launch and initialize the GUI.
@@ -44,44 +43,141 @@ import static com.thebest12lines.worldmanager.Main.mainTerminal;
  */
 @CoreClass
 public class MainGui {
-    /**
-     * Returns the main frame.
-     */
-    public static JFrame getMainFrame() {
 
-        return mainFrame;
-
-
-    }
 
     /**
      * Returns the main menu bar.
      */
-    public static JMenuBar getMenuBar() {
-        return menuBar;
 
-
-    }
-
-    public static Color bgColor;
-    public static Color fgColor;
-    public static boolean safeToClose = true;
+    protected static Color bgColor;
+    protected static Color fgColor;
+    protected static boolean safeToClose = true;
     protected static JFrame mainFrame = new JFrame("worldmanager");
     protected static JMenuBar menuBar;
     protected static JFrame infoFrame;
-    public static ArrayList<Image> icons;
-    public static JFrame updateFrame;
-    public static int updateFrameX;
-    public static int updateFrameY;
-    public static int mainFrameHeight;
-    public static int mainFrameWidth;
-    public static int mainFrameX;
-    public static int mainFrameY;
-
+    protected static ArrayList<Image> icons;
+    protected static JFrame updateFrame;
+    protected static int updateFrameX;
+    protected static CompletableFuture<String> guiReady = new CompletableFuture<>();
+    protected static int updateFrameY;
+    protected static int mainFrameHeight;
+    protected static int mainFrameWidth;
+    protected static int mainFrameX;
+    protected static int mainFrameY;
     /**
      * Launches the main GUI.
      * @return The status code.
      */
+
+
+
+
+
+        // Getters and Setters
+        public static Color getBackgroundColor() {
+            return bgColor;
+        }
+
+        public static void setBackgroundColor(Color bgColor) {
+            MainGui.bgColor = bgColor;
+        }
+
+        public static Color getForegroundColor() {
+            return fgColor;
+        }
+
+        public static void setForegroundColor(Color fgColor) {
+            MainGui.fgColor = fgColor;
+        }
+
+        public static boolean isSafeToClose() {
+            return safeToClose;
+        }
+
+        public static void setSafeToClose(boolean safeToClose) {
+            MainGui.safeToClose = safeToClose;
+        }
+
+        public static JFrame getMainFrame() {
+            return mainFrame;
+        }
+
+        public static void setMainFrame(JFrame mainFrame) {
+            MainGui.mainFrame = mainFrame;
+        }
+
+        public static JMenuBar getMenuBar() {
+            return menuBar;
+        }
+
+        public static void setMenuBar(JMenuBar menuBar) {
+            MainGui.menuBar = menuBar;
+        }
+
+        public static JFrame getInfoFrame() {
+            return infoFrame;
+        }
+
+        public static void setInfoFrame(JFrame infoFrame) {
+            MainGui.infoFrame = infoFrame;
+        }
+
+        public static ArrayList<Image> getIcons() {
+            return icons;
+        }
+
+        public static void setIcons(ArrayList<Image> icons) {
+            MainGui.icons = icons;
+        }
+
+        public static JFrame getUpdateFrame() {
+            return updateFrame;
+        }
+
+        public static void setUpdateFrame(JFrame updateFrame) {
+            MainGui.updateFrame = updateFrame;
+        }
+
+        public static int getUpdateFrameX() {
+            return updateFrameX;
+        }
+
+
+
+        public static CompletableFuture<String> getGuiReady() {
+            return guiReady;
+        }
+
+
+
+        public static int getUpdateFrameY() {
+            return updateFrameY;
+        }
+
+        public static int getMainFrameHeight() {
+            return mainFrameHeight;
+        }
+
+        public static void setMainFrameHeight(int mainFrameHeight) {
+            MainGui.mainFrameHeight = mainFrameHeight;
+        }
+
+
+
+
+
+        public static int getMainFrameX() {
+            return mainFrameX;
+        }
+
+
+
+        public static int getMainFrameY() {
+            return mainFrameY;
+        }
+
+
+
 
     public static int launch() {
         try {
@@ -90,6 +186,7 @@ public class MainGui {
             drawMenus();
             drawWorlds();
             initializeKeycodes();
+            guiReady.complete("");
             Main.mainTerminal.isProcessing = false;
             Main.mainTerminal.terminalArea.append("> ");
             mainTerminal.terminalArea.setCaretPosition(mainTerminal.terminalArea.getText().length());

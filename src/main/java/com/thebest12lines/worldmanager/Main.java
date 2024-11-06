@@ -7,6 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+
+import com.thebest12lines.worldmanager.api.FeatureProcessor;
 import com.thebest12lines.worldmanager.gui.MainGui;
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
@@ -35,7 +37,7 @@ public class Main extends Instance {
     @Override
     public void onStart(String[] args0) {
         Output.consoleOutput = true;
-
+        FeatureProcessor.loadFeature("test");
       //  System.setProperty("java.awt.headless", "true");
         StringBuilder builder = new StringBuilder();
         String[] libraries = {

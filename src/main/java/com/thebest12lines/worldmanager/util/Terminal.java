@@ -52,7 +52,7 @@ public class Terminal extends JFrame {
         setTitle("Terminal");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImages(MainGui.icons);
+        setIconImages(MainGui.getIcons());
         terminalArea = new JTextArea();
         terminalArea.setLineWrap(true);
         terminalArea.setEditable(false);
