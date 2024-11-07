@@ -181,10 +181,8 @@ public class MainGui {
 
 
 
-    /**
-     * Launches the main GUI.
-     * @return The status code.
-     */
+    /// Launches the main GUI.
+    /// @return The status code. A status code is a fixed-length 32-bit DWORD integer that contains worldmanager's status when it last crashed.
     public static int launch() {
         try {
             initialize();

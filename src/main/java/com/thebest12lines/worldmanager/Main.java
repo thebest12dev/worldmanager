@@ -4,12 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
 
-import com.thebest12lines.worldmanager.api.FeatureProcessor;
-import com.thebest12lines.worldmanager.gui.MainGui;
+import java.util.Objects;
+
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.*;
@@ -26,7 +23,7 @@ import joptsimple.OptionSet;
 @CoreClass
 public class Main extends Instance {
   //  public static Console console;
-    public static boolean debugMode = false;
+
     public static volatile Terminal mainTerminal = new Terminal();
     public static int themeExplicit = 0;
     /**
@@ -49,7 +46,7 @@ public class Main extends Instance {
         parser.accepts("enabled-features");
         OptionSet options = parser.parse(args0);
         Output.consoleOutput = true;
-        FeatureProcessor.loadFeature("test");
+      //  FeatureProcessor.loadFeature("test");
       //  System.setProperty("java.awt.headless", "true");
         StringBuilder builder = new StringBuilder();
         String[] libraries = {
@@ -93,7 +90,7 @@ public class Main extends Instance {
         }
         if (options.has("help")) {
             System.err.println("""
-                    worldmanager\s""" +DataManager.getVersion()+" "+DataManager.getBranch()+"""
+                    worldmanager\s""" +DataManager.getVersion()+" "+DataManager.getBranch()+ """
                     
                     List of options:
                         --version: Prints the current version of worldmanager
@@ -104,7 +101,7 @@ public class Main extends Instance {
                         --theme=<theme>: Explicitly chooses the theme for the GUI
                             dark: Sets the theme to dark
                             light: Sets the theme to light
-                            
+                    
                     Experimental options:
                     Note that some features might be unstable!
                         --debug-mode: Explicitly turns on debug mode
@@ -116,7 +113,7 @@ public class Main extends Instance {
             return;
         }
         if (options.has("enabled-features")) {
-            System.err.println("Enabled features (worldmanager): "+builder.toString());
+            System.err.println("Enabled features (worldmanager): "+ builder);
             return;
         }
         if (options.has("theme")) {
@@ -128,15 +125,15 @@ public class Main extends Instance {
         if (options.has("debug-mode")) {
             Output.print(ANSIColor.BOLD+"Debug mode is turned on, enabling debug console! Type debug-enter to launch the debug session."+ANSIColor.RESET);
 
-            new Thread(((Runnable) () -> {
+            new Thread(() -> {
 
-                boolean debugSession = false;
+
                 t[0] = false;
 
 
 
                 mainTerminal.setVisible(true);
-            })).start();
+            }).start();
 
         }
 
@@ -145,7 +142,7 @@ public class Main extends Instance {
     //  System.loadLibrary("SystemSettings");
         //System.out.println(System.getProperty("os.name"));
         String appDataPath = System.getProperty("user.home") + "\\AppData\\Roaming\\.worldmanager";
-        if (System.getProperty("os.name") == "Linux") {
+        if (Objects.equals(System.getProperty("os.name"), "Linux")) {
             appDataPath = System.getProperty("user.home") + "/.worldmanager";
         }
         

@@ -53,8 +53,6 @@ public class FeatureProcessor {
 
             Class<?> loadedClass = classLoader.loadClass(mainClass); // Print some information about the loaded class
             Object inst = loadedClass.getDeclaredConstructor().newInstance();
-                    System.out.println("Class Name: " + loadedClass.getName());
-             System.out.println("Methods: " + Arrays.toString(loadedClass.getDeclaredMethods())); // Close the class loader classLoader.close(); }
             loadedClass.getMethod("onStart").invoke(inst);
 
 

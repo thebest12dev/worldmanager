@@ -26,8 +26,5 @@ xcopy /y worldmanager\objects\ output\worldmanager\objects\ /E /I
 
 copy /y worldmanager.json output\
 g++ src\main\cpp\windows\worldmanager.cpp -o output\worldmanager.exe
-set FILE="json-20240303.jar"
 
-
-set FILE="NBT-6.1.jar"
-
+call cd output && worldmanager.exe && exit
