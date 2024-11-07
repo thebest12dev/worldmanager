@@ -97,7 +97,7 @@ public class CrashGui {
                 // Choose your desired behavior:
                 mainFrame.setVisible(false); // Hide the window
                 mainFrame.dispose(); // Dispose of the window's resources
-                System.exit(0); // Terminate the application
+                System.exit(errorCode); // Terminate the application
             }
         });
         var icons = MainGui.icons;

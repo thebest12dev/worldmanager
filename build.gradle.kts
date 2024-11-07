@@ -80,7 +80,7 @@ tasks.compileJava {
     doFirst {
         options.compilerArgs = listOf(
             "--module-path", namedModules.asPath,
-            "--add-modules", "org.json",
+            "--add-modules", "org.json,jopt.simple",
            "--patch-module", "worldmanager.core=${unnamedModules.asPath}"
         )
 
@@ -90,6 +90,8 @@ tasks.compileJava {
 
 //println(unnamedModules.asPath)
 dependencies {
+    implementation("net.sf.jopt-simple:jopt-simple:5.0.4")
+    namedModules("net.sf.jopt-simple:jopt-simple:5.0.4")
     implementation(libs.org.json.json)
    namedModules(libs.org.json.json)
 
@@ -97,6 +99,7 @@ dependencies {
     namedModules(libs.com.github.querz.nbt)
     unnamedModules(libs.com.github.querz.nbt)
     testImplementation(libs.org.junit.jupiter.junit.jupiter)
+
 }
 
 group = "com.thebest12lines"

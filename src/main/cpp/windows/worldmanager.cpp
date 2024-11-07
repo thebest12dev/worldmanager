@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main(int argc, const char* argv[]) {
-    std::string args = "\"bin\\java.exe\" -cp worldmanager/worldmanager.jar;worldmanager/objects/main/1/* com.thebest12lines.worldmanager.launcher.Launcher";
+    std::string args = "\"bin\\java.exe\" -cp worldmanager/worldmanager.jar;worldmanager/objects/main/1/* worldmanager.Launcher";
     for (int i = 1; i < argc; i++) {
         args = args + " " + argv[i];
     }
@@ -17,8 +17,6 @@ int main(int argc, const char* argv[]) {
        
 
         system(args.c_str());
-        // Add your custom handler logic here
-        // For example, you can clean up resources, notify the user, or restart the application.
     }
 
     return result;

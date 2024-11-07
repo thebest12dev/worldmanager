@@ -37,5 +37,8 @@ public class CoreApplication {
         return Main.mainTerminal;
 
     }
+    public void forceExit() {
+        System.exit(0x00000003);
+    }
 
 }

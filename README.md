@@ -22,7 +22,7 @@ This project is licensed under the MIT License.
 This project also supports updates, which means you only have to download worldmanager once. You can also specify the repository (defaults to https://github.com/thebest12dev/worldmanager/releases/latest/download/worldmanager.jar) to update from, however make sure you trust the source you are downloading from.
 ## Building
 To build the project, you need the following tools:
-- An working JDK (with `jlink`)
+- A working JDK (with `jlink`)
 - `g++` for C++ compiling
 - Maven (to package)
 
@@ -31,3 +31,5 @@ To build, simply run `build.bat` in the project root, and it should build the pr
 [Querz/NBT](https://github.com/Querz/NBT) for the NBT library (thanks!)
 <br>
 [Bootstrap Icons](https://icons.getbootstrap.com) for the icons
+<br>
+[jopt-simple/jopt-simple](https://github.com/jopt-simple/jopt-simple) for the command-line parser
