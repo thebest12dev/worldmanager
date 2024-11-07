@@ -14,6 +14,8 @@ import com.thebest12lines.worldmanager.gui.MainGui;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.util.*;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
 
 /**
  * The main class for initializing worldmanager. It is an extension of the <code>Instance</code> class
@@ -36,6 +38,16 @@ public class Main extends Instance {
     }
     @Override
     public void onStart(String[] args0) {
+        OptionParser parser = new OptionParser();
+
+
+        parser.accepts("force-gui");
+        parser.accepts("gui");
+        parser.accepts("theme").withRequiredArg();
+        parser.accepts("debug-mode");
+        parser.accepts("version");
+        parser.accepts("enabled-features");
+        OptionSet options = parser.parse(args0);
         Output.consoleOutput = true;
         FeatureProcessor.loadFeature("test");
       //  System.setProperty("java.awt.headless", "true");
@@ -43,6 +55,7 @@ public class Main extends Instance {
         String[] libraries = {
                 "jar3cf6cd6892e32e2b4c1c39e0f52f5248a2f5b37646fdfbb79a66b46b618414ed",
                 "jar5b8e868ea6690d7c606e6deb0d3d6167f4b1c0fcffa2b6170b7cb1e9819b969d",
+                "jardf26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28",
                 "dll5395d4bc7825c78abba04c5ed39b3c5698722a7eb0cd93d46203b9aaa6784316"
         };
         if (libraryExists(libraries[0].substring(3))) {
@@ -70,15 +83,15 @@ public class Main extends Instance {
 
       //  System.out.println(Arrays.toString(args0));
 
-        Map<String, ArgumentMetadata> args = CommandArgsParser.parseArgs(args0);
+
 //        ArgumentMetadata arg1 = args.toString();
      //  System.out.println(args.get("version").getValue());
-        if (CommandArgsParser.hasOption(args,"--force-gui")) {
+        if (options.has("force-gui")) {
             Gui.start(args0);
             return;
 
         }
-        if (CommandArgsParser.hasOption(args,"--help")) {
+        if (options.has("help")) {
             System.err.println("""
                     worldmanager\s""" +DataManager.getVersion()+" "+DataManager.getBranch()+"""
                     
@@ -98,22 +111,21 @@ public class Main extends Instance {
                     """);
             return;
         }
-        if (CommandArgsParser.hasOption(args,"--version")) {
+        if (options.has("version")) {
             System.err.println("worldmanager version "+DataManager.getFullVersion());
             return;
         }
-        if (CommandArgsParser.hasOption(args,"--enabled-features")) {
+        if (options.has("enabled-features")) {
             System.err.println("Enabled features (worldmanager): "+builder.toString());
             return;
         }
-        if (CommandArgsParser.hasOption(args,"--theme=dark")) {
-            themeExplicit=2;
-        } else if (CommandArgsParser.hasOption(args,"--theme=light")) {
-            themeExplicit=1;
+        if (options.has("theme")) {
+
+            themeExplicit =((String) options.valueOf("--value")).equalsIgnoreCase("light") ? 1 : 2;
         }
         boolean[] t = new boolean[1];
         t[0] = true;
-        if (CommandArgsParser.hasOption(args,"--debug-mode")) {
+        if (options.has("debug-mode")) {
             Output.print(ANSIColor.BOLD+"Debug mode is turned on, enabling debug console! Type debug-enter to launch the debug session."+ANSIColor.RESET);
 
             new Thread(((Runnable) () -> {
@@ -188,7 +200,7 @@ public class Main extends Instance {
         Output.print("["+Main.class.getCanonicalName()+"]: Enabled features: "+builder.toString());
        // System.out.println(OSInfo.osVersion);
         
-       if (!args.isEmpty()) {
+       if (!options.hasOptions()) {
         boolean zip = false;
        // boolean verbose = false;
         String zipLoc = "";

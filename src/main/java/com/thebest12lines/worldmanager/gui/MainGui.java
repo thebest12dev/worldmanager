@@ -45,9 +45,7 @@ import static com.thebest12lines.worldmanager.Main.mainTerminal;
 public class MainGui {
 
 
-    /**
-     * Returns the main menu bar.
-     */
+
 
     protected static Color bgColor;
     protected static Color fgColor;
@@ -64,28 +62,33 @@ public class MainGui {
     protected static int mainFrameWidth;
     protected static int mainFrameX;
     protected static int mainFrameY;
+
+
+
     /**
-     * Launches the main GUI.
-     * @return The status code.
+     * Gets the background color, if it has been initialized.
+     * @return The <code>java.awt.Color</code> object to return.
      */
-
-
-
-
-
-        // Getters and Setters
-        public static Color getBackgroundColor() {
+    public static Color getBackgroundColor() {
             return bgColor;
         }
-
+    /**
+     * Sets the background color.
+     */
         public static void setBackgroundColor(Color bgColor) {
             MainGui.bgColor = bgColor;
         }
-
+    /**
+     * Gets the foreground color, if it has been initialized.
+     * @return The <code>java.awt.Color</code> object to return.
+     */
         public static Color getForegroundColor() {
             return fgColor;
         }
-
+    /**
+     * Sets the foreground color.
+     */
+    //TODO woah became tired here continue docs later
         public static void setForegroundColor(Color fgColor) {
             MainGui.fgColor = fgColor;
         }
@@ -178,7 +181,10 @@ public class MainGui {
 
 
 
-
+    /**
+     * Launches the main GUI.
+     * @return The status code.
+     */
     public static int launch() {
         try {
             initialize();

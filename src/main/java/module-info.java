@@ -1,7 +1,7 @@
 /**
  * <code>worldmanager v0.2.0 Alpha</code>
  * <p style="color:#0077ff">
- * The worldmanager.core module for core features present in the program. Without this module, worldmanager would not work. This module has a special worldmanager.json file that is configured to save and get storage from it. This module also depends on 2 open source moudles. See <a href="README.md">README.md</a> for attribution.
+ * The worldmanager.core module for core features present in the program. Without this module, worldmanager would not work. This module has a special worldmanager.json file that is configured to save and get storage from it. This module also depends on 2 open source modules. See <a href="README.md">README.md</a> for attribution.
  * This code is subject to updates, so make sure that worldmanager is updated before launching it.
  * </p>
  * <p>
@@ -19,9 +19,11 @@ module worldmanager.core {
 
     requires transitive java.desktop;
     requires NBT;
+    requires jopt.simple;
+
+
     exports com.thebest12lines.worldmanager;
     exports com.thebest12lines.worldmanager.gui;
-    exports com.thebest12lines.worldmanager.launcher;
     exports com.thebest12lines.worldmanager.util;
     exports com.thebest12lines.worldmanager.world;
 }

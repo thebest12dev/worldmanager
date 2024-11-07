@@ -37,6 +37,7 @@ public class ObjectLibrary {
         if (path.contains("/3/")) {
             try {
                 object = MainGui.loadImage(path);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
