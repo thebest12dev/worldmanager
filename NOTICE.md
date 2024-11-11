@@ -1,2 +1,2 @@
 # Notice
-Currently, `worldmanager` is in internal testing and bug fixes have been done. `0.3.1-alpha` is currently released, but `0.4.0-alpha` will come somewhere between the dates 11/20/2024 to 12/1/2024. Next update, features like 
+Currently, `worldmanager` is in internal testing and bug fixes have been done. `0.3.1-alpha` is currently released, but `0.4.0-alpha` will come somewhere between the dates 11/20/2024 to 12/1/2024. Next update, features like restoring worlds and NBT statistics will come to place. However, these features will likely appear in versions `0.4.0-alpha`, `0.5.0-alpha` or `1.0.0-beta`.
