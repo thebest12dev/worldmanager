@@ -71,7 +71,7 @@ public class DataManager {
             initialize();
         }
         StringBuilder builder = new StringBuilder();
-        builder.append(getBranch()+"-"+getVersion());
+        builder.append(getVersion()+"-"+getBranch());
         builder.append("+build_"+getBuild());
         return builder.toString();
     }
