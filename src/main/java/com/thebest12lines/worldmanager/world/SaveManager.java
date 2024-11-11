@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -61,13 +65,15 @@ public class SaveManager {
                     continue;
                 }
                 NamedTag worldInfo;
-                
-                if (System.getProperty("os.name").equals("Linux")) {
-                    worldInfo = NBTUtil.read(new File(save.getAbsolutePath()+"/level.dat"));
+                if (new File(save.getAbsolutePath()+"\\level.dat").exists()) {
+                    if (System.getProperty("os.name").equals("Linux")) {
+                        worldInfo = NBTUtil.read(new File(save.getAbsolutePath() + "/level.dat"));
+                    } else {
+                        worldInfo = NBTUtil.read(new File(save.getAbsolutePath() + "\\level.dat"));
+                    }
                 } else {
-                    worldInfo = NBTUtil.read(new File(save.getAbsolutePath()+"\\level.dat"));
+                    continue;
                 }
-                
                 CompoundTag tag = (CompoundTag) worldInfo.getTag();
                 
 
@@ -85,11 +91,11 @@ public class SaveManager {
                      world.version = versionTag.getStringTag("Name").getValue();
                      Output.printDebug("Version: "+world.version);
                 } catch (Exception e) {
-                    Output.print("["+SaveManager.class.getCanonicalName()+"]: Something went wrong on a certain world! Exception is shown below (world name "+world.name+", world path "+world.path+"):");
+                    Output.print("["+SaveManager.class.getCanonicalName()+"]: World \""+world.name+"\" is an old version! This world might not work with worldmanager.");
                     StringWriter sw = new StringWriter();
                     PrintWriter  pw = new PrintWriter(sw);
                     e.printStackTrace(pw);
-                    Output.print(sw.toString());
+                    Output.printDebug(sw.toString());
     
                 }
                 

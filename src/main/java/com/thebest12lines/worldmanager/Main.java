@@ -9,10 +9,13 @@ import java.util.Objects;
 
 
 import com.thebest12lines.worldmanager.annotation.CoreClass;
+import com.thebest12lines.worldmanager.gui.MainGui;
+import com.thebest12lines.worldmanager.net.Server;
 import com.thebest12lines.worldmanager.util.*;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+
 
 /**
  * The main class for initializing worldmanager. It is an extension of the <code>Instance</code> class
@@ -223,8 +226,27 @@ public class Main extends Instance {
                 // }
             }
         }
+        new Thread(() -> {
+            Server server = new Server();
+            try {
 
-        if (!zip) {
+                server.listen("action",(socket,string) -> {
+                Output.print(string);
+                    if (string.equals("guiStop")) {
+                        Output.print("yaha");
+                        MainGui.safeClose();
+                    } else if (string.equals("guiStart")) {
+                        Output.print("yaha2");
+                        MainGui.launch();
+                    }
+                });
+                server.start(53067);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+           if (!zip) {
             if (t[0]) {
                 // Launch GUI
                 Gui.start(args0);
