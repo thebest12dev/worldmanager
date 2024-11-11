@@ -88,7 +88,6 @@ public class MainGui {
     /**
      * Sets the foreground color.
      */
-    //TODO woah became tired here continue docs later
         public static void setForegroundColor(Color fgColor) {
             MainGui.fgColor = fgColor;
         }
@@ -184,6 +183,9 @@ public class MainGui {
     /// Launches the main GUI.
     /// @return The status code. A status code is a fixed-length 32-bit DWORD integer that contains worldmanager's status when it last crashed.
     public static int launch() {
+        if (mainFrame == null) {
+            mainFrame = new JFrame("worldmanager");
+        }
         try {
             initialize();
             initializeFrames();
@@ -212,7 +214,8 @@ public class MainGui {
      */
     public static void safeClose() {
 
-        if (safeToClose) {
+        if (safeToClose && mainFrame != null) {
+
             mainFrame.setVisible(false);
             mainFrame.dispose();
             mainFrame = null;

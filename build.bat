@@ -25,6 +25,8 @@ move /y build\libs\worldmanager-0.2.0.jar output\worldmanager\worldmanager.jar
 xcopy /y worldmanager\objects\ output\worldmanager\objects\ /E /I
 
 copy /y worldmanager.json output\
-g++ src\main\cpp\windows\worldmanager.cpp -o output\worldmanager.exe
+windres src\main\cpp\windows\worldmanager.rc -o output\res.o
+g++ -o output\worldmanager.exe src\main\cpp\windows\worldmanager.cpp output\res.o
+del output\res.o
 
 call cd output && worldmanager.exe && exit

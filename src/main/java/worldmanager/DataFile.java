@@ -38,7 +38,7 @@ public class DataFile {
             tagMetadata.putString("Author","thebest12lines");
             tagMetadata.putString("Branch","alpha");
             tagMetadata.putString("Name","worldmanager");
-            tagMetadata.putLong("Build", 4L);
+            tagMetadata.putLong("Build", 5L);
             tagMetadata.putString("Version","0.3.0");
             tagFlags.putByte("ExplicitDebugMode",(byte) 1);
             tagFlags.putByte("ExplicitVerboseMode", (byte) 1);
