@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -151,6 +153,8 @@ public class Terminal extends JFrame {
                             }
                             isProcessing = false;
                             break;
+                        case KeyEvent.VK_CAPS_LOCK:
+                            break;
                         default:
                             if (!e.isControlDown() && !e.isAltDown() && !e.isMetaDown()) {
                                 if (!(e.getKeyCode() == KeyEvent.VK_SHIFT)) {
@@ -199,7 +203,13 @@ public class Terminal extends JFrame {
         add(terminalArea, BorderLayout.CENTER);
 
     }
-
+    public void parseFile(String path) {
+        try {
+            Files.lines(Path.of(path)).forEach(this::processCommand);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void processCommand(String command) {
         isProcessing = true;
         if (!command.isEmpty()) {

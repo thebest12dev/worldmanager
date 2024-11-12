@@ -66,6 +66,7 @@ public class Main extends Instance {
         parser.accepts("theme").withRequiredArg();
         parser.accepts("debug-mode");
         parser.accepts("version");
+        parser.accepts("run");
         parser.accepts("enabled-features");
         OptionSet options = parser.parse(args0);
         Output.consoleOutput = true;
@@ -110,6 +111,9 @@ public class Main extends Instance {
             Gui.start(args0);
             return;
 
+        }
+        if (options.has("run")) {
+            mainTerminal.parseFile(args0[2]);
         }
         if (options.has("help")) {
             System.err.println("""
