@@ -810,7 +810,7 @@ public class MainGui {
         // button.setVisible(true);
         //mainFrame.add(button);
         // Update
-
+        //StatusBar.getStatusBar().show("hello",5);
         mainFrame.setJMenuBar(menuBar);
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -838,10 +838,30 @@ public class MainGui {
             }
 
             private void checkKeyCombination() {
-//                if (pressedKeys.contains(KeyEvent.VK_CONTROL) && pressedKeys.contains(KeyEvent.VK_SHIFT) && pressedKeys.contains(KeyEvent.VK_C)) {
-//                    Main.console.setVisible(true);
-//                    // Execute your action here
-//                }
+                if (pressedKeys.contains(KeyEvent.VK_F9) && pressedKeys.contains(KeyEvent.VK_SHIFT) && pressedKeys.contains(KeyEvent.VK_E)) {
+                    CoreApplication.getCoreApplication().forceExit();
+                    // Execute your action here
+                }
+                else if (pressedKeys.contains(KeyEvent.VK_F9) && pressedKeys.contains(KeyEvent.VK_SHIFT) && pressedKeys.contains(KeyEvent.VK_C)) {
+                    CoreApplication.getCoreApplication().getTerminal().setVisible(true);
+                    // Execute your action here
+                }
+                else if (pressedKeys.contains(KeyEvent.VK_F9) && pressedKeys.contains(KeyEvent.VK_R)) {
+                    MainGui.safeClose();
+                    pressedKeys.remove(KeyEvent.VK_F9);
+                    pressedKeys.remove(KeyEvent.VK_R);
+                    MainGui.launch();
+                    // Execute your action here
+                }
+                else if (pressedKeys.contains(KeyEvent.VK_F9) && pressedKeys.contains(KeyEvent.VK_C)) {
+
+                    CoreApplication.getCoreApplication().start();
+                    // Execute your action here
+                }
+                else if (pressedKeys.contains(KeyEvent.VK_F9) && pressedKeys.contains(KeyEvent.VK_T)) {
+                    Main.startServer();
+
+                }
             }
         });
         safeToClose = true;

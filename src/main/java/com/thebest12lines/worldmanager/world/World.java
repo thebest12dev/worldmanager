@@ -12,7 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.gui.MainGui;
+import com.thebest12lines.worldmanager.gui.StatusBar;
 import com.thebest12lines.worldmanager.util.Output;
 import com.thebest12lines.worldmanager.util.ZipDirectory;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
@@ -89,7 +91,7 @@ public class World extends Object{
                  String backupPath = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss.SSS'Z'"))+"_"+getWorldName();
                 
          new File(path+"\\backups\\").mkdir();
-        try {;
+        try {
             Output.print("["+World.class.getCanonicalName()+"]: Backing up world '"+name+"'...");
              new File(path+"\\backups\\"+backupPath+".zip").createNewFile();
              ZipDirectory.zipDirectory(getWorldPath(), getWorldPath()+"\\backups\\"+backupPath+".zip", path+"\\backups");
@@ -101,17 +103,9 @@ public class World extends Object{
             tag.add(t);
             NBTUtil.write(new NamedTag("Data", worldInfo), path+"/worldmanager.dat");
              isBackingUp = false;
-             MainGui.statusLabel.setText("Backed up world to "+getWorldPath()+"\\backups\\"+" ("+(int) (Files.size(Paths.get(getWorldPath()+"\\backups\\"+backupPath+".zip")) / (1024.0 * 1024.0))+"MB)");
-             MainGui.statusLabel.setVisible(true);
+             StatusBar.getStatusBar().show("Backed up world to "+getWorldPath()+"\\backups\\"+" ("+(int) (Files.size(Paths.get(getWorldPath()+"\\backups\\"+backupPath+".zip")) / (1024.0 * 1024.0))+"MB)",StatusBar.DURATION_SHORT);
             Output.print("["+World.class.getCanonicalName()+"]: Backed up world '"+name+"'");
-             new Timer(5000, new ActionListener() {
-                 @Override
-                 public void actionPerformed(ActionEvent e) {
-                     MainGui.statusLabel.setVisible(false);;
-                     ((Timer) e.getSource()).stop();
 
-                 }
-             }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }

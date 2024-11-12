@@ -4,6 +4,9 @@ import com.thebest12lines.worldmanager.Gui;
 import com.thebest12lines.worldmanager.ObjectManager;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
+import com.thebest12lines.worldmanager.world.SaveManager;
+import com.thebest12lines.worldmanager.world.World;
+import worldmanager.DataFile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -149,29 +153,34 @@ public class Terminal extends JFrame {
                             break;
                         default:
                             if (!e.isControlDown() && !e.isAltDown() && !e.isMetaDown()) {
-                                String textToInsert = String.valueOf(e.getKeyChar());
-                                try {
-                                    terminalArea.getDocument().insertString(caretPosition, textToInsert, null);
+                                if (!(e.getKeyCode() == KeyEvent.VK_SHIFT)) {
 
-                                    // Update currentInput considering the caret position
-                                    int relativeCaretPos = caretPosition - (terminalArea.getText().lastIndexOf('\n') + 3);
 
-                                    if (!(currentInput.length() == 0)) {
-                                        System.out.println(relativeCaretPos);
-                                        currentInput = currentInput.substring(0, relativeCaretPos) + textToInsert + currentInput.substring(relativeCaretPos);
-                                    } else {
-                                        currentInput += textToInsert;
+                                    String textToInsert = String.valueOf(e.getKeyChar());
+                                    try {
+                                        terminalArea.getDocument().insertString(caretPosition, textToInsert, null);
+
+                                        // Update currentInput considering the caret position
+                                        int relativeCaretPos = caretPosition - (terminalArea.getText().lastIndexOf('\n') + 3);
+
+                                        if (!(currentInput.length() == 0)) {
+                                            System.out.println(relativeCaretPos);
+                                            currentInput = currentInput.substring(0, relativeCaretPos) + textToInsert + currentInput.substring(relativeCaretPos);
+                                        } else {
+                                            currentInput += textToInsert;
+                                        }
+
+
+                                        terminalArea.setCaretPosition(caretPosition + 1);
+
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                        isProcessing = false;
                                     }
-
-
-                                    terminalArea.setCaretPosition(caretPosition + 1);
-
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                    isProcessing = false;
                                 }
 
                             }
+
                             isProcessing = false;
                             break;
 
@@ -229,7 +238,36 @@ public class Terminal extends JFrame {
                 } else if (args[1].equalsIgnoreCase("--version")) {
                     terminalArea.append("worldmanager "+DataManager.getFullVersion()+"\nCopyright (c) 2024 thebest12lines\n");
                     isProcessing = false;
+                } else if (args[1].equalsIgnoreCase("--set-flag")) {
+                    DataFile.setFlag(args[2],args[3]);
+
+                } else if (args[1].equalsIgnoreCase("--backup")) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            World world = new World() {
+                                {
+                                    this.path = args[2];
+                                }
+                            };
+                            if (!(args.length > 3)) {
+                                world.backupWorld();
+                            } else {
+                                try {
+                                    ZipDirectory.zipDirectory(world.getWorldPath(), args[3], world.getWorldPath()+"\\backups");
+                                } catch (IOException e) {
+                                    isProcessing = false;
+                                    throw new RuntimeException(e);
+
+                                }
+                            }
+                            isProcessing = false;
+                        }
+                    }).start();
+
+
                 } else {
+                    terminalArea.append("worldmanager: invalid command "+command);
                     isProcessing = false;
                 }
             } else if (command.equalsIgnoreCase("version")) {

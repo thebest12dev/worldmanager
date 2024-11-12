@@ -38,6 +38,9 @@ public class SaveManager {
      * @return An array.
      */
     public static World[] getWorlds() {
+            System.out.println();
+            System.err.println();
+
             Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Reading worlds (DEBUG)...");
         return readWorlds().toArray(new World[0]);
         
@@ -48,18 +51,24 @@ public class SaveManager {
             Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Using Linux!");
             savesFolder =   System.getProperty("user.home")+"/.minecraft/saves/";
         }
+
         Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Saves folder is "+savesFolder);
        // System.out.println(savesFolder);
         File folder = new File(savesFolder);
         ArrayList<World> worlds = new ArrayList<>();
+
         //System.out.println(folder.getAbsolutePath());
         File[] saves = folder.listFiles();
-        Output.printDebug("========================== DEBUG START ==============================");
-
+       // Output.printDebug("========================== DEBUG START ==============================");
 
         for (File save : saves) {
             try {
-                Output.printDebug("========================================================");
+               // Output.printDebug("========================================================");
+                if ((boolean) DataManager.getSetting("debug") == true) {
+                    System.out.println();
+                    System.err.println();
+                }
+
                 Output.printDebug("File: "+save.toString());
                 if (save.getAbsolutePath().endsWith("/worldmanager.dat") | save.getAbsolutePath().endsWith("\\worldmanager.dat") ) {
                     continue;
@@ -85,13 +94,14 @@ public class SaveManager {
                 World world = new World();
                 world.name = stringTag.getValue();
                 world.path = save.getAbsolutePath();
+
                 try {
                      CompoundTag versionTag = data.getCompoundTag("Version");
                     
                      world.version = versionTag.getStringTag("Name").getValue();
                      Output.printDebug("Version: "+world.version);
                 } catch (Exception e) {
-                    Output.print("["+SaveManager.class.getCanonicalName()+"]: World \""+world.name+"\" is an old version! This world might not work with worldmanager.");
+                    Output.print("["+SaveManager.class.getCanonicalName()+"]: World \""+world.name+"\" is an old version! This world might not work with worldmanager.",Output.LOG_WARN);
                     StringWriter sw = new StringWriter();
                     PrintWriter  pw = new PrintWriter(sw);
                     e.printStackTrace(pw);
@@ -118,13 +128,17 @@ public class SaveManager {
                 
                 }
                 worlds.add(world);
-               // Output.printDebug("========================================================");
+
+
             } catch (Exception e) {
                 // 
                 e.printStackTrace();
             }
         }
-        Output.printDebug("========================== DEBUG END ==============================");
+       // Output.printDebug("========================== DEBUG END ==============================");
+
+        System.out.println();
+        System.err.println();
         return worlds;
     }
     public static void restoreBackup() {}

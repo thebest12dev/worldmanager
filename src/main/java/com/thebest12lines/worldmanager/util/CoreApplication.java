@@ -2,6 +2,14 @@ package com.thebest12lines.worldmanager.util;
 
 import com.thebest12lines.worldmanager.Main;
 import com.thebest12lines.worldmanager.annotation.CoreClass;
+import worldmanager.DataFile;
+
+import java.awt.*;
+import java.time.DayOfWeek;
+import java.time.Month;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The de facto singleton for initializing and using worldmanager.
  * @author thebest12lines
@@ -11,7 +19,7 @@ import com.thebest12lines.worldmanager.annotation.CoreClass;
 public class CoreApplication {
 
     private static CoreApplication instance;
-
+    private Map<String, Object> storage = new HashMap<>();
 
     public CoreApplication() {
     }
@@ -38,7 +46,20 @@ public class CoreApplication {
 
     }
     public void forceExit() {
+        Output.print("["+CoreApplication.class.getCanonicalName()+"]: Force stop (debug key invoked)!");
         System.exit(0x00000003);
+    }
+    public void invokeAction(String action, Object... values) {
+        GlobalListener.fire(action,values);
+    }
+    public void setGlobalValue(String key, Object value) { storage.put(key, value); }
+    public Object getGlobalValue(String key) { return storage.get(key); }
+    public void sendNotification(String title, String text) {
+        try {
+            NotificationManager.createNotification(title, text).show();
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

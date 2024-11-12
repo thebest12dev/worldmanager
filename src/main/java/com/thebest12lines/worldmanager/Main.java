@@ -29,6 +29,26 @@ public class Main extends Instance {
 
     public static volatile Terminal mainTerminal = new Terminal();
     public static int themeExplicit = 0;
+    public static boolean debug = false;
+    public static void startServer() {
+        new Thread(() -> {
+            Server server = new Server();
+            try {
+
+                server.listen("action",(socket,string) -> {
+                    Output.print(string);
+                    if (string.equals("guiStop")) {
+                        MainGui.safeClose();
+                    } else if (string.equals("guiStart")) {
+                        MainGui.launch();
+                    }
+                });
+                server.start(53067);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
     /**
      * Initializes the <code>Main</code> class with the specified arguments.
      * @param args The arguments to pass to the <code>Instance</code> class.
@@ -126,8 +146,8 @@ public class Main extends Instance {
         boolean[] t = new boolean[1];
         t[0] = true;
         if (options.has("debug-mode")) {
-            Output.print(ANSIColor.BOLD+"Debug mode is turned on, enabling debug console! Type debug-enter to launch the debug session."+ANSIColor.RESET);
-
+            Output.print(ANSIColor.BOLD+"Debug mode is turned on, enabling debug console!"+ANSIColor.RESET);
+            debug = true;
             new Thread(() -> {
 
 
@@ -226,25 +246,8 @@ public class Main extends Instance {
                 // }
             }
         }
-        new Thread(() -> {
-            Server server = new Server();
-            try {
 
-                server.listen("action",(socket,string) -> {
-                Output.print(string);
-                    if (string.equals("guiStop")) {
-                        Output.print("yaha");
-                        MainGui.safeClose();
-                    } else if (string.equals("guiStart")) {
-                        Output.print("yaha2");
-                        MainGui.launch();
-                    }
-                });
-                server.start(53067);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+        startServer();
 
            if (!zip) {
             if (t[0]) {

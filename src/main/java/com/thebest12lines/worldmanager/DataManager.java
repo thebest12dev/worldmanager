@@ -90,7 +90,18 @@ public class DataManager {
         if (json == null) {
             initialize();
         }
+        if (key == "debug") {
+           if ((boolean) json.getJSONObject("worldmanagerPreferences").get(key) == true) {
+               return json.getJSONObject("worldmanagerPreferences").get(key);
+           } else if (Main.debug) {
+               return Main.debug;
+           } else {
+               return false;
+           }
+        } else {
         return json.getJSONObject("worldmanagerPreferences").get(key);
+        }
+
     }
     
 }
