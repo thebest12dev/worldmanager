@@ -26,7 +26,7 @@ import joptsimple.OptionSet;
 @CoreClass
 public class Main extends Instance {
   //  public static Console console;
-
+    public static long initNanos = System.nanoTime();
     public static volatile Terminal mainTerminal = new Terminal();
     public static int themeExplicit = 0;
     public static boolean debug = false;
@@ -101,20 +101,20 @@ public class Main extends Instance {
             
 
         }
+        if (options.has("force-gui")) {
+            System.loadLibrary(libraries[3].substring(3));
+            Gui.start(args0);
 
+            return;
+
+        }
       //  System.out.println(Arrays.toString(args0));
 
 
 //        ArgumentMetadata arg1 = args.toString();
      //  System.out.println(args.get("version").getValue());
-        if (options.has("force-gui")) {
-            Gui.start(args0);
-            return;
 
-        }
-        if (options.has("run")) {
-            mainTerminal.parseFile(args0[2]);
-        }
+
         if (options.has("help")) {
             System.err.println("""
                     worldmanager\s""" +DataManager.getVersion()+" "+DataManager.getBranch()+ """
@@ -195,6 +195,7 @@ public class Main extends Instance {
             
             }
         }
+
         Output.print("");
         Output.print("["+Main.class.getCanonicalName()+"]: Verifying libraries are not corrupted...");
         for (int i = 0; i < libraries.length; i++) {
@@ -223,7 +224,10 @@ public class Main extends Instance {
         }
         Output.print("["+Main.class.getCanonicalName()+"]: Enabled features: "+builder.toString());
        // System.out.println(OSInfo.osVersion);
-        
+        if (options.has("run")) {
+            mainTerminal.parseFile(args0[1]);
+            return;
+        }
        if (!options.hasOptions()) {
         boolean zip = false;
        // boolean verbose = false;

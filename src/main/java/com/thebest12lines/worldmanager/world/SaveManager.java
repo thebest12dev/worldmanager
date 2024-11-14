@@ -9,6 +9,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,7 @@ public class SaveManager {
      * @return An array.
      */
     public static World[] getWorlds() {
+
             System.out.println();
             System.err.println();
 
@@ -46,6 +48,7 @@ public class SaveManager {
         
     }
     private static ArrayList<World> readWorlds() {
+        long initialTimeNanos = System.nanoTime();
         String savesFolder = System.getProperty("user.home") + "\\AppData\\Roaming\\.minecraft\\saves";
         if (System.getProperty("os.name").equals("Linux")) {
             Output.printDebug("["+SaveManager.class.getCanonicalName()+"]: Using Linux!");
@@ -64,7 +67,7 @@ public class SaveManager {
         for (File save : saves) {
             try {
                // Output.printDebug("========================================================");
-                if ((boolean) DataManager.getSetting("debug") == true) {
+                if ((boolean) DataManager.getSetting("debug")) {
                     System.out.println();
                     System.err.println();
                 }
@@ -136,9 +139,15 @@ public class SaveManager {
             }
         }
        // Output.printDebug("========================== DEBUG END ==============================");
-
-        System.out.println();
-        System.err.println();
+        long currentTimeNanos = System.nanoTime();
+        float elapsedTime = (currentTimeNanos - initialTimeNanos) / 1000000000.0f;
+        String formattedTime = new DecimalFormat("#.00").format(elapsedTime);
+        float time = Float.parseFloat(formattedTime);
+        Output.print("["+SaveManager.class.getCanonicalName()+"]: Loading worlds took "+time+"s");
+        if ((boolean) DataManager.getSetting("debug")) {
+            System.out.println();
+            System.err.println();
+        }
         return worlds;
     }
     public static void restoreBackup() {}

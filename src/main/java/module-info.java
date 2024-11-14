@@ -12,14 +12,14 @@
  */
 module worldmanager.core {
 
-    requires java.base;
-   // requires java.desktop;
+    // requires java.desktop;
     requires org.json;
     requires java.net.http;
 
     requires transitive java.desktop;
     requires NBT;
     requires jopt.simple;
+    requires jdk.compiler;
 
 
     exports com.thebest12lines.worldmanager;

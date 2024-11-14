@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 //import java.util.Random;
@@ -194,8 +195,12 @@ public class MainGui {
             initializeKeycodes();
             guiReady.complete("");
             Main.mainTerminal.isProcessing = false;
-            Main.mainTerminal.terminalArea.append("> ");
-            mainTerminal.terminalArea.setCaretPosition(mainTerminal.terminalArea.getText().length());
+            long currentTimeNanos = System.nanoTime();
+            float elapsedTime = (currentTimeNanos - Main.initNanos) / 1000000000.0f;
+            String formattedTime = new DecimalFormat("#.00").format(elapsedTime);
+            float time = Float.parseFloat(formattedTime);
+            Output.print("["+MainGui.class.getCanonicalName()+"]: Loading GUI "+time+"s");
+
         } catch (Exception e) {
             if (e instanceof UpdateBuildException) {
                 return 0x13f20001;

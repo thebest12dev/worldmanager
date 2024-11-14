@@ -17,9 +17,8 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -28,13 +27,20 @@ import java.util.Objects;
  */
 @CoreClass
 public class Terminal extends JFrame {
+    private static final List<String> commandBuffer = new ArrayList<>();
     public JTextArea terminalArea;
     private String prompt = "> ";
     private String currentInput = "";
-    private List<String> history = new ArrayList<>();
+    private final List<String> history = new ArrayList<>();
     private int historyIndex = -1;
+    public Map<String,String> variables = new HashMap<>();
     public volatile boolean isProcessing = false;
-
+    public volatile boolean isRun = false;
+    public volatile boolean file = false;
+    public volatile boolean isInput = false;
+    public volatile boolean isIf = false;
+    public volatile boolean isIfTrue = false;
+    public volatile boolean isIfTrueInside = false;
     private Font getFontWithFallback(String preferredFontName, int style, int size) {
         Font preferredFont = new Font(preferredFontName, style, size);
         if (!isFontAvailable(preferredFontName)) {
@@ -54,9 +60,10 @@ public class Terminal extends JFrame {
         }
         return false;
     }
+
     public Terminal() {
         setTitle("Terminal");
-        setSize(800, 600);
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImages(MainGui.getIcons());
         terminalArea = new JTextArea();
@@ -75,36 +82,106 @@ public class Terminal extends JFrame {
         terminalArea.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (!isProcessing) {
-                    isProcessing = true;
+
+                 if ((!isProcessing && !isRun) || isInput) {
+
 
                     int keyCode = e.getKeyCode();
                     int caretPosition = terminalArea.getCaretPosition();
                     String[] lines = terminalArea.getText().split("\n");
                     String thisLine = lines[lines.length - 1];
-                    int promptPosition = thisLine.indexOf('>') + 2; // Position after the prompt
+                    int promptPosition = thisLine.substring(0,prompt.length()).length() + 2; // Position after the prompt
                     int lineStart = terminalArea.getText().lastIndexOf('\n') + 1;
 
                     switch (keyCode) {
                         case KeyEvent.VK_ENTER:
-                            terminalArea.append("\n");
-                            if (currentInput.isBlank()) {
-                                isProcessing = false;
-                            } else {
-                                processCommand(currentInput);
-                            }
+                            if (isIf && !isIfTrueInside) {
 
+                                //terminalArea.append("\n"+prompt);
+                                if (currentInput.isBlank()) {
 
-                            if (!isProcessing ) {
-                                terminalArea.append(prompt);
-                                if (!currentInput.isEmpty()) {
-                                    history.add(currentInput);
+                                    isProcessing = false;
+                                } else {
+                                    prompt = "> ";
+                                    processCommand(currentInput);
                                 }
-                                historyIndex = history.size();
-                                terminalArea.setCaretPosition(terminalArea.getText().length());
-                                currentInput = "";
-                                isProcessing = false;
+
+                                terminalArea.append("\n"+"> ");
+                            terminalArea.setCaretPosition(terminalArea.getText().length());
+                            currentInput = "";
+
+
+                            finishProcessing();
+                        } else
+                            if (!isInput) {
+                                terminalArea.append("\n");
+                                if (currentInput.isBlank()) {
+                                    isProcessing = false;
+                                } else {
+                                    processCommand(currentInput);
+                                }
+
+                                if (!isProcessing && !isInput && !isIfTrue) {
+
+                                    terminalArea.append(prompt);
+                                    if (!currentInput.isEmpty()) {
+                                        history.add(currentInput);
+                                    }
+                                    historyIndex = history.size();
+                                    terminalArea.setCaretPosition(terminalArea.getText().length());
+                                    currentInput = "";
+                                    finishProcessing();
+                                } else if (isIf) {
+
+                                    terminalArea.append(prompt);
+                                    if (!currentInput.isEmpty()) {
+                                        history.add(currentInput);
+                                    }
+                                    historyIndex = history.size();
+                                    terminalArea.setCaretPosition(terminalArea.getText().length());
+                                    currentInput = "";
+                                    finishProcessing();
+                                } else if (isInput) {
+
+
+                                    //   terminalArea.setText(terminalArea.getText().substring(0,terminalArea.getText().length()-4));
+
+
+//                                if (!currentInput.isEmpty()) {
+//                                    history.add(currentInput);
+//                                }
+                                    historyIndex = history.size();
+                                    currentInput = "";
+                                    terminalArea.setCaretPosition(terminalArea.getText().length());
+
+                                    finishProcessing();
+//                                isInput = false;
+                                }
+                            } else if (isInput) {
+
+                                variables.put("lastInput",currentInput);
+
+                                if (!file) {
+                                    prompt = "> ";
+                                    terminalArea.append("\n> ");
+                                    historyIndex = history.size();
+                                    currentInput = "";
+                                    terminalArea.setCaretPosition(terminalArea.getText().length());
+
+
+
+                                } else {
+                                    terminalArea.append("\n");
+                                    isRun = false;
+                                }
+                                isInput = false;
+                                finishProcessing();
+
+
+
+
                             }
+
 
                             break;
                         case KeyEvent.VK_BACK_SPACE:
@@ -165,10 +242,10 @@ public class Terminal extends JFrame {
                                         terminalArea.getDocument().insertString(caretPosition, textToInsert, null);
 
                                         // Update currentInput considering the caret position
-                                        int relativeCaretPos = caretPosition - (terminalArea.getText().lastIndexOf('\n') + 3);
+                                        int relativeCaretPos = caretPosition - (terminalArea.getText().lastIndexOf('\n') + promptPosition-1);
 
-                                        if (!(currentInput.length() == 0)) {
-                                            System.out.println(relativeCaretPos);
+                                        if (!(currentInput.isEmpty())) {
+
                                             currentInput = currentInput.substring(0, relativeCaretPos) + textToInsert + currentInput.substring(relativeCaretPos);
                                         } else {
                                             currentInput += textToInsert;
@@ -205,27 +282,39 @@ public class Terminal extends JFrame {
     }
     public void parseFile(String path) {
         try {
+            isRun = true;
+            file = true;
+            terminalArea.setText("");
+            setVisible(true);
             Files.lines(Path.of(path)).forEach(this::processCommand);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+    private final ArrayList<String> queue = new ArrayList<>();
     private void processCommand(String command) {
-        isProcessing = true;
-        if (!command.isEmpty()) {
-            String[] args = command.split(" ");
-            if (command.startsWith("exit")) {
-                if (args.length > 1) {
-                    System.exit(Integer.parseInt(args[1]));
-                }
-                System.exit(0);
-            } else if (command.equalsIgnoreCase("clear")) {
-                terminalArea.setText("");
+        System.err.println(command);
+
+        if (isProcessing) {
+
+            queue.add(command);
+        } else if (!isProcessing && !isIf) {
+           isProcessing = true;
+
+            if (!command.isEmpty()) {
+                String[] args = command.split(" ");
+                if (command.startsWith("exit")) {
+                    if (args.length > 1) {
+                        System.exit(Integer.parseInt(args[1]));
+                    }
+                    System.exit(0);
+                } else if (command.equalsIgnoreCase("clear")) {
+                    terminalArea.setText("");
 
 
-                isProcessing = false;
-            } else if (command.equalsIgnoreCase("help")) {
-                terminalArea.append("""
+                    finishProcessing();
+                } else if (command.equalsIgnoreCase("help")) {
+                    terminalArea.append("""
                         List of commands:
                             worldmanager:
                                 [--]backup <worldName/worldPath> <?backupDest>: Backs up the specified world.
@@ -240,56 +329,176 @@ public class Terminal extends JFrame {
                             exit <?code>: Exits the JVM with the specified code.
                             version: Shows the terminal version.
                         """);
-                isProcessing = false;
-            } else if (command.startsWith("worldmanager ")) {
-                if (args[1].equalsIgnoreCase("--launch-gui") || args[1].equalsIgnoreCase("-gui")) {
-                    terminalArea.append("Launching worldmanager GUI...\n");
-                    Gui.start(new String[] {});
-                } else if (args[1].equalsIgnoreCase("--version")) {
-                    terminalArea.append("worldmanager "+DataManager.getFullVersion()+"\nCopyright (c) 2024 thebest12lines\n");
-                    isProcessing = false;
-                } else if (args[1].equalsIgnoreCase("--set-flag")) {
-                    DataFile.setFlag(args[2],args[3]);
+                    finishProcessing();
+                } else if (command.startsWith("worldmanager ")) {
+                    if (args[1].equalsIgnoreCase("--launch-gui") || args[1].equalsIgnoreCase("-gui")) {
+                        terminalArea.append("Launching worldmanager GUI...\n");
+                        Gui.start(new String[] {});
+                        MainGui.getGuiReady().thenAccept((t)-> {
+                            finishProcessing();
+                        });
+                    } else if (args[1].equalsIgnoreCase("--version")) {
+                        terminalArea.append("worldmanager "+DataManager.getFullVersion()+"\nCopyright (c) 2024 thebest12lines\n");
+                        finishProcessing();
+                    } else if (args[1].equalsIgnoreCase("--set-flag")) {
+                        DataFile.setFlag(args[2],args[3]);
 
-                } else if (args[1].equalsIgnoreCase("--backup")) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            World world = new World() {
-                                {
-                                    this.path = args[2];
-                                }
-                            };
-                            if (!(args.length > 3)) {
-                                world.backupWorld();
-                            } else {
-                                try {
-                                    ZipDirectory.zipDirectory(world.getWorldPath(), args[3], world.getWorldPath()+"\\backups");
-                                } catch (IOException e) {
-                                    isProcessing = false;
-                                    throw new RuntimeException(e);
+                    } else if (args[1].equalsIgnoreCase("--backup")) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                World world = new World() {
+                                    {
+                                        this.path = args[2];
+                                    }
+                                };
+                                if (!(args.length > 3)) {
+                                    world.backupWorld();
+                                } else {
+                                    try {
+                                        ZipDirectory.zipDirectory(world.getWorldPath(), args[3], world.getWorldPath()+"\\backups");
+                                    } catch (IOException e) {
+                                        isProcessing = false;
+                                        throw new RuntimeException(e);
 
+                                    }
                                 }
+                                finishProcessing();
                             }
-                            isProcessing = false;
+                        }).start();
+
+
+                    } else {
+                        terminalArea.append("worldmanager: invalid command "+command);
+                        finishProcessing();
+                    }
+                } else if (command.equalsIgnoreCase("version")) {
+                    terminalArea.append("Version: "+DataManager.getFullVersion()+"\n");
+                    finishProcessing();
+                } else if (command.startsWith("echo")) {
+                    if (command.length() > 5) {
+                        if (command.substring(5).startsWith("@")) {
+                            terminalArea.append(variables.get(command.substring(6))+"\n");
+                        } else if (args.length > 1) {
+                            terminalArea.append(command.substring(5) + "\n");
                         }
-                    }).start();
+                    } else {
+                        terminalArea.append("\n");
+                    }
 
 
+                   finishProcessing();
+                } else if (command.startsWith("@")) {
+                    String key = args[0].substring(1);
+                    String value = command.substring(key.length()+2);
+                    variables.put(key,value);
+                    finishProcessing();
+                } else if (command.startsWith("input")) {
+                    if (command.length() > 6 && !isInput) {
+                        isRun = false;
+                        terminalArea.append(command.substring(6));
+                        prompt = command.substring(6);
+                        isInput = true;
+                    }
+
+                  //  finishProcessing();
+
+                } else if (command.startsWith("log ")) {
+                    Output.print("[Debug Console]: "+command.substring(4));
+                    finishProcessing();
+                } else if (command.startsWith("#")) {
+                    finishProcessing();
+                } else if (command.equalsIgnoreCase("testIf")) {
+                } else if (command.startsWith("if")) {
+                    handleCondition(command);
+                    finishProcessing();
                 } else {
-                    terminalArea.append("worldmanager: invalid command "+command);
-                    isProcessing = false;
+                    terminalArea.append("unknown command: "+command+"\n");
+                    finishProcessing();
                 }
-            } else if (command.equalsIgnoreCase("version")) {
-                terminalArea.append("Version: "+DataManager.getFullVersion()+"\n");
-                isProcessing = false;
-            } else {
-                terminalArea.append("Unknown command: "+command+"\n");
-                isProcessing = false;
+            //    System.err.println(isProcessing);
+        }
+
+        } else if (isIf && isIfTrueInside) {
+            System.err.println("!r");
+            if (command.equalsIgnoreCase("end")) {
+                isProcessing = true;
+                System.err.println("!T");
+
+                executeBufferedCommands();
+                finishProcessing();
+
+
+            } else if (command.isBlank()) {finishProcessing();}
+            else if (!isProcessing) {
+                System.err.println("!T");
+                commandBuffer.add(command);
+                finishProcessing();
             }
         }
     }
+    private void handleCondition(String command) {
+        commandBuffer.clear(); // Clear any previous buffered commands
 
+        if (command.contains("do")) {
+            String conditionPart = command.substring(command.indexOf("if") + 2, command.indexOf("do")).trim();
+            String[] conditionParts = conditionPart.split("==");
+            if (conditionParts.length == 2) {
+                String variableName = conditionParts[0].trim();
+                String expectedValue = conditionParts[1].trim().replace("\"", "");
+
+                prompt = ">>> ";
+                isIfTrueInside = true;
+                isIf = true;
+                System.err.println(variables.containsKey(variableName.substring(1)) && variables.get(variableName.substring(1)).equals(expectedValue));
+                if (variables.containsKey(variableName.substring(1)) && variables.get(variableName.substring(1)).equals(expectedValue)) {
+                    System.err.println("as");
+                    isIfTrue = true;
+                }
+            }
+        } else {
+            terminalArea.append("Invalid condition syntax.\n");
+        }
+    }
+
+    private void executeBufferedCommands() {
+        System.err.println("x");
+        if (isIfTrue) {
+            isIf = false;
+//            terminalArea.append("\n");
+//            prompt = "> ";
+//            terminalArea.append("\n"+prompt);
+            isIfTrueInside = false;
+            synchronized (commandBuffer) {
+                for (String command : commandBuffer) {
+                    processCommand(command);
+                }
+
+                    commandBuffer.clear(); // Clear the buffer after execution
+
+//                terminalArea.append("\n"+prompt);
+            }
+
+
+        }
+
+//        terminalArea.append("> \n");
+        finishProcessing();
+
+        isIfTrue = false;
+
+    }
+    public void finishProcessing() {
+
+            isProcessing = false;
+            if (!queue.isEmpty()) {
+                String lastCommand = queue.getFirst();
+                queue.removeFirst();
+                processCommand(lastCommand);
+            }
+
+
+    }
     private void showHistory() {
         clearCurrentInput();
         currentInput = history.get(historyIndex);
@@ -311,4 +520,5 @@ public class Terminal extends JFrame {
             terminal.setVisible(true);
         });
     }
+
 }
