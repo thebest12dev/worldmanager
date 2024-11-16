@@ -11,3 +11,6 @@ dependencyResolutionManagement {
         }
     }
 }
+include("worldmanager.core")
+include("worldmanager.features")
+include("common")
