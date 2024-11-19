@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager.world;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 /**
  * A base "backup" class.

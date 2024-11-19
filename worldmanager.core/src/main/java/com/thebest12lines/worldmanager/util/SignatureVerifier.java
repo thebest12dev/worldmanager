@@ -7,7 +7,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public class SignatureVerifier {
-    public static boolean verify(String base64PublicKey, String signature, String filePath) {
+    public boolean verify(String base64PublicKey, String signature, String filePath) {
         try {
             // Decode the Base64 encoded public key
             byte[] publicKeyBytes = Base64.getDecoder().decode(base64PublicKey);

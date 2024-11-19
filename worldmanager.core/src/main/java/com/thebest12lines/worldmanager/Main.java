@@ -8,13 +8,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
 import com.thebest12lines.worldmanager.net.Server;
 import com.thebest12lines.worldmanager.util.*;
 import com.thebest12lines.worldmanager.util.Constants.ANSIColor;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+
+import javax.swing.*;
 
 
 /**
@@ -260,13 +262,17 @@ public class Main extends Instance {
            if (!zip) {
             if (t[0]) {
                 // Launch GUI
-                Gui.start(args0);
+                SwingUtilities.invokeLater(() -> {
+                    Gui.start(args0);
+                });
             }
         }
     } else {
            if (t[0]) {
                // Launch GUI
-               Gui.start(args0);
+               SwingUtilities.invokeLater(() -> {
+                   Gui.start(args0);
+               });
            }
 
     }

@@ -2,7 +2,7 @@ package com.thebest12lines.worldmanager.gui;
 
 import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Main;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.util.SystemSettings;
 
 import javax.swing.*;

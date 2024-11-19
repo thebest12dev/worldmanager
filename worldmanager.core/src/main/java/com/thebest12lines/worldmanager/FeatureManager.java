@@ -11,7 +11,7 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.util.Output;
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,7 +81,7 @@ public class DataManager {
         try {
             Files.lines(Paths.get("worldmanager.json")).forEach(builder::append);
             json = new JSONObject(builder.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             // 
             e.printStackTrace();
         }

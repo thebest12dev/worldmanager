@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager.util;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 /**
  * The main class for storing constants, such as enumerations and string and int constants.

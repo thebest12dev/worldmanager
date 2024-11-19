@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager.net;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 import java.io.BufferedReader;
 import java.io.IOException;

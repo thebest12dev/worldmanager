@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import com.thebest12lines.worldmanager.DataManager;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 import com.thebest12lines.worldmanager.util.Output;
 

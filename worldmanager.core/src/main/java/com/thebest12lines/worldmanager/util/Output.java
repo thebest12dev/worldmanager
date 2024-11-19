@@ -1,7 +1,7 @@
 package com.thebest12lines.worldmanager.util;
 
 import com.thebest12lines.worldmanager.DataManager;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

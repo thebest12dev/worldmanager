@@ -7,7 +7,7 @@ import java.awt.Font;
 //import javax.swing.BoxLayout;
 import javax.swing.JMenuBar;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 @CoreClass
 public class FlatMenuBar {

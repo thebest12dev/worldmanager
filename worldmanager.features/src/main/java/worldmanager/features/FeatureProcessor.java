@@ -1,7 +1,6 @@
-package com.thebest12lines.worldmanager.api;
-
-import com.thebest12lines.worldmanager.Main;
-import worldmanager.features.annotation.CoreClass;
+package worldmanager.features;
+import worldmanager.features.annotation.Feature;
+import worldmanager.features.internal.CoreClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,14 +44,20 @@ public class FeatureProcessor {
             jarFile.close();
 
             URL jarUrl = new File(jarFilePath).toURI().toURL();
-            URLClassLoader classLoader = new URLClassLoader(new URL[]{jarUrl}, Main.class.getClassLoader());
+            URLClassLoader classLoader = new URLClassLoader(new URL[]{jarUrl}, FeatureProcessor.class.getClassLoader());
             // Specify the class name you want to load
 
              // Load the class
 
             Class<?> loadedClass = classLoader.loadClass(mainClass); // Print some information about the loaded class
             Object inst = loadedClass.getDeclaredConstructor().newInstance();
-            loadedClass.getMethod("onStart").invoke(inst);
+            if (loadedClass.isAnnotationPresent(Feature.class)) {
+                PermissionManager.grantPermission(loadedClass,"");
+                loadedClass.getMethod("onStart").invoke(inst);
+            } else {
+                throw new SecurityException("Cannot run feature "+loadedClass.getCanonicalName()+" as it does not contain the @Feature annotation.");
+            }
+
 
 
         } catch (Exception e) {

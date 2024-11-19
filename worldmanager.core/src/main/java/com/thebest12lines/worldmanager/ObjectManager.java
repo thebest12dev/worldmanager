@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 /**
  * The object manager to manage hashed object files and to parse them.

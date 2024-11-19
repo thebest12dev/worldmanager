@@ -1,6 +1,6 @@
 package worldmanager.features.annotation;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

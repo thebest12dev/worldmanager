@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
 import org.json.JSONArray;
 import org.json.JSONObject;

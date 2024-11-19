@@ -1,13 +1,18 @@
 package worldmanager;
 
 import com.thebest12lines.worldmanager.DataManager;
+import com.thebest12lines.worldmanager.Main;
+import worldmanager.features.CoreModule;
+import worldmanager.features.PermissionManager;
 import worldmanager.features.annotation.Feature;
-import com.thebest12lines.worldmanager.api.FeatureInitializer;
+import worldmanager.features.FeatureInitializer;
 import com.thebest12lines.worldmanager.util.Constants;
 import com.thebest12lines.worldmanager.util.CoreApplication;
 import com.thebest12lines.worldmanager.util.Output;
+import worldmanager.features.internal.CoreClass;
 
 @Feature("worldmanager.core")
+@CoreClass
 public class FeatureMain implements FeatureInitializer {
     public void onLoad(String[] args) {
         Output.consoleOutput = true;
@@ -25,8 +30,6 @@ public class FeatureMain implements FeatureInitializer {
             Output.print("Debug mode enabled, also forwarding logs to console.");
         }
         DataFile.createIfNotExists();
-
-
         CoreApplication.getCoreApplication().start(args);
     }
     @Override

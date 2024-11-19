@@ -1,6 +1,6 @@
 package worldmanager;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.util.Output;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;

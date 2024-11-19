@@ -7,7 +7,7 @@ import com.thebest12lines.worldmanager.ObjectLibrary;
 import com.thebest12lines.worldmanager.ObjectManager;
 import com.thebest12lines.worldmanager.util.*;
 //import com.thebest12lines.worldmanager.util.ZipDirectory;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 //import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
 import com.thebest12lines.worldmanager.world.World;
@@ -471,9 +471,7 @@ public class MainGui {
         btnPanel.add(cancelButton);
         updateFrame.add(btnPanel, BorderLayout.SOUTH);
 
-            if (Objects.equals(Updater.checkForUpdates(), Constants.UpdateCheckResult.UPDATE_NEEDED)) {
-                updateFrame.setVisible(true);
-            }
+
 
         safeToClose = true;
     }
@@ -866,6 +864,13 @@ public class MainGui {
                 else if (pressedKeys.contains(KeyEvent.VK_F9) && pressedKeys.contains(KeyEvent.VK_T)) {
                     Main.startServer();
 
+                }
+                try {
+                    if (Objects.equals(Updater.checkForUpdates(), Constants.UpdateCheckResult.UPDATE_NEEDED)) {
+                        updateFrame.setVisible(true);
+                    }
+                } catch (UpdateBuildException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });

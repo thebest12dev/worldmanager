@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import com.thebest12lines.worldmanager.gui.StatusBar;
 import com.thebest12lines.worldmanager.util.Output;
 import com.thebest12lines.worldmanager.util.ZipDirectory;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import net.querz.nbt.io.NBTUtil;
 import net.querz.nbt.io.NamedTag;
 import net.querz.nbt.tag.CompoundTag;

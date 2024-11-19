@@ -2,7 +2,7 @@ package com.thebest12lines.worldmanager.gui;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.util.SystemSettings;
 import com.thebest12lines.worldmanager.world.World;
 

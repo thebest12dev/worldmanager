@@ -14,7 +14,9 @@ module worldmanager.features {
     // requires java.desktop;
 
     requires common;
+    requires java.desktop;
 
     exports worldmanager.features;
     exports worldmanager.features.annotation;
+    exports worldmanager.features.internal to worldmanager.core;
 }

@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager.util;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 /**
  * Class to create the <code>Notification</code> object.

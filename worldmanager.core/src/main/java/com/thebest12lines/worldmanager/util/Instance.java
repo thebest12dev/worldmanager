@@ -1,6 +1,6 @@
 package com.thebest12lines.worldmanager.util;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 /**
  * The class that is the initializer for worldmanager. This class contains the code that is executed right after the program is launched.

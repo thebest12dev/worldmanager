@@ -1,7 +1,7 @@
 package com.thebest12lines.worldmanager.util;
 import com.thebest12lines.worldmanager.DataManager;
 import com.thebest12lines.worldmanager.Gui;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
 import com.thebest12lines.worldmanager.world.World;
 import worldmanager.DataFile;
@@ -56,7 +56,195 @@ public class Terminal extends JFrame implements common.Terminal {
         }
         return false;
     }
+    private void processKey(KeyEvent e) {
 
+        if ((!isProcessing && !isRun) || isInput) {
+
+
+            int keyCode = e.getKeyCode();
+            int caretPosition = terminalArea.getCaretPosition();
+            String[] lines = terminalArea.getText().split("\n");
+            String thisLine = lines[lines.length - 1];
+            int promptPosition = thisLine.substring(0,prompt.length()).length() + 2; // Position after the prompt
+            int lineStart = terminalArea.getText().lastIndexOf('\n') + 1;
+
+            switch (keyCode) {
+                case KeyEvent.VK_ENTER:
+                    if (isIf && !isIfTrueInside) {
+
+                        //terminalArea.append("\n"+prompt);
+                        if (currentInput.isBlank()) {
+
+                            isProcessing = false;
+                        } else {
+                            prompt = "> ";
+                            processCommand(currentInput);
+                        }
+
+                        terminalArea.append("\n"+"> ");
+                        terminalArea.setCaretPosition(terminalArea.getText().length());
+                        currentInput = "";
+
+
+                        finishProcessing();
+                    } else
+                    if (!isInput) {
+                        terminalArea.append("\n");
+                        if (currentInput.isBlank()) {
+                            isProcessing = false;
+                        } else {
+                            processCommand(currentInput);
+                        }
+
+                        if (!isProcessing && !isInput && !isIfTrue) {
+
+                            terminalArea.append(prompt);
+                            if (!currentInput.isEmpty()) {
+                                history.add(currentInput);
+                            }
+                            historyIndex = history.size();
+                            terminalArea.setCaretPosition(terminalArea.getText().length());
+                            currentInput = "";
+                            finishProcessing();
+                        } else if (isIf) {
+
+                            terminalArea.append(prompt);
+                            if (!currentInput.isEmpty()) {
+                                history.add(currentInput);
+                            }
+                            historyIndex = history.size();
+                            terminalArea.setCaretPosition(terminalArea.getText().length());
+                            currentInput = "";
+                            finishProcessing();
+                        } else if (isInput) {
+
+
+                            //   terminalArea.setText(terminalArea.getText().substring(0,terminalArea.getText().length()-4));
+
+
+//                                if (!currentInput.isEmpty()) {
+//                                    history.add(currentInput);
+//                                }
+                            historyIndex = history.size();
+                            currentInput = "";
+                            terminalArea.setCaretPosition(terminalArea.getText().length());
+
+                            finishProcessing();
+//                                isInput = false;
+                        }
+                    } else if (isInput) {
+
+                        variables.put("lastInput",currentInput);
+
+                        if (!file) {
+                            prompt = "> ";
+                            terminalArea.append("\n> ");
+                            historyIndex = history.size();
+                            currentInput = "";
+                            terminalArea.setCaretPosition(terminalArea.getText().length());
+
+
+
+                        } else {
+                            terminalArea.append("\n");
+                            isRun = false;
+                        }
+                        isInput = false;
+                        finishProcessing();
+
+
+
+
+                    }
+
+
+                    break;
+                case KeyEvent.VK_BACK_SPACE:
+                    if (caretPosition > lineStart + prompt.length()) {
+                        try {
+                            if (thisLine.length() > 2) {
+                                terminalArea.getDocument().remove(caretPosition - 1, 1);
+                            }
+                            if (currentInput.length() > 0) {
+                                currentInput = currentInput.substring(0, currentInput.length() - 1);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    isProcessing = false;
+                    break;
+                case KeyEvent.VK_UP:
+                    if (historyIndex > 0) {
+                        historyIndex--;
+                        showHistory();
+                    }
+                    isProcessing = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    if (historyIndex < history.size() - 1) {
+                        historyIndex++;
+                        showHistory();
+                    } else {
+                        historyIndex = history.size();
+                        clearCurrentInput();
+                    }
+                    isProcessing = false;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    if (caretPosition > lineStart + prompt.length()) {
+                        terminalArea.setCaretPosition(terminalArea.getCaretPosition() - 1);
+
+                    }
+                    isProcessing = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if (caretPosition < terminalArea.getText().length()) {
+                        terminalArea.setCaretPosition(terminalArea.getCaretPosition() + 1);
+
+                    }
+                    isProcessing = false;
+                    break;
+                case KeyEvent.VK_CAPS_LOCK:
+                    break;
+                default:
+                    if (!e.isControlDown() && !e.isAltDown() && !e.isMetaDown()) {
+                        if (!(e.getKeyCode() == KeyEvent.VK_SHIFT)) {
+
+
+                            String textToInsert = String.valueOf(e.getKeyChar());
+                            try {
+                                terminalArea.getDocument().insertString(caretPosition, textToInsert, null);
+
+                                // Update currentInput considering the caret position
+                                int relativeCaretPos = caretPosition - (terminalArea.getText().lastIndexOf('\n') + promptPosition-1);
+
+                                if (!(currentInput.isEmpty())) {
+
+                                    currentInput = currentInput.substring(0, relativeCaretPos) + textToInsert + currentInput.substring(relativeCaretPos);
+                                } else {
+                                    currentInput += textToInsert;
+                                }
+
+
+                                terminalArea.setCaretPosition(caretPosition + 1);
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                                isProcessing = false;
+                            }
+                        }
+
+                    }
+
+                    isProcessing = false;
+                    break;
+
+            }
+            e.consume();
+
+        }
+    }
     public Terminal() {
         setTitle("Terminal");
         setSize(800, 500);
@@ -78,193 +266,7 @@ public class Terminal extends JFrame implements common.Terminal {
         terminalArea.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-
-                 if ((!isProcessing && !isRun) || isInput) {
-
-
-                    int keyCode = e.getKeyCode();
-                    int caretPosition = terminalArea.getCaretPosition();
-                    String[] lines = terminalArea.getText().split("\n");
-                    String thisLine = lines[lines.length - 1];
-                    int promptPosition = thisLine.substring(0,prompt.length()).length() + 2; // Position after the prompt
-                    int lineStart = terminalArea.getText().lastIndexOf('\n') + 1;
-
-                    switch (keyCode) {
-                        case KeyEvent.VK_ENTER:
-                            if (isIf && !isIfTrueInside) {
-
-                                //terminalArea.append("\n"+prompt);
-                                if (currentInput.isBlank()) {
-
-                                    isProcessing = false;
-                                } else {
-                                    prompt = "> ";
-                                    processCommand(currentInput);
-                                }
-
-                                terminalArea.append("\n"+"> ");
-                            terminalArea.setCaretPosition(terminalArea.getText().length());
-                            currentInput = "";
-
-
-                            finishProcessing();
-                        } else
-                            if (!isInput) {
-                                terminalArea.append("\n");
-                                if (currentInput.isBlank()) {
-                                    isProcessing = false;
-                                } else {
-                                    processCommand(currentInput);
-                                }
-
-                                if (!isProcessing && !isInput && !isIfTrue) {
-
-                                    terminalArea.append(prompt);
-                                    if (!currentInput.isEmpty()) {
-                                        history.add(currentInput);
-                                    }
-                                    historyIndex = history.size();
-                                    terminalArea.setCaretPosition(terminalArea.getText().length());
-                                    currentInput = "";
-                                    finishProcessing();
-                                } else if (isIf) {
-
-                                    terminalArea.append(prompt);
-                                    if (!currentInput.isEmpty()) {
-                                        history.add(currentInput);
-                                    }
-                                    historyIndex = history.size();
-                                    terminalArea.setCaretPosition(terminalArea.getText().length());
-                                    currentInput = "";
-                                    finishProcessing();
-                                } else if (isInput) {
-
-
-                                    //   terminalArea.setText(terminalArea.getText().substring(0,terminalArea.getText().length()-4));
-
-
-//                                if (!currentInput.isEmpty()) {
-//                                    history.add(currentInput);
-//                                }
-                                    historyIndex = history.size();
-                                    currentInput = "";
-                                    terminalArea.setCaretPosition(terminalArea.getText().length());
-
-                                    finishProcessing();
-//                                isInput = false;
-                                }
-                            } else if (isInput) {
-
-                                variables.put("lastInput",currentInput);
-
-                                if (!file) {
-                                    prompt = "> ";
-                                    terminalArea.append("\n> ");
-                                    historyIndex = history.size();
-                                    currentInput = "";
-                                    terminalArea.setCaretPosition(terminalArea.getText().length());
-
-
-
-                                } else {
-                                    terminalArea.append("\n");
-                                    isRun = false;
-                                }
-                                isInput = false;
-                                finishProcessing();
-
-
-
-
-                            }
-
-
-                            break;
-                        case KeyEvent.VK_BACK_SPACE:
-                            if (caretPosition > lineStart + prompt.length()) {
-                                try {
-                                    if (thisLine.length() > 2) {
-                                        terminalArea.getDocument().remove(caretPosition - 1, 1);
-                                    }
-                                    if (currentInput.length() > 0) {
-                                        currentInput = currentInput.substring(0, currentInput.length() - 1);
-                                    }
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                            isProcessing = false;
-                            break;
-                        case KeyEvent.VK_UP:
-                            if (historyIndex > 0) {
-                                historyIndex--;
-                                showHistory();
-                            }
-                            isProcessing = false;
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            if (historyIndex < history.size() - 1) {
-                                historyIndex++;
-                                showHistory();
-                            } else {
-                                historyIndex = history.size();
-                                clearCurrentInput();
-                            }
-                            isProcessing = false;
-                            break;
-                        case KeyEvent.VK_LEFT:
-                            if (caretPosition > lineStart + prompt.length()) {
-                                terminalArea.setCaretPosition(terminalArea.getCaretPosition() - 1);
-
-                            }
-                            isProcessing = false;
-                            break;
-                        case KeyEvent.VK_RIGHT:
-                            if (caretPosition < terminalArea.getText().length()) {
-                                terminalArea.setCaretPosition(terminalArea.getCaretPosition() + 1);
-
-                            }
-                            isProcessing = false;
-                            break;
-                        case KeyEvent.VK_CAPS_LOCK:
-                            break;
-                        default:
-                            if (!e.isControlDown() && !e.isAltDown() && !e.isMetaDown()) {
-                                if (!(e.getKeyCode() == KeyEvent.VK_SHIFT)) {
-
-
-                                    String textToInsert = String.valueOf(e.getKeyChar());
-                                    try {
-                                        terminalArea.getDocument().insertString(caretPosition, textToInsert, null);
-
-                                        // Update currentInput considering the caret position
-                                        int relativeCaretPos = caretPosition - (terminalArea.getText().lastIndexOf('\n') + promptPosition-1);
-
-                                        if (!(currentInput.isEmpty())) {
-
-                                            currentInput = currentInput.substring(0, relativeCaretPos) + textToInsert + currentInput.substring(relativeCaretPos);
-                                        } else {
-                                            currentInput += textToInsert;
-                                        }
-
-
-                                        terminalArea.setCaretPosition(caretPosition + 1);
-
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                        isProcessing = false;
-                                    }
-                                }
-
-                            }
-
-                            isProcessing = false;
-                            break;
-
-                    }
-                    e.consume();
-
-                }
+                processKey(e);
             }
         });
 
@@ -288,8 +290,7 @@ public class Terminal extends JFrame implements common.Terminal {
         }
     }
     private final ArrayList<String> queue = new ArrayList<>();
-    private void processCommand(String command) {
-        System.err.println(command);
+    public void processCommand(String command) {
 
         if (isProcessing) {
 

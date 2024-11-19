@@ -1,5 +1,5 @@
 package com.thebest12lines.worldmanager.util;
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 import java.awt.AWTException;
 import java.awt.Image;

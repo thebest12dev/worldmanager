@@ -1,7 +1,6 @@
 package worldmanager;
 
-import worldmanager.features.annotation.CoreClass;
-import worldmanager.features.annotation.Feature;
+import worldmanager.features.internal.CoreClass;
 
 
 /// The de facto main class for launching worldmanager.

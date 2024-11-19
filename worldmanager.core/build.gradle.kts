@@ -16,7 +16,13 @@ plugins {
     `maven-publish`
     java
 }
+java {
+    modularity.inferModulePath.set(true)
+}
 
+tasks.test {
+    workingDir = rootDir
+}
 repositories {
     mavenLocal()
     mavenCentral()
@@ -34,7 +40,7 @@ tasks.compileJava {
     inputs.property("moduleName", "worldmanager.core")
     doFirst {
         options.compilerArgs = listOf(
-            "--module-path", namedModules.asPath,
+            "--module-path", "worldmanager.core;"+namedModules.asPath,
             "--add-modules", "org.json,jopt.simple,worldmanager.features,common",
             "--patch-module", "worldmanager.core=${unnamedModules.asPath}"
         )

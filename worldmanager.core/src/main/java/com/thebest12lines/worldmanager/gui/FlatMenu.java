@@ -2,7 +2,7 @@ package com.thebest12lines.worldmanager.gui;
 
 import javax.swing.*;
 
-import worldmanager.features.annotation.CoreClass;
+import worldmanager.features.internal.CoreClass;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
