@@ -11,6 +11,7 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import worldmanager.features.FeatureProcessor;
 import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.util.Output;
 import org.json.JSONArray;
@@ -81,46 +82,7 @@ public class FeatureManager {
      * @return The load result.
      */
     public static Constants.FeatureLoadResult loadFeature(String feature) {
-        if (new File("worldmanager/features/"+feature+".jar").exists()) {
-            
-                try {
-                    try (URLClassLoader classLoader = new URLClassLoader(new URL[] {new File("worldmanager/lib/features/"+feature+".jar").toURI().toURL()}, ClassLoader.getSystemClassLoader())) {
-                        
-                        Class<?> loadedClass = classLoader.loadClass(feature+".Main");
-
-                        Method main = loadedClass.getDeclaredMethod("onStart", (Class<?>[]) null);
-                        main.invoke(null, (Object[]) null);
-                        return FeatureLoadResult.LOADED;
-                    } catch (MalformedURLException e) {
-                        throw e;
-                    } catch (IOException e) {
-                        // 
-                        e.printStackTrace();
-                    } catch (NoSuchMethodException e) {
-                        // 
-                        e.printStackTrace();
-                        return FeatureLoadResult.CANNOT_FIND_METHOD;
-                    } catch (SecurityException e) {
-                        // 
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        // 
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        // 
-                        e.printStackTrace();
-                    } 
-                
-                    
-                } catch (MalformedURLException | ClassNotFoundException e) {
-                    // 
-                    e.printStackTrace();
-                    return FeatureLoadResult.CANNOT_FIND_CLASS;
-                }
-        } else {
-            Output.print("Error: Could not find feature "+feature+". That feature will not be loaded");
-            return FeatureLoadResult.NOT_LOADED;
-        }
-        return FeatureLoadResult.NOT_LOADED;
+        FeatureProcessor.loadFeature(feature);
+        return null;
     }
 }

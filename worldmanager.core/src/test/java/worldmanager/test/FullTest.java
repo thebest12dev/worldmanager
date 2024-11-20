@@ -1,13 +1,9 @@
 package worldmanager.test;
-import com.thebest12lines.worldmanager.Gui;
-import com.thebest12lines.worldmanager.Main;
-import com.thebest12lines.worldmanager.gui.MainGui;
 import com.thebest12lines.worldmanager.util.Terminal;
 import org.junit.jupiter.api.Test;
 
 import worldmanager.Launcher;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 

@@ -18,6 +18,8 @@ plugins {
     id("jacoco")
 }
 
+
+
 tasks.register("setup") {
     doLast {
         val dirs = listOf(
@@ -103,20 +105,16 @@ dependencies {
 }
 
 group = "com.thebest12lines"
-version = "0.2.0"
+version = "0.3.0"
 description = "worldmanager"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
     withSourcesJar()
-  //  withJavadocJar()
+    withJavadocJar()
 }
 
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
-}
+
 
 
 

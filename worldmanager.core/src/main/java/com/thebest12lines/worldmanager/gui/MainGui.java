@@ -7,6 +7,11 @@ import com.thebest12lines.worldmanager.ObjectLibrary;
 import com.thebest12lines.worldmanager.ObjectManager;
 import com.thebest12lines.worldmanager.util.*;
 //import com.thebest12lines.worldmanager.util.ZipDirectory;
+import com.thebest12lines.worldmanager.util.Constants;
+import com.thebest12lines.worldmanager.util.internal.CoreApplication;
+import com.thebest12lines.worldmanager.util.UpdateBuildException;
+import com.thebest12lines.worldmanager.util.internal.Updater;
+import com.thebest12lines.worldmanager.world.Backup;
 import worldmanager.features.internal.CoreClass;
 //import com.thebest12lines.worldmanager.util.Constants.UpdateCheckResult;
 import com.thebest12lines.worldmanager.world.SaveManager;
@@ -31,6 +36,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 //import javax.swing.LookAndFeel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -199,9 +205,10 @@ public class MainGui {
             float elapsedTime = (currentTimeNanos - Main.initNanos) / 1000000000.0f;
             String formattedTime = new DecimalFormat("#.00").format(elapsedTime);
             float time = Float.parseFloat(formattedTime);
-            Output.print("["+MainGui.class.getCanonicalName()+"]: Loading GUI "+time+"s");
+            Output.print("["+MainGui.class.getCanonicalName()+"]: Loading GUI took "+time+"s");
 
         } catch (Exception e) {
+            e.printStackTrace();
             if (e instanceof UpdateBuildException) {
                 return 0x13f20001;
             } else if (e instanceof RuntimeException) {
@@ -613,6 +620,24 @@ public class MainGui {
         file.add(item4);
         safeToClose = true;
     }
+    public static String showOptionDialog(JFrame parentFrame, String message, String title, String[] options) {
+        JList<String> list = new JList<>(options);
+        list.setFont(new Font("Segoe UI",Font.PLAIN,12));
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Make the list scrollable
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setPreferredSize(new Dimension(200, 100)); // Adjust the size as needed
+
+        int result = JOptionPane.showConfirmDialog(parentFrame, scrollPane, message, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            return list.getSelectedValue();
+        } else {
+            return null;
+        }
+    }
+    private static JPanel statusPanel = new JPanel();
     public static JLabel statusLabel = FlatLabel.createFlatLabel("");
     /**
      * Draws the worlds.
@@ -624,10 +649,32 @@ public class MainGui {
      */
     private static void drawWorlds() throws Exception{
 
-        statusLabel.setVisible(false);
-        statusLabel.setPreferredSize(new Dimension(500, 20));
+
+        var progressBar = FlatProgressBar.createFlatProgressBar();
+        statusPanel.setPreferredSize(new Dimension(mainFrame.getWidth(),20));
+        statusLabel.setPreferredSize(new Dimension(530, 20));
+        statusLabel.setVisible(true);;
         statusLabel.setFont(new Font("Segoe UI",Font.PLAIN,12));
-        mainFrame.add(statusLabel,BorderLayout.SOUTH);
+        progressBar.setVisible(true);
+        progressBar.setPreferredSize(new Dimension(220,3));
+        progressBar.setOpaque(true);
+        // TODO implement
+        statusPanel.setLayout(new BorderLayout());
+        JPanel s = new JPanel();
+        s.setPreferredSize(new Dimension(220,16));
+        s.setBorder(new EmptyBorder(-5,350,5,5 ));
+        s.add(progressBar,BorderLayout.NORTH);
+        s.setVisible(false);
+        statusPanel.add(s,BorderLayout.SOUTH);
+
+        statusPanel.add(statusLabel,BorderLayout.WEST);
+        try {
+            statusPanel.setComponentZOrder(statusLabel, 1);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        mainFrame.add(statusPanel,BorderLayout.SOUTH);
         JPanel worldsList = new JPanel();
 
         worldsList.setLayout(new BoxLayout(worldsList, BoxLayout.Y_AXIS));
@@ -658,13 +705,21 @@ public class MainGui {
         //  root.add(world2);
 
 
-        JMenuItem worldMenuItem1 = new JMenuItem("Backup World");
+        JMenuItem worldMenuItem1 = new JMenuItem("Backup World...");
         Font worldFont = new Font("Segoe UI Light", Font.PLAIN, 13);
         worldMenuItem1.setBackground(bgColor);
         worldMenuItem1.setForeground(fgColor);
         worldMenuItem1.setBorder(null);
         worldMenuItem1.setFont(worldFont);
         worldMenu1.add(worldMenuItem1);
+
+        JMenuItem worldMenuItem4 = new JMenuItem("Restore Backup...");
+        worldMenuItem4.setBackground(bgColor);
+        worldMenuItem4.setForeground(fgColor);
+        worldMenuItem4.setBorder(null);
+        worldMenuItem4.setFont(worldFont);
+        worldMenu1.add(worldMenuItem4);
+
 
         JMenuItem worldMenuItem2 = new JMenuItem("Delete World");
         worldMenuItem2.setBorder(null);
@@ -743,7 +798,20 @@ public class MainGui {
 
         };
         worldMenuItem1.addActionListener(t);
+        worldMenuItem4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!(treeNodes[0] == null)) {
+                    Backup[] backups = (Backup[]) treeNodes[0].getWorld().getBackups();
+                    String[] names = new String[backups.length];
+                    for (int i = 0; i < names.length; i++) {
+                        names[i] = "Backup "+backups[i].backupDate;
+                    }
+                    String result = showOptionDialog(new JFrame(), "Choose backup to restore", "Restore Backup", names);
+                }
 
+            }
+        });
         // worlds.setBackground(new Color(210, 210, 210));
         //  worlds.setPreferredSize(new Dimension(150, mainFrameHeight));
         FlatTreeCellRenderer renderer = new FlatTreeCellRenderer(

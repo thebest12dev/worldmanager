@@ -1,13 +1,10 @@
 package worldmanager;
 
 import com.thebest12lines.worldmanager.DataManager;
-import com.thebest12lines.worldmanager.Main;
-import worldmanager.features.CoreModule;
-import worldmanager.features.PermissionManager;
 import worldmanager.features.annotation.Feature;
 import worldmanager.features.FeatureInitializer;
 import com.thebest12lines.worldmanager.util.Constants;
-import com.thebest12lines.worldmanager.util.CoreApplication;
+import com.thebest12lines.worldmanager.util.internal.CoreApplication;
 import com.thebest12lines.worldmanager.util.Output;
 import worldmanager.features.internal.CoreClass;
 
@@ -23,7 +20,7 @@ public class FeatureMain implements FeatureInitializer {
                         +DataManager.getBranch().substring(1).toLowerCase()
                         +"\nLogs will be outputted to file worldmanager.log."
         );
-        if ((boolean) DataManager.getSetting("debug") == true) {
+        if ((boolean) DataManager.getSetting("debug")) {
 
 
             // console = new Console();

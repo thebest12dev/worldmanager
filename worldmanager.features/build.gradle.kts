@@ -70,6 +70,24 @@ java {
 }
 
 
+tasks.withType<Jar> { archiveBaseName.set("worldmanager.features")}
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = "com.thebest12lines"
+            artifactId = "worldmanager.features"
+            version = "0.3.0"
+        }
+    }
+    repositories {
+        maven {
+            url = uri("file://${buildDir}/repo")
+        }
+    }
+
+}
+
 
 
 

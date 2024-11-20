@@ -75,7 +75,26 @@ java {
     withSourcesJar()
     //  withJavadocJar()
 }
+tasks.withType<Jar> { archiveBaseName.set("worldmanager.core")}
+publishing {
+    publications.create<MavenPublication>("maven") {
+        from(components["java"])
+    }
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = "com.thebest12lines"
+            artifactId = "worldmanager.core"
+            version = "0.3.0"
+        }
+    }
+    repositories {
+        maven {
+            url = uri("file://${buildDir}/repo")
+        }
+    }
 
+}
 
 
 

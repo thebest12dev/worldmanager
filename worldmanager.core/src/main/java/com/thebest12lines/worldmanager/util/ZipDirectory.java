@@ -28,6 +28,53 @@ public class ZipDirectory {
         zipOut.close();
         fos.close();
     }
+        public static void unzip(String zipFilePath, String destDir) throws IOException {
+            File destDirFile = new File(destDir);
+            if (!destDirFile.exists()) {
+                destDirFile.mkdirs();
+            }
+
+            byte[] buffer = new byte[1024];
+
+            try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFilePath))) {
+                ZipEntry zipEntry = zis.getNextEntry();
+                while (zipEntry != null) {
+                    File newFile = newFile(destDirFile, zipEntry);
+
+                    // Create parent directories if they do not exist
+                    new File(newFile.getParent()).mkdirs();
+
+                    if (zipEntry.isDirectory()) {
+                        if (!newFile.isDirectory() && !newFile.mkdirs()) {
+                            throw new IOException("Failed to create directory " + newFile);
+                        }
+                    } else {
+                        // Overwrite file if it exists
+                        try (FileOutputStream fos = new FileOutputStream(newFile)) {
+                            int len;
+                            while ((len = zis.read(buffer)) > 0) {
+                                fos.write(buffer, 0, len);
+                            }
+                        }
+                    }
+                    zipEntry = zis.getNextEntry();
+                }
+                zis.closeEntry();
+            }
+        }
+
+        private static File newFile(File destinationDir, ZipEntry zipEntry) throws IOException {
+            File destFile = new File(destinationDir, zipEntry.getName());
+
+            String destDirPath = destinationDir.getCanonicalPath();
+            String destFilePath = destFile.getCanonicalPath();
+
+            if (!destFilePath.startsWith(destDirPath + File.separator)) {
+                throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
+            }
+
+            return destFile;
+        }
 
     private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut, String excludeDir) throws IOException {
         if (fileToZip.isHidden() || fileToZip.getAbsolutePath().startsWith(excludeDir)) {
@@ -42,6 +89,7 @@ public class ZipDirectory {
                 zipOut.closeEntry();
             }
             File[] children = fileToZip.listFiles();
+            assert children != null;
             for (File childFile : children) {
                 zipFile(childFile, fileName + "/" + childFile.getName(), zipOut, excludeDir);
             }
@@ -108,7 +156,7 @@ public class ZipDirectory {
         System.out.println(outputDirectory);
         File outputDir = new File(outputDirectory);
         if (!outputDir.exists()) {
-            outputDir.mkdir();
+            var t = outputDir.mkdir();
         }
     
         try (ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFile))) {
@@ -121,7 +169,7 @@ public class ZipDirectory {
                 Output.printFile("["+ZipDirectory.class.getCanonicalName()+"]: Extracting file "+entryName); // Debug output
                 if (entry.isDirectory()) {
                     // Create the directory
-                    new File(entryPath).mkdirs();
+                    var $ = new File(entryPath).mkdirs();
                 } else {
                     try (FileOutputStream fos = new FileOutputStream(entryPath)) {
                         byte[] buffer = new byte[1024];

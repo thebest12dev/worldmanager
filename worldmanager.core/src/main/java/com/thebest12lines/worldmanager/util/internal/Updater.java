@@ -1,4 +1,4 @@
-package com.thebest12lines.worldmanager.util;
+package com.thebest12lines.worldmanager.util.internal;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,6 +13,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 
+import com.thebest12lines.worldmanager.util.Constants;
+import com.thebest12lines.worldmanager.util.UpdateBuildException;
 import worldmanager.features.internal.CoreClass;
 import org.json.JSONObject;
 

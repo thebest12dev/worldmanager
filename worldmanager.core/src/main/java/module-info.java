@@ -22,9 +22,9 @@ module worldmanager.core {
     requires java.net.http;
     requires NBT;
 
-
-    exports com.thebest12lines.worldmanager;
+    // publicly exposed classes for now
     exports com.thebest12lines.worldmanager.gui;
     exports com.thebest12lines.worldmanager.util;
+    exports worldmanager;
     exports com.thebest12lines.worldmanager.world;
 }

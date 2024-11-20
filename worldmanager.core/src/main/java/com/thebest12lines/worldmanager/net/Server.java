@@ -28,9 +28,14 @@ public class Server {
         serverSocket = new ServerSocket(port);
 
         while (true) {
-            Socket clientSocket = serverSocket.accept();
-            clientSockets.add(clientSocket);
-            new Thread(new ClientHandler(clientSocket)).start();
+            try {
+                Socket clientSocket = serverSocket.accept();
+                clientSockets.add(clientSocket);
+                new Thread(new ClientHandler(clientSocket)).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                break;
+            }
         }
     }
 

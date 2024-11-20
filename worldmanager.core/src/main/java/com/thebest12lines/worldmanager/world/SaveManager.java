@@ -57,6 +57,7 @@ public class SaveManager {
         File[] saves = folder.listFiles();
        // Output.printDebug("========================== DEBUG START ==============================");
 
+        assert saves != null;
         for (File save : saves) {
             try {
                // Output.printDebug("========================================================");
@@ -85,11 +86,21 @@ public class SaveManager {
                 CompoundTag data = tag.getCompoundTag("Data");
                 StringTag stringTag = data.getStringTag("LevelName");
                 Output.printDebug("Level name: "+stringTag.getValue());
-            
+
                 
                 World world = new World();
                 world.name = stringTag.getValue();
                 world.path = save.getAbsolutePath();
+                if (new File(save.getAbsolutePath()+"\\worldmanager.dat").exists()) {
+                    CompoundTag worldTag = (CompoundTag) NBTUtil.read(save.getAbsolutePath()+"/worldmanager.dat").getTag();
+                    ListTag<CompoundTag> backups = (ListTag<CompoundTag>) worldTag.getListTag("Backups");
+                    for (CompoundTag backup : backups) {
+                        Backup __ = new Backup();
+                        __.backupDate = backup.getString("BackupDate");
+                        __.path = backup.getString("BackupPath");
+                        world.backups.add(__);
+                    }
+                }
 
                 try {
                      CompoundTag versionTag = data.getCompoundTag("Version");
@@ -120,8 +131,8 @@ public class SaveManager {
                     } else {
                         NBTUtil.write(new NamedTag("Data", worldTag), save.getAbsolutePath()+"\\worldmanager.dat");
                     }
-                    
-                
+
+
                 }
                 worlds.add(world);
 

@@ -26,7 +26,7 @@ import net.querz.nbt.tag.ListTag;
 
 public class World extends Object{
     protected String name = "";
-    protected ArrayList<Backup> backups = new ArrayList<Backup>();
+    protected ArrayList<Backup> backups = new ArrayList<>();
     protected String version = "1.21";
     protected String path = "";
     protected String lastModified = "1/1/2024 10:10:13PM";
@@ -51,8 +51,8 @@ public class World extends Object{
     /**
      * Backup
      */
-    public Object[] getBackups() {
-        return (Object[]) backups.toArray();
+    public Backup[] getBackups() {
+        return backups.toArray(new Backup[0]);
     }
 
     /**
@@ -83,10 +83,10 @@ public class World extends Object{
             public void run() {
                  String backupPath = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss.SSS'Z'"))+"_"+getWorldName();
                 
-         new File(path+"\\backups\\").mkdir();
+         var t_ =  new File(path+"\\backups\\").mkdir();
         try {
             Output.print("["+World.class.getCanonicalName()+"]: Backing up world '"+name+"'...");
-             new File(path+"\\backups\\"+backupPath+".zip").createNewFile();
+             var t$ = new File(path+"\\backups\\"+backupPath+".zip").createNewFile();
              ZipDirectory.zipDirectory(getWorldPath(), getWorldPath()+"\\backups\\"+backupPath+".zip", path+"\\backups");
             CompoundTag worldInfo = (CompoundTag) NBTUtil.read(new File(path+"\\worldmanager.dat")).getTag();
             ListTag<CompoundTag> tag = (ListTag<CompoundTag>) worldInfo.getListTag("Backups");

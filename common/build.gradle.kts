@@ -68,6 +68,24 @@ java {
 }
 
 
+tasks.withType<Jar> { archiveBaseName.set("worldmanager.common")}
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            groupId = "com.thebest12lines"
+            artifactId = "worldmanager.common"
+            version = "0.3.0"
+        }
+    }
+    repositories {
+        maven {
+            url = uri("file://${buildDir}/repo")
+        }
+    }
+
+}
+
 
 
 

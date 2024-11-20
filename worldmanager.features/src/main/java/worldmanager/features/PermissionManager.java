@@ -12,7 +12,9 @@ public class PermissionManager {
     private static final Map<Class<?>, Set<String>> permissions = new HashMap<>();
 
     public static void grantPermission(Class<?> clazz, String permission) {
-        if (!clazz.isAnnotationPresent(CoreClass.class)) {
+        if (!Objects.requireNonNull(getCallerClass()).isAnnotationPresent(CoreClass.class)) {
+            System.err.println(clazz.isAnnotationPresent(CoreClass.class));
+            System.err.println(Arrays.toString(clazz.getAnnotations()));
             if (!callerClassIs(clazz) && !hasPermission(clazz,"GRANT_PERMISSIONS")) {
                 throw new SecurityException("Permission can only be granted with the GRANT_PERMISSIONS permission");
             }
@@ -30,7 +32,7 @@ public class PermissionManager {
     }
 
     public static void revokePermission(Class<?> clazz, String permission) {
-        if (!clazz.isAnnotationPresent(CoreClass.class)) {
+        if (!Objects.requireNonNull(getCallerClass()).isAnnotationPresent(CoreClass.class)) {
             if (!callerClassIs(clazz) && !hasPermission(clazz, "REVOKE_PERMISSIONS")) {
                 throw new SecurityException("Permission can only be revoked with the REVOKE_PERMISSIONS permission");
             } else if (callerClassIs(clazz)) {
@@ -61,6 +63,15 @@ public class PermissionManager {
             return Class.forName(callerClassName) == clazz;
         } catch (ClassNotFoundException e) {
             return false;
+        }
+    }
+    private static Class<?> getCallerClass() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        String callerClassName = stackTrace[3].getClassName(); // Get caller's class name
+        try {
+            return Class.forName(callerClassName);
+        } catch (ClassNotFoundException e) {
+            return null;
         }
     }
 

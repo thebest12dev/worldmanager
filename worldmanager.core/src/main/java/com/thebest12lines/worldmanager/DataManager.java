@@ -70,10 +70,9 @@ public class DataManager {
         if (json == null) {
             initialize();
         }
-        StringBuilder builder = new StringBuilder();
-        builder.append(getVersion()+"-"+getBranch());
-        builder.append("+build_"+getBuild());
-        return builder.toString();
+        String builder = getVersion() + "-" + getBranch() +
+                "+build_" + getBuild();
+        return builder;
     }
         
     private static void initialize() {
@@ -91,10 +90,10 @@ public class DataManager {
             initialize();
         }
         if (key == "debug") {
-           if ((boolean) json.getJSONObject("worldmanagerPreferences").get(key) == true) {
+           if (json.getJSONObject("worldmanagerPreferences").get(key).equals(true)) {
                return json.getJSONObject("worldmanagerPreferences").get(key);
            } else if (Main.debug) {
-               return Main.debug;
+               return true;
            } else {
                return false;
            }

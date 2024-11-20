@@ -52,7 +52,7 @@ public class FeatureProcessor {
             Class<?> loadedClass = classLoader.loadClass(mainClass); // Print some information about the loaded class
             Object inst = loadedClass.getDeclaredConstructor().newInstance();
             if (loadedClass.isAnnotationPresent(Feature.class)) {
-                PermissionManager.grantPermission(loadedClass,"");
+                PermissionManager.grantPermission(loadedClass,"BASIC_PERMISSIONS");
                 loadedClass.getMethod("onStart").invoke(inst);
             } else {
                 throw new SecurityException("Cannot run feature "+loadedClass.getCanonicalName()+" as it does not contain the @Feature annotation.");

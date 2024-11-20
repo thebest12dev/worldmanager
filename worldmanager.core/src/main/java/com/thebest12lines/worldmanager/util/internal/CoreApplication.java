@@ -1,6 +1,8 @@
-package com.thebest12lines.worldmanager.util;
+package com.thebest12lines.worldmanager.util.internal;
 
 import com.thebest12lines.worldmanager.Main;
+import com.thebest12lines.worldmanager.util.NotificationManager;
+import com.thebest12lines.worldmanager.util.Output;
 import common.SharedStorage;
 import common.Terminal;
 import worldmanager.features.internal.CoreClass;

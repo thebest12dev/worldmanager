@@ -4,10 +4,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.Objects;
 
 
+import com.thebest12lines.worldmanager.util.internal.Instance;
+import com.thebest12lines.worldmanager.util.Terminal;
+import com.thebest12lines.worldmanager.util.ZipDirectory;
 import worldmanager.features.internal.CoreClass;
 import com.thebest12lines.worldmanager.gui.MainGui;
 import com.thebest12lines.worldmanager.net.Server;
@@ -26,7 +28,7 @@ import javax.swing.*;
  * @author thebest12lines
  */
 @CoreClass
-public class Main extends Instance {
+public class Main extends Instance implements Listenable {
   //  public static Console console;
     public static long initNanos = System.nanoTime();
     public static volatile Terminal mainTerminal = new Terminal();
@@ -70,6 +72,12 @@ public class Main extends Instance {
         parser.accepts("version");
         parser.accepts("run");
         parser.accepts("enabled-features");
+        listen("worldmanager.Main",(objects -> {
+            if (objects[0].equals("actions.forceClose")) {
+                System.exit(0);
+            }
+        }));
+
         OptionSet options = parser.parse(args0);
         Output.consoleOutput = true;
       //  FeatureProcessor.loadFeature("test");
@@ -176,8 +184,8 @@ public class Main extends Instance {
         }
         
         File Directory = new File(appDataPath);
-        Directory.mkdir();
-        new File(appDataPath+"\\worlds").mkdir();
+        Object t_ = Directory.mkdir();
+        t_ = new File(appDataPath+"\\worlds").mkdir();
 
        
         Output.print("["+Main.class.getCanonicalName()+"]: Starting worldmanager");

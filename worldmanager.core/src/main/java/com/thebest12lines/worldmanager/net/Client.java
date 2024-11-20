@@ -40,17 +40,20 @@ public class Client {
         Client client = new Client();
         client.startConnection("127.0.0.1", 53067); // Make sure this IP and port match your server
         while (true) {
-            int input = sc.nextInt();
-            System.out.println(input);
-            if (input == 1) {
-                System.out.println("as");
-                client.sendMessage("action:guiStart"); // Example of sending a message to the server
-            } else if (input == 2){
-                System.out.println("f");
-                client.sendMessage("action:guiStop");
+            try {
+                int input = sc.nextInt();
+                System.out.println(input);
+                if (input == 1) {
+                    System.out.println("as");
+                    client.sendMessage("action:guiStart"); // Example of sending a message to the server
+                } else if (input == 2) {
+                    System.out.println("f");
+                    client.sendMessage("action:guiStop");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                break;
             }
-
-
 
 
         }

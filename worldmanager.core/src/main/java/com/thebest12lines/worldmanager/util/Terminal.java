@@ -88,7 +88,7 @@ public class Terminal extends JFrame implements common.Terminal {
 
                         finishProcessing();
                     } else
-                    if (!isInput) {
+                    if (!isInput && true) {
                         terminalArea.append("\n");
                         if (currentInput.isBlank()) {
                             isProcessing = false;

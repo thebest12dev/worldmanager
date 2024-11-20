@@ -1,5 +1,5 @@
 {
-    "enabledFeatures": ["worldmanager.core"],
+    "enabledFeatures": ["worldmanager.core","untitled-1.0-SNAPSHOT"],
     "schemaVersion": 2,
     "worldmanagerMeta": {
         "updateRepo": "https://github.com/thebest12dev/worldmanager/releases/latest/download/worldmanager.jar",
